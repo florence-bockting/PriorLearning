@@ -14,8 +14,10 @@ jobs:
       run: |
         pip install "numpydoc==1.1.0" "Sphinx==5.0" "sphinx-book-theme" "myst_nb" "sphinx-design" .
     - name: Build docs
-      run: make clean 
-      run: make html #sphinx-build doc/source doc/build
+      run: |
+        make clean
+        make html  
+#sphinx-build doc/source doc/build
     - name: Deploy documentation to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
