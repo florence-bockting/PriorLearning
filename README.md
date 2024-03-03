@@ -1,4 +1,4 @@
-![Documentation](https://github.com/florence-bockting/example-project/actions/workflows/docs.yml/badge.svg)
+![Documentation](https://github.com/florence-bockting/PriorLearning/actions/workflows/docs.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT)
 
 # Prior Learning
