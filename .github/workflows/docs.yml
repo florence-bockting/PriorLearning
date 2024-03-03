@@ -15,6 +15,7 @@ jobs:
         pip install "numpydoc==1.1.0" "Sphinx==5.0" "sphinx-book-theme" "myst_nb" "sphinx-design" .
     - name: Build docs
       run: |
+        cd doc
         make clean
         make html  
 #sphinx-build doc/source doc/build
