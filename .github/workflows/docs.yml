@@ -18,7 +18,7 @@ jobs:
         cd doc
         make clean
         cd ..  
-        sphinx-build -M html doc/source doc/build -W --keep-going --fresh-env           
+        sphinx-build -M html doc/source doc/build -W --keep-going          
     - name: Deploy documentation to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
