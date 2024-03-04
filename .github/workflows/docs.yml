@@ -10,15 +10,18 @@ jobs:
     - uses: actions/setup-python@v4 
       with:
         python-version: '3.9' 
+    
     - name: Install dependencies
       run: |
         pip install "numpydoc==1.1.0" "Sphinx==5.0" "sphinx-book-theme" "myst_nb" "sphinx-design" .
+    
     - name: Build docs
       run:  sphinx-build doc/source doc/build
+    
     - name: Deploy documentation to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         branch: gh-pages                     # The branch the action should deploy to.
-        folder: doc/build                   # The folder the action should deploy.
+        folder: doc/build                    # The folder the action should deploy.
         git-config-name: Deployment Bot      # Name of the committer
         git-config-email: deploy@github.com  # Email of the committer
