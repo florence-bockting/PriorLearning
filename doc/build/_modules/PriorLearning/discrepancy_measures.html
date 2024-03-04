@@ -1,0 +1,568 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PriorLearning.discrepancy_measures &#8212; Prior Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script src="../../_static/documentation_options.js?v=3611b776"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/PriorLearning/discrepancy_measures';</script>
+    <link rel="icon" href="../../_static/favicon-light.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/mmp-logo-light.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/mmp-logo-dark.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">API</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../PriorLearning.html">PriorLearning package</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../case_studies.html">Case Studies</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../case_studies/cs_normal.html">Normal regression model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../case_studies/cs_binomial.html">Binomial regression model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../case_studies/cs_poisson.html">Poisson regression model</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/florence-bockting/PriorLearning" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for PriorLearning.discrepancy_measures</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+
+
+<div class="viewcode-block" id="energy_loss">
+<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss">[docs]</a>
+<span class="k">class</span> <span class="nc">energy_loss</span><span class="p">:</span>
+<div class="viewcode-block" id="energy_loss.__init__">
+<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.__init__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">energy_loss</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>   </div>
+
+    
+<div class="viewcode-block" id="energy_loss.__call__">
+<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.__call__">[docs]</a>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : tensor, shape = (B,M)</span>
+<span class="sd">            expert sample distribution</span>
+<span class="sd">        y : tensor, shape = (B,N)</span>
+<span class="sd">            model sample distribution</span>
+<span class="sd">        B : int</span>
+<span class="sd">            batch size</span>
+<span class="sd">        M : int</span>
+<span class="sd">            number of dimensions</span>
+<span class="sd">        N : int</span>
+<span class="sd">            number of dimensions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">M</span><span class="p">)),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">)),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="n">a</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_weights</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">M</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_weights</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>   
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_loss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="energy_loss.generate_weights">
+<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.generate_weights">[docs]</a>
+    <span class="k">def</span> <span class="nf">generate_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+
+        <span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="p">),</span> <span class="n">N</span><span class="p">)</span> 
+        <span class="k">return</span> <span class="n">weights</span></div>
+
+
+    <span class="c1"># (x*x - 2xy + y*y)</span>
+<div class="viewcode-block" id="energy_loss.squared_distances">
+<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.squared_distances">[docs]</a>
+    <span class="k">def</span> <span class="nf">squared_distances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the squared distance between expert-elicited and model-implied</span>
+<span class="sd">        statistics.</span>
+<span class="sd">        </span>
+<span class="sd">        .. math::</span>
+<span class="sd">            \|x-y\|^2 = x^2 -2xy +y^2</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : tensor of shape (B,M)</span>
+<span class="sd">            Expert elicited statistics.</span>
+<span class="sd">        y : tensor of shape (B,N)</span>
+<span class="sd">            Model-implied elicited statistics.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        squared_distance : tensor of shape (B,N,M)</span>
+<span class="sd">            Squared distance between expert elicited and model-implied statistics.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># (B, N, 1)</span>
+        <span class="n">D_xx</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="c1"># (B, 1, M)</span>
+        <span class="n">D_yy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># (B, N, M)</span>
+        <span class="n">D_xy</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">perm</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+        <span class="c1"># compute sq. distance</span>
+        <span class="n">squared_distance</span> <span class="o">=</span> <span class="n">D_xx</span> <span class="o">-</span> <span class="mi">2</span><span class="o">*</span><span class="n">D_xy</span> <span class="o">+</span> <span class="n">D_yy</span>
+        
+        <span class="k">return</span> <span class="n">squared_distance</span></div>
+
+
+    <span class="c1"># sqrt[(x*x - 2xy + y*y)]</span>
+<div class="viewcode-block" id="energy_loss.distances">
+<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.distances">[docs]</a>
+    <span class="k">def</span> <span class="nf">distances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the distances (by taking the square-root of the squared </span>
+<span class="sd">        distances) and clip values to prevent under- or overflow.</span>
+<span class="sd">        </span>
+<span class="sd">        .. math::</span>
+<span class="sd">            \|x-y\| = \\sqrt{\|x-y\|^2}</span>
+<span class="sd">            </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : tensor of shape (B,M)</span>
+<span class="sd">            Expert elicited statistics.</span>
+<span class="sd">        y : tensor of shape (B,N)</span>
+<span class="sd">            Model-implied elicited statistics.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        distance : tensor of shape (B,N,M)</span>
+<span class="sd">            distance between expert elicited and model-implied statistics.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">distance</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">clip_by_value</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">squared_distances</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">),</span> 
+                <span class="n">clip_value_min</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="n">clip_value_max</span> <span class="o">=</span>  <span class="nb">int</span><span class="p">(</span><span class="mf">1e10</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>   
+        
+        <span class="k">return</span> <span class="n">distance</span></div>
+
+
+    <span class="c1"># - ||x-y|| = - sqrt[(x*x - 2xy + y*y)]</span>
+<div class="viewcode-block" id="energy_loss.energy_kernel">
+<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.energy_kernel">[docs]</a>
+    <span class="k">def</span> <span class="nf">energy_kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        Computes the energy distance between expert-elicited and model-implied</span>
+<span class="sd">        statistics by using the negative distance.</span>
+<span class="sd">        </span>
+<span class="sd">        .. math::</span>
+<span class="sd">            k(x,y) = -\|x-y\|</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">energy_distance</span> <span class="o">=</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">distances</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>    
+        
+        <span class="k">return</span> <span class="n">energy_distance</span></div>
+
+
+    <span class="c1">## helper function</span>
+<div class="viewcode-block" id="energy_loss.scal">
+<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.scal">[docs]</a>
+    <span class="k">def</span> <span class="nf">scal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span></div>
+
+      
+    <span class="c1"># k(x,y)=0.5*sum_i sum_j a_i a_j k(x_i,x_j) - sum_i sum_j a_i b_j k(x_i,y_j) + 0.5*sum_i sum_j b_i b_j k(y_i, y_j)</span>
+<div class="viewcode-block" id="energy_loss.kernel_loss">
+<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.kernel_loss">[docs]</a>
+    <span class="k">def</span> <span class="nf">kernel_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Computes the maximum mean discrepancy with energy kernel</span>
+<span class="sd">        </span>
+<span class="sd">        .. math::</span>
+<span class="sd">            MMD^2(X,Y) = \\frac{1}{m(m-1)} k(x, x) - \\frac{2}{m^2} k(x, y) + \\frac{1}{m(m-1)} k(y, y)</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        x : tensor of shape (B,M)</span>
+<span class="sd">            Expert elicited statistics.</span>
+<span class="sd">        y : tensor of shape (B,N)</span>
+<span class="sd">            Model-implied elicited statistics.</span>
+<span class="sd">        a : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+<span class="sd">        b : TYPE</span>
+<span class="sd">            DESCRIPTION.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        mean_loss : float</span>
+<span class="sd">            Maximum mean discrepancy loss averaged over batches.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+        
+        <span class="n">K_xx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy_kernel</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">x</span><span class="p">)</span> <span class="c1"># (B,N,N)</span>
+        <span class="n">K_yy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy_kernel</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="c1"># (B,M,M)</span>
+        <span class="n">K_xy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy_kernel</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="c1"># (B,N,M)</span>
+        
+        <span class="c1"># (B,N)</span>
+        <span class="n">a_x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">K_xx</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="c1"># (B,M)</span>
+        <span class="n">b_y</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">K_yy</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="c1"># (B,N)   </span>
+        <span class="n">b_x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">K_xy</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+        
+        <span class="n">loss</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scal</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">a_x</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scal</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">b_y</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">scal</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b_x</span><span class="p">)</span>
+        <span class="c1"># average over batches</span>
+        <span class="n">mean_loss</span> <span class="o">=</span>  <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">mean_loss</span></div>
+</div>
+
+    
+    
+<span class="c1"># class gaussian_loss: </span>
+<span class="c1">#     &quot;Input has form (B, N, D)&quot;</span>
+<span class="c1">#     def __init__(self):</span>
+<span class="c1">#         super(gaussian_loss, self).__init__()</span>
+        
+<span class="c1">#     def __call__(self, x, y, B, N, M):</span>
+<span class="c1">#         x = tf.expand_dims(tf.reshape(x, (B, M)), -1)</span>
+<span class="c1">#         y = tf.expand_dims(tf.reshape(y, (B, N)), -1)</span>
+                 
+<span class="c1">#         return(self.maximum_mean_discrepancy(x, y))</span>
+
+<span class="c1">#     # (x*x - 2xy + y*y)</span>
+<span class="c1">#     def squared_distances(self, x, y):</span>
+<span class="c1">#         # (B, N, 1)</span>
+<span class="c1">#         D_xx = tf.expand_dims(tf.math.reduce_sum(tf.multiply(x, x), axis = -1), axis = 2)</span>
+<span class="c1">#         # (B, 1, M)</span>
+<span class="c1">#         D_yy = tf.expand_dims(tf.math.reduce_sum(tf.multiply(y, y), axis = -1), axis = 1)</span>
+<span class="c1">#         # (B, N, M)</span>
+<span class="c1">#         D_xy = tf.matmul(x, tf.transpose(y, perm = (0, 2, 1)))</span>
+<span class="c1">#         return D_xx - 2*D_xy + D_yy</span>
+    
+<span class="c1">#     def gaussian_kernel_matrix(self, x, y, sigmas):</span>
+<span class="c1">#         # b = 1/2*sigma</span>
+<span class="c1">#         beta = 1. / (2. * (tf.expand_dims(sigmas, axis=1)))</span>
+<span class="c1">#         dist = self.squared_distances(x,y)</span>
+<span class="c1">#         # 1/(2*sigma) * || x-y ||2</span>
+<span class="c1">#         s = tf.matmul(beta, tf.reshape(dist, (1,-1)))</span>
+<span class="c1">#         # exp(- 1/(2*sigma) * || x-y ||2 )</span>
+<span class="c1">#         return tf.reshape(tf.reduce_sum(tf.exp(-s), axis=0), tf.shape(dist))</span>
+    
+<span class="c1">#     def mmd_kernel(self, x, y, kernel=gaussian_kernel_matrix):</span>
+<span class="c1">#         # || x-y ||2 = xTx -2*xTy + yTy</span>
+<span class="c1">#         loss = tf.reduce_mean(input_tensor = kernel(x, x), axis=(1,2))</span>
+<span class="c1">#         loss += tf.reduce_mean(input_tensor = kernel(y, y), axis=(1,2))</span>
+<span class="c1">#         loss -= 2 * tf.reduce_mean(input_tensor = kernel(x, y), axis=(1,2))</span>
+<span class="c1">#         return loss</span>
+      
+<span class="c1">#     def maximum_mean_discrepancy(self,x, y, weight=1., minimum=0., **args):</span>
+<span class="c1">#         sigmas = [</span>
+<span class="c1">#             1e-6, 1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1, 5, 10, 15, 20, 25, 30, 35, 100,</span>
+<span class="c1">#             1e3, 1e4, 1e5, 1e6</span>
+<span class="c1">#         ]</span>
+<span class="c1">#         gaussian_kernel = partial(self.gaussian_kernel_matrix, sigmas=sigmas)</span>
+<span class="c1">#         loss_value = self.mmd_kernel(x, y, kernel=gaussian_kernel)</span>
+<span class="c1">#         loss_value = tf.maximum(minimum, loss_value) * weight</span>
+<span class="c1">#         return tf.reduce_mean(loss_value)</span>
+</pre></div>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Florence Bockting
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2024, Florence Bockting.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

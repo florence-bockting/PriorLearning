@@ -1,0 +1,478 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PriorLearning.loss_helpers &#8212; Prior Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script src="../../_static/documentation_options.js?v=3611b776"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/PriorLearning/loss_helpers';</script>
+    <link rel="icon" href="../../_static/favicon-light.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/mmp-logo-light.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/mmp-logo-dark.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">API</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../PriorLearning.html">PriorLearning package</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../case_studies.html">Case Studies</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../case_studies/cs_normal.html">Normal regression model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../case_studies/cs_binomial.html">Binomial regression model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../case_studies/cs_poisson.html">Poisson regression model</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/florence-bockting/PriorLearning" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for PriorLearning.loss_helpers</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">tensorflow_probability</span> <span class="k">as</span> <span class="nn">tfp</span>
+<span class="n">tfd</span> <span class="o">=</span> <span class="n">tfp</span><span class="o">.</span><span class="n">distributions</span>
+
+<span class="kn">from</span> <span class="nn">PriorLearning.discrepancy_measures</span> <span class="kn">import</span> <span class="n">energy_loss</span>
+
+
+<div class="viewcode-block" id="scale_loss_component">
+<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.loss_helpers.scale_loss_component">[docs]</a>
+<span class="k">def</span> <span class="nf">scale_loss_component</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">loss_comp_exp</span><span class="p">,</span> <span class="n">loss_comp_sim</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function for scaling the expert and model elicited statistic of</span>
+<span class="sd">    a particular loss component</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    method : string; either &#39;scale-by-std&#39;, &#39;scale-to-unity&#39;, or &#39;unscaled&#39;</span>
+<span class="sd">        Scaling method applied to the elicited statistics of the loss component.</span>
+<span class="sd">    loss_comp_exp : tf.tensor of shape (B, stats)</span>
+<span class="sd">        Elicited statistics from the expert.</span>
+<span class="sd">    loss_comp_sim : tf.tensor of shape (B, stats)</span>
+<span class="sd">        Elicited statistics as simulated by the model.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    loss_comp_exp_std : tf.tensor of shape (B, stats)</span>
+<span class="sd">        if not &#39;unscaled&#39;: scaled elicited statistics from the expert otherwise</span>
+<span class="sd">        unmodified elicited statistics</span>
+<span class="sd">    loss_comp_sim_std : tf.tensor of shape (B, stats)</span>
+<span class="sd">        if not &#39;unscaled&#39;: scaled elicited statistics from the model otherwise</span>
+<span class="sd">        unmodified elicited statistics</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;unscaled&quot;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">loss_comp_exp</span><span class="p">,</span> <span class="n">loss_comp_sim</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;scale-by-std&quot;</span><span class="p">:</span>
+        <span class="n">emp_std_sim</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_std</span><span class="p">(</span><span class="n">loss_comp_sim</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">loss_comp_exp_std</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">loss_comp_exp</span><span class="p">,</span> <span class="n">emp_std_sim</span><span class="p">)</span>
+        <span class="n">loss_comp_sim_std</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span><span class="n">loss_comp_sim</span><span class="p">,</span> <span class="n">emp_std_sim</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">loss_comp_exp_std</span><span class="p">,</span> <span class="n">loss_comp_sim_std</span>
+
+    <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;scale-to-unity&quot;</span><span class="p">:</span>
+        <span class="n">emp_min_sim</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_min</span><span class="p">(</span><span class="n">loss_comp_sim</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">emp_max_sim</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_max</span><span class="p">(</span><span class="n">loss_comp_sim</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">loss_comp_exp_std</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span>
+            <span class="n">loss_comp_exp</span> <span class="o">-</span> <span class="n">emp_min_sim</span><span class="p">,</span> <span class="n">emp_max_sim</span> <span class="o">-</span> <span class="n">emp_min_sim</span>
+        <span class="p">)</span>
+        <span class="n">loss_comp_sim_std</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span>
+            <span class="n">loss_comp_sim</span> <span class="o">-</span> <span class="n">emp_min_sim</span><span class="p">,</span> <span class="n">emp_max_sim</span> <span class="o">-</span> <span class="n">emp_min_sim</span>
+        <span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">loss_comp_exp_std</span><span class="p">,</span> <span class="n">loss_comp_sim_std</span></div>
+
+
+<div class="viewcode-block" id="compute_loss">
+<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.loss_helpers.compute_loss">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_loss</span><span class="p">(</span><span class="n">expert_res_dict</span><span class="p">,</span> <span class="n">model_res_dict</span><span class="p">,</span> <span class="n">loss_scaling</span><span class="p">,</span> <span class="n">loss_dimensions</span><span class="p">,</span> 
+                 <span class="n">loss_discrepancy</span><span class="p">,</span> <span class="n">num_loss_comp</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">     Computes loss values based on model-implied and expert elicited statistics </span>
+<span class="sd">     and given the loss specification by the user.</span>
+
+<span class="sd">     Parameters</span>
+<span class="sd">     ----------</span>
+<span class="sd">     expert_res_dict : dict</span>
+<span class="sd">        expert elicited statitics.</span>
+<span class="sd">     model_res_dict : dict</span>
+<span class="sd">        model-implied elicited statistics.</span>
+<span class="sd">     loss_scaling : string; &#39;scale-by-std&#39;, &#39;scale-to-unity&#39;, or &#39;unscaled&#39;</span>
+<span class="sd">        whether the loss component (i.e., elicited statistics from expert and model) should be scaled.</span>
+<span class="sd">     loss_dimensions : string; &#39;m,n:B&#39;, &#39;B:m,n&#39;</span>
+<span class="sd">        Defines axis 0 and 1 of the 2-dim. tensor representing a loss component.</span>
+<span class="sd">     loss_discrepancy : string; &#39;energy&#39;</span>
+<span class="sd">        Loss function used for the loss component. Currently we use the energy loss for all loss components</span>
+<span class="sd">     num_loss_comp : int</span>
+<span class="sd">        Number of loss components in total weighted loss</span>
+
+<span class="sd">     Returns</span>
+<span class="sd">     -------</span>
+<span class="sd">     loss_list, (expert_loss_comp, model_loss_comp) : lists</span>
+<span class="sd">        </span>
+<span class="sd">         - loss_value: list with final loss value of each loss component</span>
+<span class="sd">         - expert/model_loss_comp: list with tensors representing expert and model-implied loss component</span>
+<span class="sd">        </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">loss</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">expert_components</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">model_components</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="k">assert</span> <span class="n">loss_discrepancy</span> <span class="o">==</span> <span class="s2">&quot;energy&quot;</span><span class="p">,</span> <span class="s2">&quot;Currently on the energy loss is implemented&quot;</span>
+    
+    <span class="k">if</span> <span class="n">loss_discrepancy</span> <span class="o">==</span> <span class="s2">&quot;energy&quot;</span><span class="p">:</span>
+        <span class="c1"># use the energy loss for all loss components</span>
+        <span class="n">loss_discrepancy_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">energy_loss</span><span class="p">()]</span><span class="o">*</span><span class="n">num_loss_comp</span>
+       
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">model_res_dict</span><span class="p">)):</span>
+        <span class="c1"># initialize the energy loss</span>
+        <span class="n">loss_measure</span> <span class="o">=</span> <span class="n">loss_discrepancy_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>   
+        <span class="c1"># get model-implied loss component from dict</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">model_res_dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>        
+        <span class="c1"># get expert elicited loss component from dict</span>
+        <span class="n">e_raw</span> <span class="o">=</span> <span class="n">expert_res_dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        
+        <span class="c1"># reshape loss components such that they match in shapes</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">e_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">e_raw</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">e_raw</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="c1"># broadcasting such that first dimension is batch size</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span><span class="n">e_raw</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">e_raw</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+        
+        <span class="c1"># apply scaling of elicited statistics of loss component</span>
+        <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">e</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">scale_loss_component</span><span class="p">(</span><span class="n">loss_scaling</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+       
+        <span class="c1"># reshape loss dimensions if specified by user</span>
+        <span class="k">if</span> <span class="n">loss_dimensions</span> <span class="o">==</span> <span class="s2">&quot;m,n:B&quot;</span><span class="p">:</span>
+            <span class="n">e</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            
+        <span class="c1"># create list with final loss per loss component</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_measure</span><span class="p">(</span>
+                        <span class="n">e</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> 
+                        <span class="n">m</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>         <span class="c1"># B</span>
+                        <span class="n">e</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>         <span class="c1"># m</span>
+                        <span class="n">m</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>         <span class="c1"># n</span>
+                        <span class="p">)</span>
+        <span class="c1"># save each expert and model-implied loss component in a list</span>
+        <span class="n">expert_components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="n">model_components</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    
+    <span class="n">loss_list</span> <span class="o">=</span> <span class="n">loss</span>
+    <span class="n">expert_loss_comp</span> <span class="o">=</span> <span class="n">expert_components</span>
+    <span class="n">model_loss_comp</span> <span class="o">=</span> <span class="n">model_components</span>
+    
+    <span class="k">return</span> <span class="n">loss_list</span><span class="p">,</span> <span class="p">(</span><span class="n">expert_loss_comp</span><span class="p">,</span> <span class="n">model_loss_comp</span><span class="p">)</span></div>
+
+
+            
+
+   
+
+
+</pre></div>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Florence Bockting
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2024, Florence Bockting.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
