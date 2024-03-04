@@ -27,7 +27,6 @@ def combi_all(elicits, target):
         loss_component = elicits[target]
     
     if len(elicits[target].shape) == 3:
-        #print(tf.rank(elicits[target]))
         loss_component = elicits[target][:,:,0]
       
         for i in range(1, elicits[target].shape[-1]):
