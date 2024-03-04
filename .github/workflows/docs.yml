@@ -26,3 +26,4 @@ jobs:
         folder: doc/build                    # The folder the action should deploy.
         git-config-name: Deployment Bot      # Name of the committer
         git-config-email: deploy@github.com  # Email of the committer
+        force_orphan: true
