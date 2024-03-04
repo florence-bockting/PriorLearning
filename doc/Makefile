@@ -16,7 +16,7 @@ clean:
 	-rm -rf $(BUILDDIR)/*
 
 html:
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
+	$(SPHINXBUILD) -b html $(SPHINXOPTS) $(BUILDDIR)/html
 
 .PHONY: help Makefile
 
