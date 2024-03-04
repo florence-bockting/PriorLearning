@@ -18,6 +18,7 @@ jobs:
         cd doc
         make clean
         cd ..  
+        sphinx-apidoc -f -o source/ ../PriorLearning
         sphinx-build doc/source doc/build
     - name: Deploy documentation to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4

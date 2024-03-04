@@ -16,9 +16,6 @@ help:
 clean:
 	-rm -rf $(BUILDDIR)/*
 
-html:
-	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
-
 .PHONY: help Makefile
 
 # Catch-all target: route all unknown targets to Sphinx using the new
