@@ -3,7 +3,7 @@ README.md
 pyproject.toml
 setup.cfg
 PriorLearning/__init__.py
-PriorLearning/case_studies.py
+PriorLearning/_case_studies.py
 PriorLearning/combine_losses.py
 PriorLearning/discrepancy_measures.py
 PriorLearning/elicitation_techniques.py
@@ -12,11 +12,7 @@ PriorLearning/global_config_params.py
 PriorLearning/helper_functions.py
 PriorLearning/loss_helpers.py
 PriorLearning/multi_loss_weighting.py
-PriorLearning/nn_implementation.py
-PriorLearning/normal_cs.py
-PriorLearning/plot_helpers.py
 PriorLearning/py.typed
-PriorLearning/quadratic_splines.py
 PriorLearning/simulator.py
 PriorLearning/softmax_gumbel_trick.py
 PriorLearning/target_quantities.py
