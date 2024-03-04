@@ -4,4 +4,4 @@
 # Prior Learning
 Method for eliciting prior distributions from expert knowledge.
 
-See ![preprint](https://arxiv.org/abs/2308.11672) for more information and the ![website](https://florence-bockting.github.io/PriorLearning) for implemented case studies.
+See [preprint](https://arxiv.org/abs/2308.11672) for more information and the [website](https://florence-bockting.github.io/PriorLearning/) for implemented case studies.
