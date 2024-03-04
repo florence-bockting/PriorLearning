@@ -18,12 +18,12 @@ jobs:
         cd doc
         make clean
         cd ..  
-        sphinx-build --fresh-env doc/source doc/build             
+        sphinx-build -M html doc/source doc/build -W --keep-going --fresh-env           
     - name: Deploy documentation to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         branch: gh-pages                     # The branch the action should deploy to.
         folder: doc/build                    # The folder the action should deploy.
         git-config-name: Deployment Bot      # Name of the committer
-        git-config-email: deploy@github.com  # Email of the committer 
+        git-config-email: deploy@github.com  # Email of the committer  sphinx-build doc/source doc/build  
         force_orphan: true
