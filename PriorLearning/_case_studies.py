@@ -34,23 +34,54 @@ def haberman_data_predictor(scaled, selected_obs):
     
     return dmatrix
 
-def antidiscr_laws_dmatrix(standardize, selected_obs, B, rep):
+def antidiscr_laws_dmatrix(scaling, selected_obs, B, rep):
     X = pd.read_csv('C:/Users/flobo/hyp_learn_prior/tests/antidis_laws.csv')
     # sort by group and perc_urban in decreasing order
-    df = pd.DataFrame(tf.squeeze(X)).sort_values(by=[2,3,1])
-    if standardize:
+    X_sorted = pd.DataFrame(tf.squeeze(X)).sort_values(by=[2,3,1])
+    if scaling == "standardize":
         # standardize metric predictor
-        df[1] = (df[1] - df[1].mean())/df[1].std() 
-        # reshape model matrix and create tensor
-        dmatrix = tf.cast(tf.gather(df, selected_obs), tf.float32)
+        X_sorted[1] = (X_sorted[1] - X_sorted[1].mean())/X_sorted[1].std() 
     else:
-        dmatrix = tf.cast(tf.gather(df, selected_obs), tf.float32)
-        
-    dmatrix = tf.broadcast_to(
-        dmatrix[None,None,:,:], (B, rep, dmatrix.shape[0], dmatrix.shape[1] )
-        )
-    return dmatrix
+        print("currently only scaling = 'standardize' is supported")
+    dmatrix = tf.cast(tf.gather(X_sorted, selected_obs, axis = 0), tf.float32)
+    dmatrix_fct = tf.gather(dmatrix, indices = [0,2,3], axis = 1)
+    cmatrix = X_sorted[[0,2,3]].drop_duplicates()
+    
+    return dmatrix, dmatrix_fct, cmatrix
 
+def plot_expert_pred_poisson(expert_res_list, names_states):
+    q_exp = expert_res_list["group_means_quant_0"]
+    q_exp1 = expert_res_list["y_obs_hist_1"]
+    
+    df = pl.DataFrame( ) 
+    df = df.with_columns(
+        q = np.arange(0.1,1., 0.1),
+        democrats = pl.Series(q_exp[0][0,:].numpy()),
+        swing = pl.Series(q_exp[1][0,:].numpy()),
+        republican = pl.Series(q_exp[2][0,:].numpy())
+    )
+    df = df.melt(id_vars = "q", value_vars = ["democrats", "swing", "republican"], variable_name = "group")
+    df_pd = df.to_pandas()
+    
+    fig = plt.figure(layout='constrained', figsize=(10, 4))
+    figs = fig.subfigures(1,2)
+    
+    axs0 = figs[0].subplots(1,1)
+    axs1 = figs[1].subplots(2,3, sharex = True, sharey = True)
+    custom_params = {"axes.spines.right": False, "axes.spines.top": False}
+    sns.set_theme(style="ticks", rc=custom_params)
+    [sns.scatterplot(y = i, x = q_exp[i][0,:], color = c, ax = axs0, zorder = 1) for i,c in zip(range(3), ["#020024", "#44546A", "#00d4ff"])]
+    sns.boxplot(x = df_pd["value"], y = df_pd["group"], color=".99",  linewidth=.75, zorder = 0, ax = axs0) 
+    axs0.set_xlabel("expected #LGBTQ+ anti-discrimination laws")
+    [sns.histplot(x=q_exp1[i][0,:], ax = axs1[0,i], stat = "proportion") for i in range(3)]
+    [sns.histplot(x=q_exp1[i+3][0,:], ax = axs1[1,i], stat = "proportion") for i in range(3)]
+    [axs1[0,i].set_title(t) for i,t in zip(range(3), names_states[:3])]
+    [axs1[1,i].set_title(t) for i,t in zip(range(3), names_states[3:])]
+    axs1[1,1].set_xlabel("#LGBTQ+ anti-discrimination laws")
+    figs[0].suptitle("Quantile-based elicitation", fontweight = "bold" )
+    figs[1].suptitle("Histogram-based elicitation", fontweight = "bold" )
+    plt.show()
+    
 def plot_expert_pred(expert_res_list, selected_obs):
     q_exp = expert_res_list
     
@@ -105,7 +136,7 @@ def plot_priors_binom(avg_res, true_vals):
     axs.legend(handlelength = 0.4, fontsize = "medium") 
     plt.show()
     
-def plot_priors(avg_res, true_vals, xrange):
+def plot_priors(avg_res, true_vals, xrange, loc):
     custom_params = {"axes.spines.right": False, "axes.spines.top": False}
     sns.set_theme(style="ticks", rc=custom_params)
     _, axs = plt.subplots(1,1, constrained_layout = True, figsize = (6,3))
@@ -115,7 +146,7 @@ def plot_priors(avg_res, true_vals, xrange):
         sns.lineplot(x=x,y=tfd.Normal(true_vals[i], true_vals[i+1]).prob(x), linestyle= "dashed", color = "black")
     axs.set_xlabel(r"$\beta_k \sim$ Normal($\cdot$, $\cdot$)")
     axs.set_ylabel("density") 
-    axs.legend(handlelength = 0.4, fontsize = "medium") 
+    axs.legend(handlelength = 0.4, fontsize = "medium", loc = loc, labelspacing = 0.1) 
     plt.show()
     
 def plot_priors_normal(avg_res, true_values):
@@ -188,4 +219,55 @@ def expert_pred_elicits_normal(expert_res_list):
     [axs[i].set_xlabel("$Q_p^G$") for i in [1,2,3]]
     [axs[i].set_ylabel(" ") for i in [1,2,3]]
     [axs[i].set_title(t, pad = 10., fontdict = {'fontsize': 12, 'fontweight': "bold"}) for i,t in zip([0,2], ["Histogram-based elicitation \n", " Quantile-based elicitation \n"])]
+    plt.show()
+    
+def sleep_data_predictor(scaling, N_days, N_subj, selected_days):
+    
+    assert scaling in ["standardize", "scale"], "Scaling can only be either 'standardize' or 'scale'"
+    
+    # design matrix
+    X = tf.cast(tf.tile(tf.range(0., N_days, 1.), [N_subj]), tf.float32)
+    if scaling == "standardize":
+        # standardize metric predictor
+        X_scaled = (X - tf.reduce_mean(X))/tf.math.reduce_std(X) 
+    
+    if scaling == "scale":
+        # scale metric predictor
+        X_scaled = X/tf.math.reduce_std(X) 
+    
+    dmatrix_full = tf.stack([tf.ones(len(X_scaled)), X_scaled], axis = -1)
+    
+    # select only a subset of days
+    dmatrix_list = [dmatrix_full[day::N_days] for day in selected_days]
+    dmatrix = tf.stack(dmatrix_list, axis=1)
+    dmatrix = tf.reshape(dmatrix, (N_subj*len(selected_days), 2))
+    
+    # contrast matrix
+    cmatrix = pd.DataFrame(dmatrix).drop_duplicates()
+    
+    return dmatrix, cmatrix    
+    
+def print_target_info(target_info):
+    print_tab  = target_info.copy()
+    for specs in ["moments_specs", "quantiles_specs"]:
+        if specs in list(target_info.keys()):
+            index_mom = tf.where(tf.equal(target_info["elicitation"], specs[0:-6]))[:,0].numpy()
+            print_tab[specs] = [None]*len(target_info["elicitation"])
+            for i,j in enumerate(index_mom):
+             print_tab[specs][j] = target_info[specs][i]
+    
+    return pd.DataFrame(print_tab)
+        
+def plot_hyp_pois(res_dict, user_config):
+    
+    betas = tf.stack([res_dict["hyperparam_info"][0][i][0::2] for i in range(user_config["epochs"])], -1)
+    sigmas =  tf.stack([tf.exp(res_dict["hyperparam_info"][0][i][1::2]) for i in range(user_config["epochs"])], -1)
+    
+    _, axs = plt.subplots(1,2, constrained_layout = True, figsize = (8,3), sharex = True)
+    [axs[0].plot(betas[i,:], lw = 3, color = c, label = fr"$\mu_{i}$") for i,c in zip(range(4), ["#020024", "#44546A", "#00d4ff", "#00d4ff"])]
+    [axs[1].plot(sigmas[i,:], lw = 3, color = c, label = fr"$\sigma_{i}$") for i,c in zip(range(4), ["#020024", "#44546A", "#00d4ff", "#00d4ff"])]
+    [axs[i].legend(handlelength = 0.4, fontsize = "medium", ncol = 2, columnspacing = 0.5) for i in range(2)]
+    axs[0].set_title(r"$\mu_0, \mu_1, \mu_2, \mu_3$",pad = 10., fontdict = {'fontsize': 14}, loc = "left")
+    axs[1].set_title(r"$\sigma_0, \sigma_1, \sigma_2, \sigma_3$",pad = 10., fontdict = {'fontsize': 14}, loc = "left")
+    axs[1].set_xlabel("epochs")
     plt.show()

@@ -66,25 +66,25 @@ class Simulator(tf.Module):
         values of each prior distribution (method: hyperparameter_learning) or the
         weights and biases of the normalizing flow (method: normalizing_flow)
     
-            Parameters
-            ----------
-            B : integer
-                batch size.
-            rep : integer
-                number of simulations per model parameter.
-            parameters_dict : dictionary
-                Dictionary as specified by the user providing information about the
-                prior distribution family and the distribution used for sampling the 
-                initial hyperparameter value.
-            method : string; either "ideal_expert" or "hyperparameter_learning"
-                Determines the optimzation goal: 
-                    
-                - "hyperparameter_learning" : goal is to find the optimal hyperparamter values of a predfined prior distribution family; 
-                - "ideal_expert" : prior distribution family and respective hyperparameter values are pre-determined (represents "ground truth").
-                    
-            **kwargs : optional keyword arguments
-                Additional keyword arguments needed for the generative model or the 
-                target quantities (e.g., design matrix, contrast matrix).
+        Parameters
+        ----------
+        B : integer
+            batch size.
+        rep : integer
+            number of simulations per model parameter.
+        parameters_dict : dictionary
+            Dictionary as specified by the user providing information about the
+            prior distribution family and the distribution used for sampling the 
+            initial hyperparameter value.
+        method : string; either "ideal_expert" or "hyperparameter_learning"
+            Determines the optimzation goal: 
+                
+            - "hyperparameter_learning" : goal is to find the optimal hyperparamter values of a predfined prior distribution family; 
+            - "ideal_expert" : prior distribution family and respective hyperparameter values are pre-determined (represents "ground truth").
+                
+        **kwargs : optional keyword arguments
+            Additional keyword arguments needed for the generative model or the 
+            target quantities (e.g., design matrix, contrast matrix).
                 
             """
         self.B = B

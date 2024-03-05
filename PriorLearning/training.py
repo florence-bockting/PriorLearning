@@ -150,8 +150,13 @@ def trainer(expert_res_list, B, rep, parameters_dict, method, GenerativeModel,
     targets_ini = TargetQuantities() 
     elicit_ini = ElicitationTechnique()
     # compute number of loss components 
-    num_loss_comp = int(tf.reduce_sum(
-        [len(expert_res_list[key]) for key in expert_res_list.keys()]))
+    counter = 0
+    for key in expert_res_list.keys():
+        if type(expert_res_list[key]) == list:
+            counter += len(expert_res_list[key])
+        else:
+            counter += 1
+    num_loss_comp = int(counter)
     # initialize initial_loss for the dynamic weight averaging algo. in epoch=0
     initial_loss_components = [tf.Variable(0., trainable=None)]*num_loss_comp
     # initialize lists for saving progress during learning

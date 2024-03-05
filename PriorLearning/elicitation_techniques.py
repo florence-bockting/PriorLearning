@@ -53,8 +53,6 @@ def method_moments(target_samples, m):
         Moments computed from target quantity.
 
     """
-    # check whether moment specification is supported
-    assert m in ["mean", "sd", "variance"], "Currently supported moments are 'mean', 'sd', and 'variance'"
     
     mom_list = []
     for i in m:

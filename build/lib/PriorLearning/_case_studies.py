@@ -189,3 +189,17 @@ def expert_pred_elicits_normal(expert_res_list):
     [axs[i].set_ylabel(" ") for i in [1,2,3]]
     [axs[i].set_title(t, pad = 10., fontdict = {'fontsize': 12, 'fontweight': "bold"}) for i,t in zip([0,2], ["Histogram-based elicitation \n", " Quantile-based elicitation \n"])]
     plt.show()
+    
+def sleep_data_predictor(scaled, N_subj, selected_obs):
+    X = tf.cast(tf.tile(tf.range(0., 10, 1.), [N_subj]), tf.float32)
+    x_sd = tf.math.reduce_std(X)
+    if scaled:
+        # scale predictor
+        X_scaled = tf.constant(X, dtype=tf.float32)/x_sd
+        # select only data points that were selected from expert
+        dmatrix = tf.gather(X_scaled, selected_obs) 
+    else:
+        dmatrix = tf.gather(tf.constant(X, dtype=tf.float32), selected_obs)
+    
+    return dmatrix    
+    
