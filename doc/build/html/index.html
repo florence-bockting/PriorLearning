@@ -317,12 +317,13 @@ document.write(`
 <h1>Learn Prior distributions from expert knowledge<a class="headerlink" href="#learn-prior-distributions-from-expert-knowledge" title="Link to this heading">#</a></h1>
 <section id="short-overview">
 <h2>Short overview<a class="headerlink" href="#short-overview" title="Link to this heading">#</a></h2>
-<p>We propose a new elicitation method for translating knowledge from a domain expert into an appropriate parametric prior distribution.
+<p>We propose a new elicitation method for translating knowledge from a domain expert into an appropriate parametric prior distribution <a class="reference external" href="https://arxiv.org/abs/2308.11672">(Bockting et al., 2023)</a>.
 In particular, our approach builds on recent contributions made by <a class="reference external" href="http://proceedings.mlr.press/v124/hartmann20a/hartmann20a.pdf">Hartmann et al. (2020)</a>, <a class="reference external" href="https://www.jmlr.org/papers/volume24/21-0623/21-0623.pdf">da Silva et al. (2019)</a>, and <a class="reference external" href="https://arxiv.org/pdf/2303.08528">Manderson &amp; Goudie (2023)</a>.
 Their key commonality is the development of (more or less) model-agnostic methods in which the search for appropriate prior distributions is formulated as an optimization problem.
 Thus, the objective is to determine the optimal hyperparameters that minimize the discrepancy between model-implied and expert-elicited statistics.
 We also adopt this perspective and introduce a novel elicitation method that supports expert feedback in both the space of parameters and observable quantities (i.e., a hybrid approach)
-and minimizes human effort. The key ideas underlying our method are outlined as follows:</p>
+and minimizes human effort. The key ideas underlying our method are visualized in the following figure and outlined below.</p>
+<a class="reference internal image-reference" href="_images/conceptTemplate.png"><img alt="Visual representation workflow" src="_images/conceptTemplate.png" style="width: 800px;" /></a>
 <ol class="arabic simple">
 <li><p>The analyst defines a generative model comprising a likelihood function <span class="math notranslate nohighlight">\(p(y \mid \theta)\)</span> and a parametric prior distribution <span class="math notranslate nohighlight">\(p(\theta \mid \lambda)\)</span> for the model parameters, where <span class="math notranslate nohighlight">\(\lambda\)</span> represents the prior hyperparameters to be inferred from expert knowledge.</p></li>
 <li><p>The analyst selects a set of target quantities, which may involve queries related to observable quantities (data), model parameters, or anything else in between.</p></li>
@@ -332,16 +333,15 @@ and minimizes human effort. The key ideas underlying our method are outlined as 
 <li><p>Stochastic gradient descent is employed to update the hyperparameters <span class="math notranslate nohighlight">\(\lambda\)</span> so as to minimize the loss function.</p></li>
 <li><p>Steps 4 to 6 are repeated iteratively until an optimal set of hyperparameters <span class="math notranslate nohighlight">\(\lambda\)</span> is found that minimizes the discrepancy between the model-implied and the expert-elicited statistics.</p></li>
 </ol>
-<p>See the below figure for a visual representation of all steps involved in our proposed elicitation method.</p>
-<a class="reference internal image-reference" href="_images/conceptTemplate.png"><img alt="Visual representation workflow" src="_images/conceptTemplate.png" style="width: 800px;" /></a>
 </section>
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/abs/2308.11672">Bockting F., Radev, S. T., &amp; Bürkner P. C. (2023). Simulation-Based Prior Knowledge Elicitation for Parametric Bayesian Models. ArXiv preprint.</a></p></li>
 <li><p><a class="reference external" href="https://www.jmlr.org/papers/volume24/21-0623/21-0623.pdf">da Silva, E. D. S., Kuśmierczyk, T., Hartmann, M., &amp; Klami, A. (2023). Prior Specification for Bayesian Matrix Factorization via Prior Predictive Matching. Journal of Machine Learning Research, 24(67), 1-51.</a></p></li>
 <li><p><a class="reference external" href="http://proceedings.mlr.press/v124/hartmann20a/hartmann20a.pdf">Hartmann, M., Agiashvili, G., Bürkner, P., &amp; Klami, A. (2020). Flexible prior elicitation via the prior predictive distribution. In Conference on Uncertainty in Artificial Intelligence (pp. 1129-1138). PMLR.</a></p></li>
-<li><p><a class="reference external" href="https://arxiv.org/pdf/2303.08528">Manderson, A. A., &amp; Goudie, R. J. (2023). Translating predictive distributions into informative priors. arXiv preprint arXiv:2303.08528.</a></p></li>
-<li><p><a class="reference external" href="https://arxiv.org/pdf/2308.11672">Mikkola, P., Martin, O. A., Chandramouli, S., Hartmann, M., Pla, O. A., Thomas, O., … &amp; Klami, A. (2021). Prior knowledge elicitation: The past, present, and future. arXiv preprint arXiv:2112.01380.</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/pdf/2303.08528">Manderson, A. A., &amp; Goudie, R. J. (2023). Translating predictive distributions into informative priors. ArXiv preprint.</a></p></li>
+<li><p><a class="reference external" href="https://arxiv.org/pdf/2308.11672">Mikkola, P., Martin, O. A., Chandramouli, S., Hartmann, M., Pla, O. A., Thomas, O., … &amp; Klami, A. (2021). Prior knowledge elicitation: The past, present, and future. ArXiv preprint.</a></p></li>
 </ul>
 </section>
 <section id="contents">
