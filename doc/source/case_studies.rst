@@ -20,7 +20,7 @@ Case study is inspired by the experimental design of truth-effect studies in the
 + *Target quantities:*  Marginal distribution for both factors (1,2), distribution of effects for each level of the second factor (3), distribution of the expected R2 (4)
 + *Elicited statistics:* Quantile-based elicitation for (1-3) and histogram elicitation for (4). 
 
-:doc:`Go to the case study <case_studies/cs_normal>`
+|:arrow_forward:| :doc:`Go to the case study <case_studies/cs_normal>`
 
 Binomial regression model
 ==========================
@@ -36,7 +36,7 @@ of patients who had undergone surgery for breast cancer.
 + *Target quantities:*  expected number of patients who died within five years for different numbers of axillary nodes
 + *Elicited statistics:* Quantile-based elicitation for each selected design point
 
-:doc:`Go to the case study <case_studies/cs_binomial>`
+|:arrow_forward:| :doc:`Go to the case study <case_studies/cs_binomial>`
 
 Poisson regression model
 ==========================
@@ -51,6 +51,7 @@ Case study uses a data set of a study which investigates the number of LGBTQ+ an
 + *Target quantities:*  predictive distribution of the group means for the categorical variable (1) and the expected number of LGBTQ+ anti-discrimination laws for selected US states (2)
 + *Elicited statistics:* Quantile-based elicitation for (1) and histogram-based elicitation for each selected design point (2)
 
-:doc:`Go to the case study <case_studies/cs_poisson>`
-:doc:`Add-on: Poisson regression model for varying upper threshold values $t_u$ <case_studies/varying_thresholds>`
+|:arrow_forward:| :doc:`Go to the case study <case_studies/cs_poisson>`
+
+|:bulb:| :doc:`Add-on: Poisson regression model for varying upper threshold values <case_studies/varying_thresholds>`
 

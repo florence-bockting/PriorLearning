@@ -353,6 +353,12 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\flobo\anaconda3\envs\make-my-prior\Lib\site-packages\bayesflow\trainers.py:27: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from tqdm.autonotebook import tqdm
+</pre></div>
+</div>
+</div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="normal-mutlilevel-model-model">
 <h1>Normal Mutlilevel Model Model<a class="headerlink" href="#normal-mutlilevel-model-model" title="Link to this heading">#</a></h1>
@@ -367,8 +373,8 @@ document.write(`
 </section>
 <section id="data-generating-model">
 <h2>Data generating model<a class="headerlink" href="#data-generating-model" title="Link to this heading">#</a></h2>
-<div class="amsmath math notranslate nohighlight" id="equation-cb29add8-6ff7-4d67-a951-c414e99aa4b1">
-<span class="eqno">(1)<a class="headerlink" href="#equation-cb29add8-6ff7-4d67-a951-c414e99aa4b1" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4ebf3bb2-d6fe-49b1-830a-b7d0fb250d68">
+<span class="eqno">(1)<a class="headerlink" href="#equation-4ebf3bb2-d6fe-49b1-830a-b7d0fb250d68" title="Permalink to this equation">#</a></span>\[\begin{align}
     \begin{split}
     y_{ij} &amp;= \textrm{Normal}(\theta_{ij}, s)\\
     \theta_{ij} &amp;= \beta_{0,j} + \beta_{1,j} x_{ij} \\
@@ -443,7 +449,7 @@ Given the potential variation in both baseline and change in RT across participa
 <span class="n">user_config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>                    
         <span class="n">B</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span>                          
         <span class="n">rep</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>                         
-        <span class="n">epochs</span> <span class="o">=</span> <span class="mi">700</span><span class="p">,</span>                      
+        <span class="n">epochs</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>                      
         <span class="n">view_ep</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span>
         <span class="n">lr_decay</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">lr0</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> 
@@ -455,7 +461,7 @@ Given the potential variation in both baseline and change in RT across participa
         <span class="p">)</span>
 
 <span class="c1"># further case study specific variables</span>
-<span class="n">N_subj</span> <span class="o">=</span> <span class="mi">300</span> <span class="c1"># number of participants</span>
+<span class="n">N_subj</span> <span class="o">=</span> <span class="mi">600</span> <span class="c1"># number of participants</span>
 <span class="n">N_days</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># number of total days</span>
 <span class="n">selected_days</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span> <span class="c1"># days for which the expert is queried</span>
 <span class="c1"># get design matrix</span>
@@ -923,22 +929,12 @@ Given the potential variation in both baseline and change in RT across participa
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch_time: 802.416ms
-Epoch: 0, loss: 13.38887, lr: 0.100000
-epoch_time: 331.910ms
-Epoch: 60, loss: 7.16512, lr: 0.028243
-epoch_time: 278.348ms
-Epoch: 120, loss: 4.13031, lr: 0.007977
-epoch_time: 349.971ms
-Epoch: 180, loss: 3.98920, lr: 0.002253
-epoch_time: 319.622ms
-Epoch: 240, loss: 3.98388, lr: 0.000636
-epoch_time: 311.128ms
-Epoch: 300, loss: 3.98473, lr: 0.000180
-epoch_time: 350.627ms
-Epoch: 360, loss: 3.98043, lr: 0.000051
-epoch_time: 379.632ms
-Epoch: 420, loss: 3.97968, lr: 0.000014
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch_time: 1925.856ms
+Epoch: 0, loss: 13.84772, lr: 0.100000
+epoch_time: 979.703ms
+Epoch: 60, loss: 7.45782, lr: 0.028243
+epoch_time: 711.686ms
+Epoch: 120, loss: 4.16629, lr: 0.007977
 </pre></div>
 </div>
 </div>
@@ -1010,7 +1006,7 @@ Epoch: 420, loss: 3.97968, lr: 0.000014
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/0dcb6af754b277f74411d88b71e6b15526cf0b63d72da303df3e540cf70e9929.png" src="../_images/0dcb6af754b277f74411d88b71e6b15526cf0b63d72da303df3e540cf70e9929.png" />
+<img alt="../_images/c84a204f9ae79df0f0bee7bc1f5839c40e253f9ecee846a762390f63bafedcff.png" src="../_images/c84a204f9ae79df0f0bee7bc1f5839c40e253f9ecee846a762390f63bafedcff.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1024,10 +1020,10 @@ Epoch: 420, loss: 3.97968, lr: 0.000014
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[248.85254   29.496893]
-[6.6198134 5.4781756]
-[23.544441  9.481721]
-[0.04101518]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[248.40317   28.894114]
+[6.9236984 4.3666787]
+[31.379097   6.4752316]
+[0.05401607]
 </pre></div>
 </div>
 </div>
