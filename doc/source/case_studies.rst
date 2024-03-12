@@ -52,4 +52,5 @@ Case study uses a data set of a study which investigates the number of LGBTQ+ an
 + *Elicited statistics:* Quantile-based elicitation for (1) and histogram-based elicitation for each selected design point (2)
 
 :doc:`Go to the case study <case_studies/cs_poisson>`
+:doc:`Add-on: Poisson regression model for varying upper threshold values $t_u$ <case_studies/varying_thresholds>`
 

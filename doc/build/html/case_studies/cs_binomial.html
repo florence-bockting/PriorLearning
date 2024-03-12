@@ -345,7 +345,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">PriorLearning.helper_functions</span> <span class="kn">import</span> <span class="n">group_obs</span><span class="p">,</span> <span class="n">Exponential_unconstrained</span><span class="p">,</span> <span class="n">Normal_unconstrained</span>
 <span class="kn">from</span> <span class="nn">PriorLearning.user_config</span> <span class="kn">import</span> <span class="n">target_config</span><span class="p">,</span> <span class="n">target_input</span>
 <span class="kn">from</span> <span class="nn">PriorLearning.helper_functions</span> <span class="kn">import</span> <span class="n">_print_restab</span>
-<span class="kn">from</span> <span class="nn">PriorLearning._case_studies</span> <span class="kn">import</span> <span class="n">haberman_data_predictor</span><span class="p">,</span> <span class="n">plot_expert_pred</span><span class="p">,</span> <span class="n">tab_expert_pred</span><span class="p">,</span> <span class="n">plot_loss</span><span class="p">,</span> <span class="n">plot_priors</span>
+<span class="kn">from</span> <span class="nn">PriorLearning._case_studies</span> <span class="kn">import</span> <span class="n">haberman_data_predictor</span><span class="p">,</span> <span class="n">plot_expert_pred</span><span class="p">,</span> <span class="n">tab_expert_pred</span><span class="p">,</span> <span class="n">print_target_info</span><span class="p">,</span> <span class="n">plot_diagnostics_binom</span><span class="p">,</span> <span class="n">plot_learned_prior_binom</span>
 <span class="kn">import</span> <span class="nn">PriorLearning.combine_losses</span> 
 
 <span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
@@ -509,7 +509,10 @@ conducted between 1958 and 1970 at the University of Chicago’s Billings Hospit
 </section>
 <section id="setup-the-ideal-agent">
 <h3>Setup the ‘ideal agent’<a class="headerlink" href="#setup-the-ideal-agent" title="Link to this heading">#</a></h3>
-<p>Define an ‘arbitrary’ ground truth for the hyperparameter values for method validation.</p>
+<ul class="simple">
+<li><p>We assume normal priors for the regression coefficients, with mean <span class="math notranslate nohighlight">\(\mu_k\)</span> and standard deviation <span class="math notranslate nohighlight">\(\sigma_k\)</span> for <span class="math notranslate nohighlight">\(k=0,1\)</span>.</p></li>
+<li><p>We define the ideal expert by the following true hyperparameters <span class="math notranslate nohighlight">\(\lambda^*=(\mu_0=-0.51, \sigma_0=0.06, \mu_1=0.26, \sigma_1=0.04)\)</span>.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># true hyperparameter values for ideal_expert</span>
@@ -610,6 +613,10 @@ conducted between 1958 and 1970 at the University of Chicago’s Billings Hospit
 </section>
 <section id="specify-the-target-quantities-and-the-elicitation-technique">
 <h3>Specify the target quantities and the elicitation technique<a class="headerlink" href="#specify-the-target-quantities-and-the-elicitation-technique" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>The analyst selects as target quantities the expected number of patients who died within five years for different numbers of axillary nodes <span class="math notranslate nohighlight">\(x_i\)</span>, with <span class="math notranslate nohighlight">\(i = 0, 5, 10, 15, 20, 25, 30\)</span>.</p></li>
+<li><p>The expert is queried for each selected design point using a quantile-based elicitation procedure.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># specify target quantity, elicitation technique and loss combination</span>
@@ -621,7 +628,7 @@ conducted between 1958 and 1970 at the University of Chicago’s Billings Hospit
 <span class="n">target_info</span> <span class="o">=</span> <span class="n">target_input</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
 
 <span class="c1"># print summary of expert input</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">target_info</span><span class="p">)</span>
+<span class="n">print_target_info</span><span class="p">(</span><span class="n">target_info</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -693,7 +700,8 @@ conducted between 1958 and 1970 at the University of Chicago’s Billings Hospit
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># number of patients who died within five years out of 𝑇 = 100 trials</span>
 <span class="c1"># for 0, 5, 10, 15, 20, 25, 30 axillary nodes</span>
-<span class="n">tab_expert_pred</span><span class="p">(</span><span class="n">expert_res_list</span><span class="p">[</span><span class="s1">&#39;y_obs_quant_0&#39;</span><span class="p">],</span> <span class="n">selected_obs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+<span class="n">tab_expert_pred</span><span class="p">(</span><span class="n">expert_res_list</span><span class="p">[</span><span class="s1">&#39;y_obs_quant_0&#39;</span><span class="p">],</span> 
+                <span class="n">selected_obs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -780,32 +788,32 @@ conducted between 1958 and 1970 at the University of Chicago’s Billings Hospit
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dict</span> <span class="o">=</span> <span class="n">trainer</span><span class="p">(</span><span class="n">expert_res_list</span><span class="p">,</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">],</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;rep&quot;</span><span class="p">],</span>
                    <span class="n">parameters_dict</span><span class="p">,</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">],</span> <span class="n">GenerativeModel</span><span class="p">,</span>
-                   <span class="n">target_info</span><span class="p">,</span> <span class="n">user_config</span><span class="p">,</span> <span class="n">loss_balancing</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">save_vals</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;prior_preds&quot;</span><span class="p">],</span>
+                   <span class="n">target_info</span><span class="p">,</span> <span class="n">user_config</span><span class="p">,</span> <span class="n">loss_balancing</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">save_vals</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;prior_preds&quot;</span><span class="p">,</span> <span class="s2">&quot;elicits&quot;</span><span class="p">],</span>
                    <span class="n">dmatrix</span> <span class="o">=</span> <span class="n">dmatrix</span><span class="p">,</span> <span class="n">total_count</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch_time: 1050.837ms
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch_time: 1303.419ms
 Epoch: 0, loss: 3.80674, lr: 0.010000
-epoch_time: 116.713ms
-Epoch: 30, loss: 2.27207, lr: 0.005314
-epoch_time: 123.290ms
-Epoch: 60, loss: 0.92770, lr: 0.002824
-epoch_time: 127.349ms
-Epoch: 90, loss: 0.12514, lr: 0.001501
-epoch_time: 106.377ms
-Epoch: 120, loss: 0.05292, lr: 0.000798
-epoch_time: 111.060ms
-Epoch: 150, loss: 0.04985, lr: 0.000424
-epoch_time: 106.420ms
-Epoch: 180, loss: 0.04946, lr: 0.000225
-epoch_time: 121.424ms
-Epoch: 210, loss: 0.04953, lr: 0.000120
-epoch_time: 106.392ms
-Epoch: 240, loss: 0.05035, lr: 0.000100
-epoch_time: 131.797ms
-Epoch: 270, loss: 0.04950, lr: 0.000100
+epoch_time: 117.364ms
+Epoch: 30, loss: 2.27215, lr: 0.005314
+epoch_time: 107.710ms
+Epoch: 60, loss: 0.92764, lr: 0.002824
+epoch_time: 134.510ms
+Epoch: 90, loss: 0.12320, lr: 0.001501
+epoch_time: 119.300ms
+Epoch: 120, loss: 0.05141, lr: 0.000798
+epoch_time: 121.763ms
+Epoch: 150, loss: 0.04990, lr: 0.000424
+epoch_time: 126.811ms
+Epoch: 180, loss: 0.04992, lr: 0.000225
+epoch_time: 109.442ms
+Epoch: 210, loss: 0.04916, lr: 0.000120
+epoch_time: 120.821ms
+Epoch: 240, loss: 0.05037, lr: 0.000100
+epoch_time: 130.209ms
+Epoch: 270, loss: 0.04943, lr: 0.000100
 </pre></div>
 </div>
 </div>
@@ -817,12 +825,12 @@ Epoch: 270, loss: 0.04950, lr: 0.000100
 <h3>Loss function<a class="headerlink" href="#loss-function" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_loss</span><span class="p">(</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;loss_info&quot;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_diagnostics_binom</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span> <span class="n">user_config</span><span class="p">,</span> <span class="n">save_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/d5cdda0817c9818cdc3054bf43e45de7a3df0e3631056530e80c688f168603e0.png" src="../_images/d5cdda0817c9818cdc3054bf43e45de7a3df0e3631056530e80c688f168603e0.png" />
+<img alt="../_images/b9651a25e15ad0c006d223578f84f081608832081c800f9dcd71b87c57dcfa61.png" src="../_images/b9651a25e15ad0c006d223578f84f081608832081c800f9dcd71b87c57dcfa61.png" />
 </div>
 </div>
 </section>
@@ -890,12 +898,14 @@ Epoch: 270, loss: 0.04950, lr: 0.000100
 <h3>Learned prior distributions<a class="headerlink" href="#learned-prior-distributions" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_priors</span><span class="p">(</span><span class="n">avg_res</span><span class="p">,</span> <span class="n">true_vals</span><span class="p">,</span> <span class="n">xrange</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.8</span><span class="p">,</span><span class="mf">0.5</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_learned_prior_binom</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span> <span class="n">user_config</span><span class="p">,</span> <span class="n">true_vals</span><span class="p">,</span> <span class="n">avg_res</span><span class="p">,</span> 
+                         <span class="n">expert_res_list</span><span class="p">,</span> <span class="n">selected_obs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span> 
+                         <span class="n">save_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/1b2f55ca57269ebfeca04d6fffe9d4f2aaf90ff020c933f56f252339136a09e5.png" src="../_images/1b2f55ca57269ebfeca04d6fffe9d4f2aaf90ff020c933f56f252339136a09e5.png" />
+<img alt="../_images/3d07513c908b6b0b9f1cd7da9aa198c2de5a627726ae6bbfb9641b482387df67.png" src="../_images/3d07513c908b6b0b9f1cd7da9aa198c2de5a627726ae6bbfb9641b482387df67.png" />
 </div>
 </div>
 </section>

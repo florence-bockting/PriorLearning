@@ -345,7 +345,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">PriorLearning.helper_functions</span> <span class="kn">import</span> <span class="n">group_obs</span><span class="p">,</span> <span class="n">Exponential_unconstrained</span><span class="p">,</span> <span class="n">Normal_unconstrained</span>
 <span class="kn">from</span> <span class="nn">PriorLearning.user_config</span> <span class="kn">import</span> <span class="n">target_config</span><span class="p">,</span> <span class="n">target_input</span>
 <span class="kn">from</span> <span class="nn">PriorLearning.helper_functions</span> <span class="kn">import</span> <span class="n">_print_restab</span>
-<span class="kn">from</span> <span class="nn">PriorLearning._case_studies</span> <span class="kn">import</span> <span class="n">antidiscr_laws_dmatrix</span><span class="p">,</span> <span class="n">plot_expert_pred</span><span class="p">,</span> <span class="n">tab_expert_pred</span><span class="p">,</span> <span class="n">plot_loss</span><span class="p">,</span> <span class="n">plot_priors</span>
+<span class="kn">from</span> <span class="nn">PriorLearning._case_studies</span> <span class="kn">import</span> <span class="n">antidiscr_laws_dmatrix</span><span class="p">,</span> <span class="n">plot_expert_pred_poisson</span><span class="p">,</span> <span class="n">plot_diagnostics_pois</span><span class="p">,</span> <span class="n">print_target_info</span><span class="p">,</span> <span class="n">plot_hyp_pois</span>
 <span class="kn">import</span> <span class="nn">PriorLearning.combine_losses</span> 
 
 <span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
@@ -367,9 +367,11 @@ document.write(`
 <h1>Poisson Regression Model<a class="headerlink" href="#poisson-regression-model" title="Link to this heading">#</a></h1>
 <section id="background-case-study">
 <h2>Background: Case Study<a class="headerlink" href="#background-case-study" title="Link to this heading">#</a></h2>
-<p>For demonstration purposes, we adapt an example from Johnson et al. [23], which investigates the number of LGBTQ+ anti-discrimination laws in each US state. The distribution of these laws is assumed to follow a Poisson distribution, with the rate of such laws being influenced by demographic and voting trend. The demographic trend is quantified by the percentage of a state’s residents living in urban areas, ranging from 38.7% to 94.7%. Additionally, the voting trend is represented by
+<p>For demonstration purposes, we adapt an example from Johnson et al. (2022), which investigates the number of LGBTQ+ anti-discrimination laws in each US state. The distribution of these laws is assumed to follow a Poisson distribution, with the rate of such laws being influenced by demographic and voting trend. The demographic trend is quantified by the percentage of a state’s residents living in urban areas, ranging from 38.7% to 94.7%. Additionally, the voting trend is represented by
 historical voting patterns in presidential elections, categorizing each state as consistently voting for the Democratic or Republican candidate or being a Swing state. We employ a Poisson regression model including one treatment-coded categorical predictor: the voting trend. This predictor has three levels: Democrats, Republicans, and Swing, with Democrats serving as the reference category. Furthermore, the model incorporates one continuous predictor: the demographic trend, measured as
 a percentage.</p>
+<p><strong>Reference</strong></p>
+<p>Johnson, A. A., Ott, M. Q., &amp; Dogucu, M. (2022). <em>Bayes rules!: An introduction to applied Bayesian modeling</em>. CRC Press.</p>
 </section>
 <section id="data-generating-model">
 <h2>Data generating model<a class="headerlink" href="#data-generating-model" title="Link to this heading">#</a></h2>
@@ -383,18 +385,6 @@ a percentage.</p>
 </section>
 <section id="methodology-workflow">
 <h2>Methodology: Workflow<a class="headerlink" href="#methodology-workflow" title="Link to this heading">#</a></h2>
-<ul class="simple">
-<li><p>General procedure:</p>
-<ul>
-<li><p>Draw samples from prior distribution(s) of model parameters</p></li>
-<li><p>Generate prior predictions according to the data generating model</p></li>
-<li><p>Compute the pre-defined target quantities</p></li>
-<li><p>Compute the elicited statistics of the target quantities</p></li>
-<li><p>Measure the discrepancy between the model-implied and the expert elicited statistics</p></li>
-<li><p>Update the weights of the transformation function of the normalizing flow</p></li>
-</ul>
-</li>
-</ul>
 <ul class="simple">
 <li><p>PriorSamples(<span class="math notranslate nohighlight">\(\lambda = (\mu_k, \sigma_k)\)</span>):</p></li>
 </ul>
@@ -447,91 +437,40 @@ a percentage.</p>
         <span class="n">loss_scaling</span> <span class="o">=</span> <span class="s2">&quot;unscaled&quot;</span><span class="p">,</span>         
         <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;hyperparameter_learning&quot;</span>  
         <span class="p">)</span>
-
+<span class="c1"># case-specific variables</span>
+<span class="n">selected_states</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">15</span><span class="p">]</span>
+<span class="n">names_states</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Vermont&quot;</span><span class="p">,</span> <span class="s2">&quot;Hawaii&quot;</span><span class="p">,</span> <span class="s2">&quot;West Virginia&quot;</span><span class="p">,</span> <span class="s2">&quot;Alabama&quot;</span><span class="p">,</span> <span class="s2">&quot;Wisconsin&quot;</span><span class="p">,</span> <span class="s2">&quot;Iowa&quot;</span><span class="p">]</span>
 <span class="c1"># get design matrix</span>
-<span class="n">dmatrix_exp</span> <span class="o">=</span> <span class="n">antidiscr_laws_dmatrix</span><span class="p">(</span><span class="n">standardize</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">selected_obs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">44</span><span class="p">],</span> <span class="n">B</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rep</span> <span class="o">=</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;rep&quot;</span><span class="p">])</span>
-<span class="n">dmatrix</span> <span class="o">=</span> <span class="n">antidiscr_laws_dmatrix</span><span class="p">(</span><span class="n">standardize</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">selected_obs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">44</span><span class="p">],</span> <span class="n">B</span> <span class="o">=</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">],</span> <span class="n">rep</span> <span class="o">=</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;rep&quot;</span><span class="p">])</span>
+<span class="n">dmatrix_exp</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">antidiscr_laws_dmatrix</span><span class="p">(</span><span class="n">scaling</span> <span class="o">=</span> <span class="s2">&quot;standardize&quot;</span><span class="p">,</span> <span class="n">selected_obs</span> <span class="o">=</span> <span class="n">selected_states</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rep</span> <span class="o">=</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;rep&quot;</span><span class="p">])</span>
+<span class="n">dmatrix</span><span class="p">,</span> <span class="n">dmatrix_fct</span><span class="p">,</span> <span class="n">cmatrix</span> <span class="o">=</span> <span class="n">antidiscr_laws_dmatrix</span><span class="p">(</span><span class="n">scaling</span> <span class="o">=</span> <span class="s2">&quot;standardize&quot;</span><span class="p">,</span> <span class="n">selected_obs</span> <span class="o">=</span> <span class="n">selected_states</span><span class="p">,</span> 
+                                                       <span class="n">B</span> <span class="o">=</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">],</span> <span class="n">rep</span> <span class="o">=</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;rep&quot;</span><span class="p">])</span>
 
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dmatrix</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,:,:])</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dmatrix</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;b</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>0</th>
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1.0</td>
-      <td>-2.381793</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1.0</td>
-      <td>1.303572</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1.0</td>
-      <td>-0.205342</td>
-      <td>0.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1.0</td>
-      <td>0.330079</td>
-      <td>0.0</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1.0</td>
-      <td>-0.580832</td>
-      <td>1.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>1.0</td>
-      <td>0.072799</td>
-      <td>1.0</td>
-      <td>0.0</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    b0        b1   b2   b3
+0  1.0 -2.381793  0.0  0.0
+1  1.0  1.303572  0.0  0.0
+2  1.0 -1.700348  1.0  0.0
+3  1.0 -0.984136  1.0  0.0
+4  1.0 -0.205342  0.0  1.0
+5  1.0 -0.636460  0.0  1.0
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="setup-the-ideal-agent">
 <h3>Setup the ‘ideal agent’<a class="headerlink" href="#setup-the-ideal-agent" title="Link to this heading">#</a></h3>
-<p>Define an ‘arbitrary’ ground truth for the hyperparameter values for method validation.</p>
+<ul class="simple">
+<li><p>All regression coefficients are assumed to have normal prior distributions with mean <span class="math notranslate nohighlight">\(\mu_k\)</span> and standard deviation <span class="math notranslate nohighlight">\(\sigma_k\)</span> for <span class="math notranslate nohighlight">\(k=0,\ldots,3\)</span>.</p></li>
+<li><p>The main goal is to learn eight hyperparameters <span class="math notranslate nohighlight">\(\lambda=(\mu_k, \sigma_k)\)</span> based on expert knowledge.</p></li>
+<li><p>The ideal expert is defined by the following true hyperparameters  <span class="math notranslate nohighlight">\(\lambda^*=(\mu_0= 2.91, \sigma_0= 0.07, \mu_1= 0.23, \sigma_1= 0.05, \mu_2= -1.51, \sigma_2= 0.135, \mu_3= -0.61, \sigma_3= 0.105)\)</span>.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># true hyperparameter values for ideal_expert</span>
@@ -640,18 +579,28 @@ a percentage.</p>
 </section>
 <section id="specify-the-target-quantities-and-the-elicitation-technique">
 <h3>Specify the target quantities and the elicitation technique<a class="headerlink" href="#specify-the-target-quantities-and-the-elicitation-technique" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>To elicit expert knowledge, the analyst queries the expert regarding the following target quantities: the predictive distribution of the group means for states categorized as Democrats, Republicans, and Swing, and the expected number of LGBTQ+ anti-discrimination laws for selected US states <span class="math notranslate nohighlight">\(x_i\)</span> with <span class="math notranslate nohighlight">\(i=1, 11, 17, 22, 35, 44\)</span>.</p></li>
+<li><p>Quantile-based elicitation is used for the distribution of group means, while histogram elicitation is utilized for the observations per US state.</p></li>
+<li><p>Furthermore, the expert is queried about the expected maximum number of LGBTQ+ anti-discrimination laws in one US state. This information is essential for setting the truncation threshold for the upper bound of the Poisson distribution <span class="math notranslate nohighlight">\(t^u\)</span>. To account for higher values than expected and reduce potential biases resulting from excluding relevant information, <span class="math notranslate nohighlight">\(t^u\)</span> is set twice as high. In the current example, the truncation threshold is set to <span class="math notranslate nohighlight">\(t^u=110\)</span>.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># specify target quantity, elicitation technique and loss combination</span>
-<span class="n">t1</span> <span class="o">=</span> <span class="n">target_config</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="s2">&quot;y_obs&quot;</span><span class="p">,</span> 
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># upper threshold value</span>
+<span class="n">u_thres</span> <span class="o">=</span> <span class="mi">110</span>
+<span class="c1"># specify target quantity, elicitation technique and loss combination</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">target_config</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="s2">&quot;group_means&quot;</span><span class="p">,</span> 
                    <span class="n">elicitation</span> <span class="o">=</span> <span class="s2">&quot;quantiles&quot;</span><span class="p">,</span> 
                    <span class="n">combine_loss</span> <span class="o">=</span> <span class="s2">&quot;by-group&quot;</span><span class="p">,</span> 
                    <span class="n">quantiles_specs</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">90</span><span class="p">))</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">target_config</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="s2">&quot;y_obs&quot;</span><span class="p">,</span> 
+                   <span class="n">elicitation</span> <span class="o">=</span> <span class="s2">&quot;histogram&quot;</span><span class="p">,</span> 
+                   <span class="n">combine_loss</span> <span class="o">=</span> <span class="s2">&quot;by-group&quot;</span><span class="p">)</span>
 
-<span class="n">target_info</span> <span class="o">=</span> <span class="n">target_input</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span>
+<span class="n">target_info</span> <span class="o">=</span> <span class="n">target_input</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">)</span>
 
 <span class="c1"># print summary of expert input</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">target_info</span><span class="p">)</span>
+<span class="n">print_target_info</span><span class="p">(</span><span class="n">target_info</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -684,11 +633,19 @@ a percentage.</p>
   <tbody>
     <tr>
       <th>0</th>
-      <td>y_obs</td>
+      <td>group_means</td>
       <td>quantiles</td>
       <td>by-group</td>
       <td>None</td>
       <td>(10, 20, 30, 40, 50, 60, 70, 80, 90)</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>y_obs</td>
+      <td>histogram</td>
+      <td>by-group</td>
+      <td>None</td>
+      <td>None</td>
     </tr>
   </tbody>
 </table>
@@ -701,10 +658,12 @@ a percentage.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expert_res_list</span><span class="p">,</span> <span class="n">prior_pred_res</span> <span class="o">=</span> <span class="n">expert_model</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;rep&quot;</span><span class="p">],</span>
-                                   <span class="n">parameters_dict</span><span class="p">,</span> <span class="n">GenerativeModel</span><span class="p">,</span> <span class="n">target_info</span><span class="p">,</span>
-                                   <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;ideal_expert&quot;</span><span class="p">,</span>
-                                   <span class="n">dmatrix</span> <span class="o">=</span> <span class="n">dmatrix_exp</span><span class="p">,</span>
-                                   <span class="n">total_count</span> <span class="o">=</span> <span class="mi">110</span><span class="p">)</span>
+                                               <span class="n">parameters_dict</span><span class="p">,</span> <span class="n">GenerativeModel</span><span class="p">,</span> <span class="n">target_info</span><span class="p">,</span>
+                                               <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;ideal_expert&quot;</span><span class="p">,</span>
+                                               <span class="n">dmatrix</span> <span class="o">=</span> <span class="n">dmatrix_exp</span><span class="p">,</span>
+                                               <span class="n">dmatrix_fct</span> <span class="o">=</span> <span class="n">dmatrix_fct</span><span class="p">,</span>
+                                               <span class="n">cmatrix</span> <span class="o">=</span> <span class="n">cmatrix</span><span class="p">,</span>
+                                               <span class="n">total_count</span> <span class="o">=</span> <span class="n">u_thres</span><span class="p">)</span>
 
 <span class="c1"># elicited statistics from the (ideal) expert</span>
 <span class="n">expert_res_list</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
@@ -712,7 +671,7 @@ a percentage.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;y_obs_quant_0&#39;])
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;group_means_quant_0&#39;, &#39;y_obs_hist_1&#39;])
 </pre></div>
 </div>
 </div>
@@ -723,79 +682,12 @@ a percentage.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># number of patients who died within five years out of 𝑇 = 100 trials</span>
 <span class="c1"># for 0, 5, 10, 15, 20, 25, 30 axillary nodes</span>
-<span class="n">tab_expert_pred</span><span class="p">(</span><span class="n">expert_res_list</span><span class="p">[</span><span class="s1">&#39;y_obs_quant_0&#39;</span><span class="p">],</span> 
-                <span class="n">selected_obs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">44</span><span class="p">])</span>
+<span class="n">plot_expert_pred_poisson</span><span class="p">(</span><span class="n">expert_res_list</span><span class="p">,</span> <span class="n">names_states</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>no.axillary.nodes</th>
-      <th>no.pat.died</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1</td>
-      <td>10.890000</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>11</td>
-      <td>24.940001</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>17</td>
-      <td>9.700000</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>22</td>
-      <td>10.940000</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>35</td>
-      <td>3.720000</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>44</td>
-      <td>4.230000</td>
-    </tr>
-  </tbody>
-</table>
-</div></div></div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot expert predictions</span>
-<span class="n">plot_expert_pred</span><span class="p">(</span><span class="n">expert_res_list</span><span class="p">[</span><span class="s1">&#39;y_obs_quant_0&#39;</span><span class="p">],</span> 
-                 <span class="n">selected_obs</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">44</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/9625f49fe269396e450874df38a879e663dccd38cb553ffc6fdcdaea7333d95f.png" src="../_images/9625f49fe269396e450874df38a879e663dccd38cb553ffc6fdcdaea7333d95f.png" />
+<img alt="../_images/c963ddc98d942a9bf995d1fbc6b9475f5ec7a9bded12d1528082cec78ecb39a1.png" src="../_images/c963ddc98d942a9bf995d1fbc6b9475f5ec7a9bded12d1528082cec78ecb39a1.png" />
 </div>
 </div>
 </section>
@@ -806,127 +698,32 @@ a percentage.</p>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dict</span> <span class="o">=</span> <span class="n">trainer</span><span class="p">(</span><span class="n">expert_res_list</span><span class="p">,</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">],</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;rep&quot;</span><span class="p">],</span>
                    <span class="n">parameters_dict</span><span class="p">,</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">],</span> <span class="n">GenerativeModel</span><span class="p">,</span>
-                   <span class="n">target_info</span><span class="p">,</span> <span class="n">user_config</span><span class="p">,</span> <span class="n">loss_balancing</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">save_vals</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;prior_preds&quot;</span><span class="p">],</span>
-                   <span class="n">dmatrix</span> <span class="o">=</span> <span class="n">dmatrix</span><span class="p">,</span> <span class="n">total_count</span> <span class="o">=</span> <span class="mi">110</span><span class="p">)</span>
+                   <span class="n">target_info</span><span class="p">,</span> <span class="n">user_config</span><span class="p">,</span> <span class="n">loss_balancing</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">save_vals</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;prior_preds&quot;</span><span class="p">,</span> <span class="s2">&quot;elicits&quot;</span><span class="p">],</span>
+                   <span class="n">dmatrix</span> <span class="o">=</span> <span class="n">dmatrix</span><span class="p">,</span> <span class="n">dmatrix_fct</span> <span class="o">=</span> <span class="n">dmatrix_fct</span><span class="p">,</span> <span class="n">cmatrix</span> <span class="o">=</span> <span class="n">cmatrix</span><span class="p">,</span> <span class="n">total_count</span> <span class="o">=</span> <span class="n">u_thres</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch_time: 922.107ms
-Epoch: 0, loss: 8.94782, lr: 0.100000
-epoch_time: 110.151ms
-Epoch: 60, loss: 4.01177, lr: 0.028243
-epoch_time: 123.357ms
-Epoch: 120, loss: 3.95899, lr: 0.007977
-epoch_time: 131.799ms
-Epoch: 180, loss: 3.98428, lr: 0.002253
-</pre></div>
-</div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">9</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">res_dict</span> <span class="o">=</span> <span class="n">trainer</span><span class="p">(</span><span class="n">expert_res_list</span><span class="p">,</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">],</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;rep&quot;</span><span class="p">],</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span>                    <span class="n">parameters_dict</span><span class="p">,</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">],</span> <span class="n">GenerativeModel</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span>                    <span class="n">target_info</span><span class="p">,</span> <span class="n">user_config</span><span class="p">,</span> <span class="n">loss_balancing</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">save_vals</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;prior_preds&quot;</span><span class="p">],</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span>                    <span class="n">dmatrix</span> <span class="o">=</span> <span class="n">dmatrix</span><span class="p">,</span> <span class="n">total_count</span> <span class="o">=</span> <span class="mi">110</span><span class="p">)</span>
-
-<span class="nn">File ~\OneDrive\Dokumente\Phd-projects\learn_prior_param\PriorLearning\training.py:185,</span> in <span class="ni">trainer</span><span class="nt">(expert_res_list, B, rep, parameters_dict, method, GenerativeModel, target_info, user_config, loss_balancing, save_vals, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">183</span> <span class="n">params</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="g g-Whitespace">    </span><span class="mi">184</span> <span class="c1"># compute loss, gradients, and simulate model predictions</span>
-<span class="ne">--&gt; </span><span class="mi">185</span> <span class="n">loss_sum</span><span class="p">,</span> <span class="n">loss</span> <span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">predictive_simulations</span>  <span class="o">=</span> <span class="n">_gradient_computation</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">186</span>     <span class="n">simulation_model</span><span class="p">,</span><span class="n">expert_res_list</span><span class="p">,</span><span class="n">user_config</span><span class="p">,</span> <span class="n">_global_variables</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">187</span>     <span class="n">loss_balancing</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">lr</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">rep</span><span class="p">,</span> <span class="n">parameters_dict</span><span class="p">,</span> 
-<span class="g g-Whitespace">    </span><span class="mi">188</span>     <span class="n">GenerativeModel</span><span class="p">,</span> <span class="n">target_info</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">targets_ini</span><span class="p">,</span> <span class="n">elicit_ini</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">189</span>     <span class="n">initial_loss_components</span><span class="p">,</span> <span class="n">save_vals</span><span class="p">,</span> <span class="n">num_loss_comp</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">191</span> <span class="c1"># set initial loss component such that dynamic weight averaging works</span>
-<span class="g g-Whitespace">    </span><span class="mi">192</span> <span class="k">if</span> <span class="n">epoch</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-
-<span class="nn">File ~\AppData\Roaming\Python\Python311\site-packages\tensorflow\python\util\traceback_utils.py:150,</span> in <span class="ni">filter_traceback.&lt;locals&gt;.error_handler</span><span class="nt">(*args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">148</span> <span class="n">filtered_tb</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="g g-Whitespace">    </span><span class="mi">149</span> <span class="k">try</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">150</span>   <span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">151</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">152</span>   <span class="n">filtered_tb</span> <span class="o">=</span> <span class="n">_process_traceback_frames</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span>
-
-<span class="nn">File ~\AppData\Roaming\Python\Python311\site-packages\tensorflow\python\eager\polymorphic_function\polymorphic_function.py:820,</span> in <span class="ni">Function.__call__</span><span class="nt">(self, *args, **kwds)</span>
-<span class="g g-Whitespace">    </span><span class="mi">817</span> <span class="n">compiler</span> <span class="o">=</span> <span class="s2">&quot;xla&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_jit_compile</span> <span class="k">else</span> <span class="s2">&quot;nonXla&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">819</span> <span class="k">with</span> <span class="n">OptionalXlaContext</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_jit_compile</span><span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">820</span>   <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">822</span> <span class="n">new_tracing_count</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">experimental_get_tracing_count</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">823</span> <span class="n">without_tracing</span> <span class="o">=</span> <span class="p">(</span><span class="n">tracing_count</span> <span class="o">==</span> <span class="n">new_tracing_count</span><span class="p">)</span>
-
-<span class="nn">File ~\AppData\Roaming\Python\Python311\site-packages\tensorflow\python\eager\polymorphic_function\polymorphic_function.py:855,</span> in <span class="ni">Function._call</span><span class="nt">(self, *args, **kwds)</span>
-<span class="g g-Whitespace">    </span><span class="mi">852</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">853</span> <span class="c1"># In this case we have not created variables on the first call. So we can</span>
-<span class="g g-Whitespace">    </span><span class="mi">854</span> <span class="c1"># run the first trace but we should fail if variables are created.</span>
-<span class="ne">--&gt; </span><span class="mi">855</span> <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_variable_creation_fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">856</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_created_variables</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">857</span>   <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Creating variables on a non-first call to a function&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">858</span>                    <span class="s2">&quot; decorated with tf.function.&quot;</span><span class="p">)</span>
-
-<span class="nn">File ~\AppData\Roaming\Python\Python311\site-packages\tensorflow\python\eager\polymorphic_function\tracing_compiler.py:132,</span> in <span class="ni">TracingCompiler.__call__</span><span class="nt">(self, *args, **kwargs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">128</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">129</span>   <span class="p">(</span><span class="n">concrete_function</span><span class="p">,</span> <span class="n">filtered_flat_args</span><span class="p">)</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maybe_define_function</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">130</span>       <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span>
-<span class="g g-Whitespace">    </span><span class="mi">131</span>   <span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">132</span> <span class="k">return</span> <span class="n">concrete_function</span><span class="o">.</span><span class="n">_call_flat</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">133</span>     <span class="n">filtered_flat_args</span><span class="p">,</span> <span class="n">captured_inputs</span><span class="o">=</span><span class="n">concrete_function</span><span class="o">.</span><span class="n">captured_inputs</span>
-<span class="g g-Whitespace">    </span><span class="mi">134</span> <span class="p">)</span>
-
-<span class="nn">File ~\AppData\Roaming\Python\Python311\site-packages\tensorflow\python\eager\polymorphic_function\concrete_function.py:1368,</span> in <span class="ni">ConcreteFunction._call_flat</span><span class="nt">(self, args, captured_inputs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1364</span> <span class="n">possible_gradient_type</span> <span class="o">=</span> <span class="n">gradients_util</span><span class="o">.</span><span class="n">PossibleTapeGradientTypes</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1365</span> <span class="k">if</span> <span class="p">(</span><span class="n">possible_gradient_type</span> <span class="o">==</span> <span class="n">gradients_util</span><span class="o">.</span><span class="n">POSSIBLE_GRADIENT_TYPES_NONE</span>
-<span class="g g-Whitespace">   </span><span class="mi">1366</span>     <span class="ow">and</span> <span class="n">executing_eagerly</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1367</span>   <span class="c1"># No tape is watching; skip to running the function.</span>
-<span class="ne">-&gt; </span><span class="mi">1368</span>   <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_build_call_outputs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_inference_function</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">))</span>
-<span class="g g-Whitespace">   </span><span class="mi">1369</span> <span class="n">forward_backward</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_forward_and_backward_functions</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1370</span>     <span class="n">args</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1371</span>     <span class="n">possible_gradient_type</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1372</span>     <span class="n">executing_eagerly</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1373</span> <span class="n">forward_function</span><span class="p">,</span> <span class="n">args_with_tangents</span> <span class="o">=</span> <span class="n">forward_backward</span><span class="o">.</span><span class="n">forward</span><span class="p">()</span>
-
-<span class="nn">File ~\AppData\Roaming\Python\Python311\site-packages\tensorflow\python\eager\polymorphic_function\atomic_function.py:222,</span> in <span class="ni">AtomicFunction.__call__</span><span class="nt">(self, *args)</span>
-<span class="g g-Whitespace">    </span><span class="mi">220</span> <span class="k">with</span> <span class="n">record</span><span class="o">.</span><span class="n">stop_recording</span><span class="p">():</span>
-<span class="g g-Whitespace">    </span><span class="mi">221</span>   <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bound_context</span><span class="o">.</span><span class="n">executing_eagerly</span><span class="p">():</span>
-<span class="ne">--&gt; </span><span class="mi">222</span>     <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bound_context</span><span class="o">.</span><span class="n">call_function</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">223</span>         <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">224</span>         <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">),</span>
-<span class="g g-Whitespace">    </span><span class="mi">225</span>         <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">function_type</span><span class="o">.</span><span class="n">flat_outputs</span><span class="p">),</span>
-<span class="g g-Whitespace">    </span><span class="mi">226</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">227</span>   <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">228</span>     <span class="n">outputs</span> <span class="o">=</span> <span class="n">make_call_op_in_graph</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">229</span>         <span class="bp">self</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">230</span>         <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">),</span>
-<span class="g g-Whitespace">    </span><span class="mi">231</span>         <span class="bp">self</span><span class="o">.</span><span class="n">_bound_context</span><span class="o">.</span><span class="n">function_call_options</span><span class="o">.</span><span class="n">as_attrs</span><span class="p">(),</span>
-<span class="g g-Whitespace">    </span><span class="mi">232</span>     <span class="p">)</span>
-
-<span class="nn">File ~\AppData\Roaming\Python\Python311\site-packages\tensorflow\python\eager\context.py:1479,</span> in <span class="ni">Context.call_function</span><span class="nt">(self, name, tensor_inputs, num_outputs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1477</span> <span class="n">cancellation_context</span> <span class="o">=</span> <span class="n">cancellation</span><span class="o">.</span><span class="n">context</span><span class="p">()</span>
-<span class="g g-Whitespace">   </span><span class="mi">1478</span> <span class="k">if</span> <span class="n">cancellation_context</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="ne">-&gt; </span><span class="mi">1479</span>   <span class="n">outputs</span> <span class="o">=</span> <span class="n">execute</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1480</span>       <span class="n">name</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1481</span>       <span class="n">num_outputs</span><span class="o">=</span><span class="n">num_outputs</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1482</span>       <span class="n">inputs</span><span class="o">=</span><span class="n">tensor_inputs</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1483</span>       <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1484</span>       <span class="n">ctx</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1485</span>   <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1486</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1487</span>   <span class="n">outputs</span> <span class="o">=</span> <span class="n">execute</span><span class="o">.</span><span class="n">execute_with_cancellation</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1488</span>       <span class="n">name</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">),</span>
-<span class="g g-Whitespace">   </span><span class="mi">1489</span>       <span class="n">num_outputs</span><span class="o">=</span><span class="n">num_outputs</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1493</span>       <span class="n">cancellation_manager</span><span class="o">=</span><span class="n">cancellation_context</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1494</span>   <span class="p">)</span>
-
-<span class="nn">File ~\AppData\Roaming\Python\Python311\site-packages\tensorflow\python\eager\execute.py:53,</span> in <span class="ni">quick_execute</span><span class="nt">(op_name, num_outputs, inputs, attrs, ctx, name)</span>
-<span class="g g-Whitespace">     </span><span class="mi">51</span> <span class="k">try</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">52</span>   <span class="n">ctx</span><span class="o">.</span><span class="n">ensure_initialized</span><span class="p">()</span>
-<span class="ne">---&gt; </span><span class="mi">53</span>   <span class="n">tensors</span> <span class="o">=</span> <span class="n">pywrap_tfe</span><span class="o">.</span><span class="n">TFE_Py_Execute</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">_handle</span><span class="p">,</span> <span class="n">device_name</span><span class="p">,</span> <span class="n">op_name</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">54</span>                                       <span class="n">inputs</span><span class="p">,</span> <span class="n">attrs</span><span class="p">,</span> <span class="n">num_outputs</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">55</span> <span class="k">except</span> <span class="n">core</span><span class="o">.</span><span class="n">_NotOkStatusException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">56</span>   <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-
-<span class="ne">KeyboardInterrupt</span>: 
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch_time: 1272.948ms
+Epoch: 0, loss: 8.58497, lr: 0.100000
+epoch_time: 260.710ms
+Epoch: 60, loss: 3.09110, lr: 0.028243
+epoch_time: 253.204ms
+Epoch: 120, loss: 1.08937, lr: 0.007977
+epoch_time: 224.693ms
+Epoch: 180, loss: 0.74707, lr: 0.002253
+epoch_time: 278.849ms
+Epoch: 240, loss: 0.74481, lr: 0.000636
+epoch_time: 248.189ms
+Epoch: 300, loss: 0.74639, lr: 0.000180
+epoch_time: 245.628ms
+Epoch: 360, loss: 0.74623, lr: 0.000100
+epoch_time: 249.119ms
+Epoch: 420, loss: 0.74537, lr: 0.000100
+epoch_time: 251.339ms
+Epoch: 480, loss: 0.74634, lr: 0.000100
+epoch_time: 242.898ms
+Epoch: 540, loss: 0.74681, lr: 0.000100
 </pre></div>
 </div>
 </div>
@@ -938,34 +735,12 @@ Epoch: 180, loss: 3.98428, lr: 0.002253
 <h3>Loss function<a class="headerlink" href="#loss-function" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_loss</span><span class="p">(</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;loss_info&quot;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_diagnostics_pois</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span> <span class="n">user_config</span><span class="p">,</span> <span class="n">save_fig</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/4202fa245e6d95224772f19d4ad3221a99ede80bf583fa561d5f448a159e3b5b.png" src="../_images/4202fa245e6d95224772f19d4ad3221a99ede80bf583fa561d5f448a159e3b5b.png" />
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="n">betas</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">])],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">sigmas</span> <span class="o">=</span>  <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">])],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="n">_</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">constrained_layout</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">sharex</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-<span class="p">[</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">betas</span><span class="p">[</span><span class="n">i</span><span class="p">,:],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">c</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">fr</span><span class="s2">&quot;$\mu_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="p">[</span><span class="s2">&quot;#020024&quot;</span><span class="p">,</span> <span class="s2">&quot;#44546A&quot;</span><span class="p">,</span> <span class="s2">&quot;#00d4ff&quot;</span><span class="p">,</span> <span class="s2">&quot;#00d4ff&quot;</span><span class="p">])]</span>
-<span class="p">[</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sigmas</span><span class="p">[</span><span class="n">i</span><span class="p">,:],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">c</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">fr</span><span class="s2">&quot;$\sigma_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="p">[</span><span class="s2">&quot;#020024&quot;</span><span class="p">,</span> <span class="s2">&quot;#44546A&quot;</span><span class="p">,</span> <span class="s2">&quot;#00d4ff&quot;</span><span class="p">,</span> <span class="s2">&quot;#00d4ff&quot;</span><span class="p">])]</span>
-<span class="p">[</span><span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handlelength</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">columnspacing</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mu_0, \mu_1, \mu_2, \mu_3$&quot;</span><span class="p">,</span><span class="n">pad</span> <span class="o">=</span> <span class="mf">10.</span><span class="p">,</span> <span class="n">fontdict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fontsize&#39;</span><span class="p">:</span> <span class="mi">14</span><span class="p">},</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\sigma_0, \sigma_1, \sigma_2, \sigma_3$&quot;</span><span class="p">,</span><span class="n">pad</span> <span class="o">=</span> <span class="mf">10.</span><span class="p">,</span> <span class="n">fontdict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fontsize&#39;</span><span class="p">:</span> <span class="mi">14</span><span class="p">},</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span>
-<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;epochs&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="../_images/2c0897fbd43d039a378604aaf490ca1e86f02c85d884ef45e59aadda510c359a.png" src="../_images/2c0897fbd43d039a378604aaf490ca1e86f02c85d884ef45e59aadda510c359a.png" />
+<img alt="../_images/d47e61ea446417c264a29a498907d532edd0ae4e56c472c61461e20e37d4219e.png" src="../_images/d47e61ea446417c264a29a498907d532edd0ae4e56c472c61461e20e37d4219e.png" />
 </div>
 </div>
 </section>
@@ -975,7 +750,7 @@ Epoch: 180, loss: 3.98428, lr: 0.002253
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">true_vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;mu&quot;</span><span class="p">],</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">]</span>
 
-<span class="n">tab</span><span class="p">,</span> <span class="n">avg_res</span> <span class="o">=</span> <span class="n">print_restab</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;hyperparameter_learning&quot;</span><span class="p">,</span> 
+<span class="n">tab</span><span class="p">,</span> <span class="n">avg_res</span> <span class="o">=</span> <span class="n">_print_restab</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;hyperparameter_learning&quot;</span><span class="p">,</span> 
                              <span class="n">num_vars</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> 
                              <span class="n">res</span> <span class="o">=</span> <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">],</span> 
                              <span class="n">start</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> 
@@ -999,59 +774,59 @@ Epoch: 180, loss: 3.98428, lr: 0.002253
     <tbody>
         <tr>
             <td>loc_0</td>
-            <td>1.815</td>
-            <td>0.017</td>
+            <td>2.918</td>
+            <td>0.006</td>
             <td>2.91</td>
-            <td>1.095</td>
+            <td>0.008</td>
         </tr>
         <tr>
             <td>scale_0</td>
-            <td>0.064</td>
+            <td>0.057</td>
             <td>0.0</td>
             <td>0.07</td>
-            <td>0.006</td>
+            <td>0.013</td>
         </tr>
         <tr>
             <td>loc_1</td>
-            <td>1.069</td>
-            <td>0.015</td>
+            <td>0.223</td>
+            <td>0.007</td>
             <td>0.23</td>
-            <td>0.839</td>
+            <td>0.007</td>
         </tr>
         <tr>
             <td>scale_1</td>
-            <td>0.051</td>
+            <td>0.042</td>
             <td>0.0</td>
             <td>0.05</td>
-            <td>0.001</td>
+            <td>0.008</td>
         </tr>
         <tr>
             <td>loc_2</td>
-            <td>-0.395</td>
-            <td>0.031</td>
+            <td>-1.532</td>
+            <td>0.005</td>
             <td>-1.51</td>
-            <td>1.115</td>
+            <td>0.022</td>
         </tr>
         <tr>
             <td>scale_2</td>
-            <td>0.246</td>
-            <td>0.003</td>
+            <td>0.138</td>
+            <td>0.001</td>
             <td>0.135</td>
-            <td>0.111</td>
+            <td>0.003</td>
         </tr>
         <tr>
             <td>loc_3</td>
-            <td>0.255</td>
-            <td>0.013</td>
+            <td>-0.626</td>
+            <td>0.006</td>
             <td>-0.61</td>
-            <td>0.865</td>
+            <td>0.016</td>
         </tr>
         <tr>
             <td>scale_3</td>
-            <td>0.189</td>
-            <td>0.002</td>
+            <td>0.112</td>
+            <td>0.0</td>
             <td>0.105</td>
-            <td>0.084</td>
+            <td>0.007</td>
         </tr>
     </tbody>
 </table></div></div>
@@ -1061,12 +836,13 @@ Epoch: 180, loss: 3.98428, lr: 0.002253
 <h3>Learned prior distributions<a class="headerlink" href="#learned-prior-distributions" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_priors</span><span class="p">(</span><span class="n">avg_res</span><span class="p">,</span> <span class="n">true_vals</span><span class="p">,</span> <span class="n">xrange</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_learned_prior_pois</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span> <span class="n">user_config</span><span class="p">,</span> <span class="n">true_vals</span><span class="p">,</span> <span class="n">avg_res</span><span class="p">,</span> 
+                        <span class="n">expert_res_list</span><span class="p">,</span> <span class="n">names_states</span><span class="p">,</span> <span class="n">selected_states</span><span class="p">,</span> <span class="n">save_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2340bcbb10205c62d32eb0dfc83d380a4c7cfd121f44aba7c3f796e8c8055bfd.png" src="../_images/2340bcbb10205c62d32eb0dfc83d380a4c7cfd121f44aba7c3f796e8c8055bfd.png" />
+<img alt="../_images/b4b5df1d54208e872476a5d466d332c79516d28362087ba5cfe9bd4abf3511eb.png" src="../_images/b4b5df1d54208e872476a5d466d332c79516d28362087ba5cfe9bd4abf3511eb.png" />
 </div>
 </div>
 </section>

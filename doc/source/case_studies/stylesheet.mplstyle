@@ -1,0 +1,19 @@
+# define font style
+font.family 			: serif
+font.serif				: Computer Modern Serif
+text.usetex				: True
+
+# define legend style
+legend.handlelength		: 0.5
+legend.labelspacing		: 0.2
+legend.handleheight		: 0.2
+legend.columnspacing	: 0.4
+legend.handletextpad	: 0.3
+legend.fontsize			: "small"
+
+figure.titlesize		: "medium"
+figure.titleweight		: "bold"
+
+axes.titlesize			: "medium"
+axes.titleweight		: "bold"
+axes.labelsize			: "small"

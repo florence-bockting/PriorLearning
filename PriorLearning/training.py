@@ -165,6 +165,8 @@ def trainer(expert_res_list, B, rep, parameters_dict, method, GenerativeModel,
         varnames = []
     loss_list = []
     epoch_time = []
+    grads_list = []
+    indiv_loss_list = []
 
     # initialize the adam optimizer
     optimizer = keras.optimizers.legacy.Adam(
@@ -216,10 +218,13 @@ def trainer(expert_res_list, B, rep, parameters_dict, method, GenerativeModel,
              for i in range(len(simulation_model.trainable_variables))]
         
         loss_list.append(loss_sum)
-    
+        indiv_loss_list.append(loss)
+        grads_list.append(g)
     # clean up final results for user return 
     res_return = dict()
     res_return["loss_info"] = loss_list
+    res_return["loss_indiv_info"] = indiv_loss_list
+    res_return["grads_info"] = grads_list
     res_return["epoch_time"] = epoch_time
     res_return["priors_info"] = predictive_simulations 
     

@@ -404,8 +404,13 @@ document.write(`
     <span class="n">targets_ini</span> <span class="o">=</span> <span class="n">TargetQuantities</span><span class="p">()</span> 
     <span class="n">elicit_ini</span> <span class="o">=</span> <span class="n">ElicitationTechnique</span><span class="p">()</span>
     <span class="c1"># compute number of loss components </span>
-    <span class="n">num_loss_comp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span>
-        <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">expert_res_list</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">expert_res_list</span><span class="o">.</span><span class="n">keys</span><span class="p">()]))</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">expert_res_list</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">expert_res_list</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
+            <span class="n">counter</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">expert_res_list</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">num_loss_comp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span>
     <span class="c1"># initialize initial_loss for the dynamic weight averaging algo. in epoch=0</span>
     <span class="n">initial_loss_components</span> <span class="o">=</span> <span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">trainable</span><span class="o">=</span><span class="kc">None</span><span class="p">)]</span><span class="o">*</span><span class="n">num_loss_comp</span>
     <span class="c1"># initialize lists for saving progress during learning</span>
@@ -414,6 +419,8 @@ document.write(`
         <span class="n">varnames</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">loss_list</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">epoch_time</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">grads_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">indiv_loss_list</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="c1"># initialize the adam optimizer</span>
     <span class="n">optimizer</span> <span class="o">=</span> <span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">legacy</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span>
@@ -465,10 +472,13 @@ document.write(`
              <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">simulation_model</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">))]</span>
         
         <span class="n">loss_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_sum</span><span class="p">)</span>
-    
+        <span class="n">indiv_loss_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+        <span class="n">grads_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
     <span class="c1"># clean up final results for user return </span>
     <span class="n">res_return</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="n">res_return</span><span class="p">[</span><span class="s2">&quot;loss_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loss_list</span>
+    <span class="n">res_return</span><span class="p">[</span><span class="s2">&quot;loss_indiv_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">indiv_loss_list</span>
+    <span class="n">res_return</span><span class="p">[</span><span class="s2">&quot;grads_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grads_list</span>
     <span class="n">res_return</span><span class="p">[</span><span class="s2">&quot;epoch_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">epoch_time</span>
     <span class="n">res_return</span><span class="p">[</span><span class="s2">&quot;priors_info&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictive_simulations</span> 
     

@@ -6,6 +6,9 @@
 Learn Prior distributions from expert knowledge
 ###############################################
 
+.. note::
+   This website is currently under construction. 
+
 Short overview
 ==============
 

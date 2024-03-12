@@ -13,7 +13,8 @@ Normal regression model
   :width: 400
   :alt: Normal regression model
 
-Normal regression model with a 2 x 3 between-participant factorial design. The goal is to learn 13 hyperparameter values. 
+Normal regression model with a :math:`2 \times 3` between-participant factorial design. 
+In this case study, a total of 13 hyperparameters, :math:`\lambda = (\mu_k, \sigma_k, \nu)`, is learned through expert knowledge.
 Case study is inspired by the experimental design of truth-effect studies in the field of social cognition.
 
 + *Target quantities:*  Marginal distribution for both factors (1,2), distribution of effects for each level of the second factor (3), distribution of the expected R2 (4)
@@ -51,4 +52,5 @@ Case study uses a data set of a study which investigates the number of LGBTQ+ an
 + *Elicited statistics:* Quantile-based elicitation for (1) and histogram-based elicitation for each selected design point (2)
 
 :doc:`Go to the case study <case_studies/cs_poisson>`
+:doc:`Add-on: Poisson regression model for varying upper threshold values $t_u$ <case_studies/varying_thresholds>`
 

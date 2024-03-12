@@ -300,10 +300,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background-case-study">Background: Case Study</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-generating-model">Data generating model</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology-workflow">Methodology: Workflow</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-specification">Method specification</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology-workflow">Methodology: Workflow</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#user-specification">User specification</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-hyperparameter-for-the-learning-algorithm">Setting hyperparameter for the learning algorithm</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-design-matrix">Define the design matrix</a></li>
@@ -320,7 +317,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function">Loss function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnostics-and-convergence-plots">Diagnostics and Convergence plots</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#final-learned-hyperparameter-values">Final learned hyperparameter values</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#learned-prior-distributions">Learned prior distributions</a></li>
 </ul>
@@ -350,8 +347,8 @@ document.write(`
 <span class="kn">from</span> <span class="nn">PriorLearning.training</span> <span class="kn">import</span> <span class="n">trainer</span>
 <span class="kn">from</span> <span class="nn">PriorLearning.helper_functions</span> <span class="kn">import</span> <span class="n">group_obs</span><span class="p">,</span> <span class="n">Exponential_unconstrained</span><span class="p">,</span> <span class="n">Normal_unconstrained</span>
 <span class="kn">from</span> <span class="nn">PriorLearning.user_config</span> <span class="kn">import</span> <span class="n">target_config</span><span class="p">,</span> <span class="n">target_input</span>
-<span class="kn">from</span> <span class="nn">PriorLearning.helper_functions</span> <span class="kn">import</span> <span class="n">print_restab</span><span class="p">,</span> <span class="n">plot_expert_preds</span><span class="p">,</span> <span class="n">group_stats</span><span class="p">,</span> <span class="n">plot_priors_flow</span>
-<span class="kn">from</span> <span class="nn">PriorLearning._case_studies</span> <span class="kn">import</span> <span class="n">truth_data_dmatrix</span><span class="p">,</span> <span class="n">plot_expert_pred</span><span class="p">,</span> <span class="n">tab_expert_pred</span><span class="p">,</span> <span class="n">plot_loss</span><span class="p">,</span> <span class="n">plot_priors_normal</span><span class="p">,</span> <span class="n">expert_pred_elicits_normal</span>
+<span class="kn">from</span> <span class="nn">PriorLearning.helper_functions</span> <span class="kn">import</span> <span class="n">_print_restab</span><span class="p">,</span> <span class="n">_plot_expert_preds</span><span class="p">,</span> <span class="n">_group_stats</span><span class="p">,</span> <span class="n">_plot_priors_flow</span>
+<span class="kn">from</span> <span class="nn">PriorLearning._case_studies</span> <span class="kn">import</span> <span class="n">truth_data_dmatrix</span><span class="p">,</span> <span class="n">plot_expert_pred</span><span class="p">,</span> <span class="n">tab_expert_pred</span><span class="p">,</span> <span class="n">plot_priors_normal</span><span class="p">,</span> <span class="n">expert_pred_elicits_normal</span><span class="p">,</span> <span class="n">print_target_info</span><span class="p">,</span> <span class="n">plot_learned_prior_linreg</span><span class="p">,</span> <span class="n">plot_diagnostics_linreg</span>
 <span class="kn">import</span> <span class="nn">PriorLearning.combine_losses</span> 
 
 <span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
@@ -373,7 +370,9 @@ document.write(`
 <h1>Normal regression model<a class="headerlink" href="#normal-regression-model" title="Link to this heading">#</a></h1>
 <section id="background-case-study">
 <h2>Background: Case Study<a class="headerlink" href="#background-case-study" title="Link to this heading">#</a></h2>
-<p>We focus on an experiment conducted by Unkelbach &amp; Rom (2020)[REF], where participants are presented with general knowledge statements in two consecutive phases. During the second phase, they are required to indicate whether each statement is true or false. The response variable of interest is the proportion of true judgments (PTJs). The main objective of the study is to investigate the influence of two factors on PTJs: (1) repetition (ReP), which involves presenting some statements from the first phase again in the second phase, and (2) encoding depth (EnC), where participants are divided into groups varying in the level of elaboration required for initial sentence processing in the first phase. We consider a 2 (ReP:repeated, new) <span class="math notranslate nohighlight">\(\times\)</span> 3 (EnC: shallow, standard, deep) between-subject factorial design with treatment contrasts used for both factors. The baseline levels are set as new for ReP and deep for EnC.</p>
+<p>We focus on an experiment conducted by Unkelbach &amp; Rom (2020), where participants are presented with general knowledge statements in two consecutive phases. During the second phase, they are required to indicate whether each statement is true or false. The response variable of interest is the proportion of true judgments (PTJs). The main objective of the study is to investigate the influence of two factors on PTJs: (1) repetition (ReP), which involves presenting some statements from the first phase again in the second phase, and (2) encoding depth (EnC), where participants are divided into groups varying in the level of elaboration required for initial sentence processing in the first phase. We consider a 2 (ReP: repeated, new) <span class="math notranslate nohighlight">\(\times\)</span> 3 (EnC: shallow, standard, deep) between-subject factorial design with treatment contrasts used for both factors. The baseline levels are set as new for ReP and deep for EnC.</p>
+<p><strong>Reference:</strong></p>
+<p>Unkelbach, C., &amp; Rom, S. C. (2017). A referential theory of the repetition-induced truth effect. <em>Cognition</em>, 160, 110-126.</p>
 </section>
 <section id="data-generating-model">
 <h2>Data generating model<a class="headerlink" href="#data-generating-model" title="Link to this heading">#</a></h2>
@@ -397,19 +396,7 @@ document.write(`
 <li><p><span class="math notranslate nohighlight">\(g\)</span> group means with <span class="math notranslate nohighlight">\(g = 1,\ldots,6\)</span> (corresponding to a <span class="math notranslate nohighlight">\(2 \times 3\)</span> factorial design</p></li>
 </ul>
 </li>
-<li><p>General procedure:</p>
-<ul>
-<li><p>Draw samples from prior distribution(s) of model parameters</p></li>
-<li><p>Generate prior predictions according to the data generating model</p></li>
-<li><p>Compute the pre-defined target quantities</p></li>
-<li><p>Compute the elicited statistics of the target quantities</p></li>
-<li><p>Measure the discrepancy between the model-implied and the expert elicited statistics</p></li>
-<li><p>Update the weights of the transformation function of the normalizing flow</p></li>
 </ul>
-</li>
-</ul>
-<section id="method-specification">
-<h3>Method specification<a class="headerlink" href="#method-specification" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>PriorSamples(<span class="math notranslate nohighlight">\(\lambda = (\mu_k, \sigma_k, \nu)\)</span>):</p></li>
 </ul>
@@ -446,7 +433,6 @@ document.write(`
 \text{Histogram-based:} \quad &amp;\{R^2\}_s =\{R^2\}_s 
 \end{align*}\]</div>
 </section>
-</section>
 <section id="user-specification">
 <h2>User specification<a class="headerlink" href="#user-specification" title="Link to this heading">#</a></h2>
 <section id="setting-hyperparameter-for-the-learning-algorithm">
@@ -456,9 +442,9 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># setting of hyperparameter of learning algorithm</span>
 <span class="n">user_config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>                    
         <span class="n">B</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">8</span><span class="p">,</span>                          
-        <span class="n">rep</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span>                         
-        <span class="n">epochs</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>                      
-        <span class="n">view_ep</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
+        <span class="n">rep</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>                         
+        <span class="n">epochs</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>                      
+        <span class="n">view_ep</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span>
         <span class="n">lr_decay</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">lr0</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> 
         <span class="n">lr_min</span> <span class="o">=</span> <span class="mf">0.00001</span><span class="p">,</span> 
@@ -473,150 +459,43 @@ document.write(`
 </div>
 <section id="define-the-design-matrix">
 <h4>Define the design matrix<a class="headerlink" href="#define-the-design-matrix" title="Link to this heading">#</a></h4>
+<p><span class="math notranslate nohighlight">\(\beta_0\)</span> represents the PTJs for the baseline condition (new-deep), while <span class="math notranslate nohighlight">\(\beta_1\)</span> represents the difference in PTJs (<span class="math notranslate nohighlight">\(\Delta\)</span>PTJ) between repeated and new statements. Additionally, <span class="math notranslate nohighlight">\(\beta_2\)</span> captures the <span class="math notranslate nohighlight">\(\Delta\)</span>PTJ for new statements in the shallow- vs. standard-encoding condition, <span class="math notranslate nohighlight">\(\beta_3\)</span> represents the <span class="math notranslate nohighlight">\(\Delta\)</span>PTJ for new statements in the shallow- vs. deep-encoding condition, and <span class="math notranslate nohighlight">\(\beta_4\)</span> and <span class="math notranslate nohighlight">\(\beta_5\)</span> account for the interaction effects between ReP and EnC.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dmatrix</span><span class="p">,</span> <span class="n">cmatrix</span> <span class="o">=</span> <span class="n">truth_data_dmatrix</span><span class="p">(</span><span class="n">fct1</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">fct2</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">N_group</span> <span class="o">=</span> <span class="mi">60</span><span class="p">)</span>
 
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dmatrix</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dmatrix</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;b</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dmatrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">6</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_html"><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>0</th>
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
-      <th>4</th>
-      <th>5</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>355</th>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>356</th>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>357</th>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>358</th>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>359</th>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-    </tr>
-  </tbody>
-</table>
-<p>360 rows × 6 columns</p>
-</div></div></div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>    b0   b1   b2   b3   b4   b5
+0  1.0  0.0  0.0  0.0  0.0  0.0
+1  1.0  0.0  1.0  0.0  0.0  0.0
+2  1.0  0.0  0.0  1.0  0.0  0.0
+3  1.0  1.0  0.0  0.0  0.0  0.0
+4  1.0  1.0  1.0  0.0  1.0  0.0
+5  1.0  1.0  0.0  1.0  0.0  1.0
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="setup-the-ideal-agent">
 <h4>Setup the ‘ideal agent’<a class="headerlink" href="#setup-the-ideal-agent" title="Link to this heading">#</a></h4>
-<p>Define an ‘arbitrary’ ground truth for the hyperparameter values for method validation.</p>
+<ul class="simple">
+<li><p>The regression coefficients <span class="math notranslate nohighlight">\(\beta_k\)</span> for <span class="math notranslate nohighlight">\(k=0,\ldots,5\)</span> are assigned normal prior distributions.</p></li>
+<li><p>The standard deviation <span class="math notranslate nohighlight">\(s\)</span> of the normal likelihood follows an Exponential prior distribution with rate parameter <span class="math notranslate nohighlight">\(\nu\)</span>.</p></li>
+<li><p>To model the ideal expert, we assume the following ``true’’ hyperparameters</p></li>
+</ul>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+    \lambda^* = (&amp;\mu_0=0.12, \sigma_0=0.02, \mu_1=0.15, \sigma_1=0.02, \mu_2=-0.02, \sigma_2=0.06, \\
+                &amp; \mu_3=-0.03, \sigma_3=0.06, \mu_4=-0.02, \sigma_4=0.03, \mu_5=-0.04, \sigma_5=0.03, \\
+                &amp; \nu=9.00)
+\end{align*}\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># true hyperparameter values for ideal_expert</span>
@@ -786,6 +665,9 @@ document.write(`
 </section>
 <section id="specify-the-target-quantities-and-the-elicitation-technique">
 <h4>Specify the target quantities and the elicitation technique<a class="headerlink" href="#specify-the-target-quantities-and-the-elicitation-technique" title="Link to this heading">#</a></h4>
+<p>We assume that the analyst elicits the following target quantities from the expert: the expected PTJ for the marginal distribution of factor EnC (1) and ReP (2), the expected <span class="math notranslate nohighlight">\(\Delta\)</span>PTJ between repeated and new statements for each EnC level (3), and the expected <span class="math notranslate nohighlight">\(R^2\)</span> defined as <span class="math notranslate nohighlight">\(R^2= \textrm{var}(\theta_i) / \textrm{var}(y_i)\)</span> (4).
+Here <span class="math notranslate nohighlight">\(\textrm{var}(\theta_i)\)</span> is the variance of the modeled predictive means and <span class="math notranslate nohighlight">\(\textrm{var}(y_i)\)</span> the variance of the predictive observations including the residual variance.
+To elicit this information from the expert, the analyst uses quantile-based elicitation for (1-3) and histogram elicitation for (4).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="c1"># define a custom function using the output from the generative model   </span>
@@ -813,9 +695,7 @@ document.write(`
 
 <span class="n">target_info</span> <span class="o">=</span> <span class="n">target_input</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">t3</span><span class="p">,</span> <span class="n">t4</span><span class="p">)</span>
 
-<span class="n">target_info_print</span> <span class="o">=</span> <span class="n">target_info</span>
-<span class="n">target_info_print</span><span class="p">[</span><span class="s2">&quot;quantiles_specs&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">target_info</span><span class="p">[</span><span class="s2">&quot;quantiles_specs&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span>
-<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">target_info_print</span><span class="p">)</span>
+<span class="n">print_target_info</span><span class="p">(</span><span class="n">target_info</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -842,7 +722,6 @@ document.write(`
       <th>elicitation</th>
       <th>combine_loss</th>
       <th>custom_target_function</th>
-      <th>internal_loss</th>
       <th>quantiles_specs</th>
     </tr>
   </thead>
@@ -853,7 +732,6 @@ document.write(`
       <td>quantiles</td>
       <td>by-group</td>
       <td>None</td>
-      <td>None</td>
       <td>(10, 20, 30, 40, 50, 60, 70, 80, 90)</td>
     </tr>
     <tr>
@@ -861,7 +739,6 @@ document.write(`
       <td>marginal_EnC</td>
       <td>quantiles</td>
       <td>by-group</td>
-      <td>None</td>
       <td>None</td>
       <td>(10, 20, 30, 40, 50, 60, 70, 80, 90)</td>
     </tr>
@@ -871,7 +748,6 @@ document.write(`
       <td>quantiles</td>
       <td>by-group</td>
       <td>None</td>
-      <td>None</td>
       <td>(10, 20, 30, 40, 50, 60, 70, 80, 90)</td>
     </tr>
     <tr>
@@ -879,8 +755,7 @@ document.write(`
       <td>R2</td>
       <td>histogram</td>
       <td>all</td>
-      <td>&lt;function custom_r2 at 0x000001B1A8C8FB00&gt;</td>
-      <td>None</td>
+      <td>&lt;function custom_r2 at 0x000002872D32F6A0&gt;</td>
       <td>None</td>
     </tr>
   </tbody>
@@ -915,18 +790,18 @@ document.write(`
 <h4>Expert predictions<a class="headerlink" href="#expert-predictions" title="Link to this heading">#</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expert_pred_elicits_normal</span><span class="p">(</span><span class="n">expert_res_list</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expert_pred_elicits_normal</span><span class="p">(</span><span class="n">expert_res_list</span><span class="p">,</span> <span class="n">save_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/9a1eb9569006c07e537310501a30a4493bc73966be1126c9baea2084e6d57768.png" src="../_images/9a1eb9569006c07e537310501a30a4493bc73966be1126c9baea2084e6d57768.png" />
+<img alt="../_images/609e94642ad10379e88f0e48094671b852e990111826a6cba424d092ed073ce9.png" src="../_images/609e94642ad10379e88f0e48094671b852e990111826a6cba424d092ed073ce9.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># group means</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">group_stats</span><span class="p">(</span><span class="n">prior_pred_res</span><span class="p">[</span><span class="s2">&quot;ypred&quot;</span><span class="p">],</span> <span class="n">num_groups</span> <span class="o">=</span> <span class="mi">6</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">_group_stats</span><span class="p">(</span><span class="n">prior_pred_res</span><span class="p">[</span><span class="s2">&quot;ypred&quot;</span><span class="p">],</span> <span class="n">num_groups</span> <span class="o">=</span> <span class="mi">6</span><span class="p">))</span>
 <span class="c1"># mean effects</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;mean effects:&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">prior_pred_res</span><span class="p">[</span><span class="s2">&quot;mean_effects&quot;</span><span class="p">],(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)),</span><span class="mi">2</span><span class="p">))</span>
@@ -944,16 +819,16 @@ document.write(`
 | group | mean | std  |
 +-------+------+------+
 |  gr_0 | 0.12 | 0.02 |
-|  gr_1 | 0.1  | 0.06 |
-|  gr_2 | 0.09 | 0.07 |
+|  gr_1 | 0.09 | 0.06 |
+|  gr_2 | 0.09 | 0.06 |
 |  gr_3 | 0.27 | 0.03 |
-|  gr_4 | 0.22 | 0.07 |
-|  gr_5 | 0.2  | 0.08 |
+|  gr_4 | 0.22 | 0.08 |
+|  gr_5 | 0.2  | 0.07 |
 +-------+------+------+
 mean effects:
 [0.15 0.13 0.11]
 marginal ReP (new, repeated):
-[0.31 0.69]
+[0.3  0.69]
 marginal EnC (deep, standard, shallow):
 [0.39 0.32 0.29]
 </pre></div>
@@ -964,6 +839,7 @@ marginal EnC (deep, standard, shallow):
 </section>
 <section id="learn-the-prior-distributions">
 <h3>Learn the prior distributions<a class="headerlink" href="#learn-the-prior-distributions" title="Link to this heading">#</a></h3>
+<p>The learning process is considered completed once the maximum number of epochs has been reached.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dict</span> <span class="o">=</span> <span class="n">trainer</span><span class="p">(</span><span class="n">expert_res_list</span><span class="p">,</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">],</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;rep&quot;</span><span class="p">],</span>
@@ -974,26 +850,26 @@ marginal EnC (deep, standard, shallow):
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch_time: 712.420ms
-Epoch: 0, loss: 1.38758, lr: 0.100000
-epoch_time: 106.538ms
-Epoch: 30, loss: 0.28518, lr: 0.053144
-epoch_time: 107.433ms
-Epoch: 60, loss: 0.08011, lr: 0.028243
-epoch_time: 94.723ms
-Epoch: 90, loss: 0.04512, lr: 0.015009
-epoch_time: 105.455ms
-Epoch: 120, loss: 0.01526, lr: 0.007977
-epoch_time: 110.127ms
-Epoch: 150, loss: 0.03190, lr: 0.004239
-epoch_time: 108.893ms
-Epoch: 180, loss: 0.04075, lr: 0.002253
-epoch_time: 112.976ms
-Epoch: 210, loss: 0.01505, lr: 0.001197
-epoch_time: 108.833ms
-Epoch: 240, loss: 0.03567, lr: 0.000636
-epoch_time: 111.719ms
-Epoch: 270, loss: 0.03017, lr: 0.000338
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch_time: 851.969ms
+Epoch: 0, loss: 1.41593, lr: 0.100000
+epoch_time: 186.507ms
+Epoch: 35, loss: 0.24712, lr: 0.047830
+epoch_time: 187.186ms
+Epoch: 70, loss: 0.05304, lr: 0.022877
+epoch_time: 164.717ms
+Epoch: 105, loss: 0.03109, lr: 0.010942
+epoch_time: 193.512ms
+Epoch: 140, loss: 0.01931, lr: 0.005233
+epoch_time: 164.587ms
+Epoch: 175, loss: 0.03187, lr: 0.002503
+epoch_time: 216.564ms
+Epoch: 210, loss: 0.03067, lr: 0.001197
+epoch_time: 231.042ms
+Epoch: 245, loss: 0.03197, lr: 0.000573
+epoch_time: 193.289ms
+Epoch: 280, loss: 0.02713, lr: 0.000274
+epoch_time: 213.617ms
+Epoch: 315, loss: 0.02862, lr: 0.000131
 </pre></div>
 </div>
 </div>
@@ -1002,153 +878,50 @@ Epoch: 270, loss: 0.03017, lr: 0.000338
 </section>
 <section id="results">
 <h2>Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h2>
-<section id="loss-function">
-<h3>Loss function<a class="headerlink" href="#loss-function" title="Link to this heading">#</a></h3>
+<section id="diagnostics-and-convergence-plots">
+<h3>Diagnostics and Convergence plots<a class="headerlink" href="#diagnostics-and-convergence-plots" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_loss</span><span class="p">(</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;loss_info&quot;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_diagnostics_linreg</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span> <span class="n">user_config</span><span class="p">,</span> <span class="n">save_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/3045d54f8b1c6a7d734556f54e2acea667cb0401cc02d666a59f54c9267331c9.png" src="../_images/3045d54f8b1c6a7d734556f54e2acea667cb0401cc02d666a59f54c9267331c9.png" />
+<img alt="../_images/2b6bbcb49dc1d4dfdfc3e87ec72865bfa8c7c0db28524b18d4bde5dfed1e4894.png" src="../_images/2b6bbcb49dc1d4dfdfc3e87ec72865bfa8c7c0db28524b18d4bde5dfed1e4894.png" />
 </div>
 </div>
 </section>
 <section id="final-learned-hyperparameter-values">
 <h3>Final learned hyperparameter values<a class="headerlink" href="#final-learned-hyperparameter-values" title="Link to this heading">#</a></h3>
+<p>Simulation results indicate a close match between the prior predictions obtained from our final learned model and the expert’s elicited statistics.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">true_vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;mu&quot;</span><span class="p">],</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">]</span>
 <span class="n">true_vals</span> <span class="o">+=</span> <span class="p">[</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;nu&quot;</span><span class="p">]]</span>
 
-<span class="n">tab</span><span class="p">,</span> <span class="n">avg_res</span> <span class="o">=</span> <span class="n">print_restab</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;hyperparameter_learning&quot;</span><span class="p">,</span> 
+<span class="n">tab</span><span class="p">,</span> <span class="n">avg_res</span> <span class="o">=</span> <span class="n">_print_restab</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;hyperparameter_learning&quot;</span><span class="p">,</span> 
                              <span class="n">num_vars</span> <span class="o">=</span> <span class="mi">13</span><span class="p">,</span> 
                              <span class="n">res</span> <span class="o">=</span> <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">],</span> 
-                             <span class="n">start</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span> 
+                             <span class="n">start</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span> 
                              <span class="n">precision</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> 
                              <span class="n">true_values</span> <span class="o">=</span> <span class="n">true_vals</span><span class="p">)</span>
-<span class="n">tab</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><table>
-    <thead>
-        <tr>
-            <th>var_name</th>
-            <th>pred mean</th>
-            <th>pred std</th>
-            <th>true</th>
-            <th>err</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>loc_0</td>
-            <td>0.131</td>
-            <td>0.006</td>
-            <td>0.12</td>
-            <td>0.011</td>
-        </tr>
-        <tr>
-            <td>scale_0</td>
-            <td>0.027</td>
-            <td>0.0</td>
-            <td>0.02</td>
-            <td>0.007</td>
-        </tr>
-        <tr>
-            <td>loc_1</td>
-            <td>0.144</td>
-            <td>0.006</td>
-            <td>0.15</td>
-            <td>0.006</td>
-        </tr>
-        <tr>
-            <td>scale_1</td>
-            <td>0.025</td>
-            <td>0.0</td>
-            <td>0.02</td>
-            <td>0.005</td>
-        </tr>
-        <tr>
-            <td>loc_2</td>
-            <td>-0.037</td>
-            <td>0.006</td>
-            <td>-0.02</td>
-            <td>0.017</td>
-        </tr>
-        <tr>
-            <td>scale_2</td>
-            <td>0.059</td>
-            <td>0.0</td>
-            <td>0.06</td>
-            <td>0.001</td>
-        </tr>
-        <tr>
-            <td>loc_3</td>
-            <td>-0.045</td>
-            <td>0.007</td>
-            <td>-0.03</td>
-            <td>0.015</td>
-        </tr>
-        <tr>
-            <td>scale_3</td>
-            <td>0.068</td>
-            <td>0.001</td>
-            <td>0.06</td>
-            <td>0.008</td>
-        </tr>
-        <tr>
-            <td>loc_4</td>
-            <td>-0.016</td>
-            <td>0.006</td>
-            <td>-0.02</td>
-            <td>0.004</td>
-        </tr>
-        <tr>
-            <td>scale_4</td>
-            <td>0.032</td>
-            <td>0.0</td>
-            <td>0.03</td>
-            <td>0.002</td>
-        </tr>
-        <tr>
-            <td>loc_5</td>
-            <td>-0.031</td>
-            <td>0.007</td>
-            <td>-0.04</td>
-            <td>0.009</td>
-        </tr>
-        <tr>
-            <td>scale_5</td>
-            <td>0.03</td>
-            <td>0.0</td>
-            <td>0.03</td>
-            <td>0.0</td>
-        </tr>
-        <tr>
-            <td>rate_6</td>
-            <td>8.784</td>
-            <td>0.016</td>
-            <td>9.0</td>
-            <td>0.216</td>
-        </tr>
-    </tbody>
-</table></div></div>
 </div>
 </section>
 <section id="learned-prior-distributions">
 <h3>Learned prior distributions<a class="headerlink" href="#learned-prior-distributions" title="Link to this heading">#</a></h3>
+<p>The learned prior distributions are depicted with solid lines, while the true priors (according to the ideal expert) are represented by dotted lines. Note, the final learned hyperparameter <span class="math notranslate nohighlight">\(\lambda\)</span> is computed as the average over the last 30 epochs.
+The substantial overlap between these distributions indicates a successful learning process.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_priors_normal</span><span class="p">(</span><span class="n">avg_res</span><span class="p">,</span> <span class="n">true_values</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_learned_prior_linreg</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span> <span class="n">true_vals</span><span class="p">,</span> <span class="n">avg_res</span><span class="p">,</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">],</span> <span class="n">save_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/009575e0740961f8fbf255294661c24ab8a668816dc8a7ecd25000250dc353ec.png" src="../_images/009575e0740961f8fbf255294661c24ab8a668816dc8a7ecd25000250dc353ec.png" />
+<img alt="../_images/421dc65011b095df86dae138faa62580e1efb7e772594a8900cc5e1f00883eac.png" src="../_images/421dc65011b095df86dae138faa62580e1efb7e772594a8900cc5e1f00883eac.png" />
 </div>
 </div>
 </section>
@@ -1187,10 +960,7 @@ Epoch: 270, loss: 0.03017, lr: 0.000338
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background-case-study">Background: Case Study</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-generating-model">Data generating model</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology-workflow">Methodology: Workflow</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-specification">Method specification</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology-workflow">Methodology: Workflow</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#user-specification">User specification</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-hyperparameter-for-the-learning-algorithm">Setting hyperparameter for the learning algorithm</a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-design-matrix">Define the design matrix</a></li>
@@ -1207,7 +977,7 @@ Epoch: 270, loss: 0.03017, lr: 0.000338
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function">Loss function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnostics-and-convergence-plots">Diagnostics and Convergence plots</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#final-learned-hyperparameter-values">Final learned hyperparameter values</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#learned-prior-distributions">Learned prior distributions</a></li>
 </ul>
