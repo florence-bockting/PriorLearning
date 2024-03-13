@@ -8,6 +8,51 @@ on:
       - main
 
 jobs:
+  publish_sphinx_docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: |
+          pip install -e .
+          pip install "numpydoc==1.1.0" "Sphinx==5.1.0" "sphinx-book-theme" "myst_nb" "sphinx-design" "sphinxemoji" .
+      
+      - name: Sphinx build
+        run: |
+          sphinx-apidoc -o docs ../PriorLearning/ --separate
+          sphinx-build docs docs/build/html
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/build/html
+          force_orphan: true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+jobs:
 
   build_docs:
     runs-on: ubuntu-latest
@@ -34,11 +79,13 @@ jobs:
         run: |
           cd ./main
           pip install "numpydoc==1.1.0" "Sphinx==5.1.0" "sphinx-book-theme" "myst_nb" "sphinx-design" "sphinxemoji" .
+
       - name: Make the Sphinx docs
         run: |
           cd ./main/docs
           make clean
           make github
+
       - name: Commit changes to docs
         run: |
           cd ./gh-pages
