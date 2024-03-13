@@ -27,10 +27,9 @@ jobs:
 
       - name: make the sphinx docs
         run: |
-          make -C docs clean 
-		  sphinx-apidoc -f -o docs/source/ ../../PriorLearning
-          # sphinx-apidoc -f -o docs/source . -H Test -e -t docs/source/_templates
-          make -C docs html
+          make -C doc clean 
+		  sphinx-apidoc -f -o doc/source/ ../../PriorLearning
+          make -C doc html
 
       - name: Init new repo in dist folder and commit generated files
         run: |
@@ -48,4 +47,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
           force: true
-          directory: ./docs/build/html
+          directory: ./doc/build/html
