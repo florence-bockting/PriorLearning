@@ -164,7 +164,8 @@ def plot_priors_normal(avg_res, true_values):
     [axes[1,j].set_xlabel(rf"$\beta_{i}$") for j,i in enumerate(range(4,6))]
     axes[1,2].set_xlabel(r"$s$")
     axes[1,3].set_axis_off()
-    
+
+
 def expert_pred_elicits_normal(expert_res_list, save_fig): 
     q_exp = expert_res_list["marginal_EnC_quant_1"]
     q_exp2 = expert_res_list["marginal_ReP_quant_0"]
@@ -206,7 +207,7 @@ def expert_pred_elicits_normal(expert_res_list, save_fig):
         "font.family": "Computer Modern"
     })
     
-    fig, axs = plt.subplots(1,4, layout='constrained', figsize=(7, 2))
+    fig, axs = plt.subplots(1,4, layout='constrained', figsize=(6.5, 2))
     sns.histplot(expert_res_list["R2_hist_3"][0,:], ax = axs[0], stat = "proportion", color = "#44546A")
     [sns.scatterplot(y = i, x = q_exp[i][0,:], color = c, ax = axs[1], zorder = 1) for i,c in zip(range(3), ["#020024", "#44546A", "#00d4ff"])]
     [sns.scatterplot(y = i, x = q_exp2[i][0,:], color = c, ax = axs[2], zorder = 1) for i,c in zip(range(2), ["#020024", "#00d4ff"])]
@@ -215,42 +216,17 @@ def expert_pred_elicits_normal(expert_res_list, save_fig):
     sns.boxplot(x = df_pd2["value"], y = df_pd2["group"], color=".99",  linewidth=.75, zorder = 0, ax = axs[2])
     sns.boxplot(x = df_pd3["value"], y = df_pd3["group"], color=".99",  linewidth=.75, zorder = 0, ax = axs[3]) 
     axs[0].set_xlim(0,1)
-    [axs[i].set_yticklabels(labels = l, fontsize = 11, rotation=45, ha='right') for l,i in zip([["dep", "std", "shw"],["rep", "new"],["dep", "std", "shw"]],[1,2,3])]
+    [axs[i].set_yticklabels(labels = l, fontsize = 10, rotation=45, ha='right') for l,i in zip([["dep", "std", "shw"],["rep", "new"],["dep", "std", "shw"]],[1,2,3])]
     axs[0].set_xlabel(r"${R^2}^{(s)}$")
-    [axs[i].set_title(l, fontdict = {'fontsize': 12}, loc = "left") for i,l in zip([1,2,3], ["Encoding depth", "Repetition", "Truth Effect"])]
+    [axs[i].set_title(l, size = "small", loc = "left") for i,l in zip([1,2,3], ["Encoding depth", "Repetition", r"$\Delta$PTJ (Rep-New)"])]
     [axs[i].set_xlabel("$Q_p^G$") for i in [1,2,3]]
     [axs[i].set_ylabel(" ") for i in [1,2,3]]
-    [axs[i].set_title(t, pad = 10., fontdict = {'fontsize': 14, 'fontweight': "bold"}) for i,t in zip([0,2], ["Histogram-based elicitation \n", " Quantile-based elicitation \n"])]
+    [axs[i].set_title(t, pad = 10., size = "medium") for i,t in zip([0,2], ["Histogram-based elicitation \n", " Quantile-based elicitation \n"])]
+    [axs[i].tick_params(axis='x', labelsize=10) for i in range(4)]
     if save_fig:
-        plt.savefig('../graphics/linreg_target_quant.png', dpi = 300)
+        plt.savefig('graphics/linreg_target_quant.png', dpi = 300)
     else:
-        plt.show()
-    
-def sleep_data_predictor(scaling, N_days, N_subj, selected_days):
-    
-    assert scaling in ["standardize", "scale"], "Scaling can only be either 'standardize' or 'scale'"
-    
-    # design matrix
-    X = tf.cast(tf.tile(tf.range(0., N_days, 1.), [N_subj]), tf.float32)
-    if scaling == "standardize":
-        # standardize metric predictor
-        X_scaled = (X - tf.reduce_mean(X))/tf.math.reduce_std(X) 
-    
-    if scaling == "scale":
-        # scale metric predictor
-        X_scaled = X/tf.math.reduce_std(X) 
-    
-    dmatrix_full = tf.stack([tf.ones(len(X_scaled)), X_scaled], axis = -1)
-    
-    # select only a subset of days
-    dmatrix_list = [dmatrix_full[day::N_days] for day in selected_days]
-    dmatrix = tf.stack(dmatrix_list, axis=1)
-    dmatrix = tf.reshape(dmatrix, (N_subj*len(selected_days), 2))
-    
-    # contrast matrix
-    cmatrix = pd.DataFrame(dmatrix).drop_duplicates()
-    
-    return dmatrix, cmatrix    
+        plt.show()    
     
 def print_target_info(target_info):
     print_tab  = target_info.copy()
@@ -289,7 +265,7 @@ def plot_learned_prior_linreg(res_dict, true_vals, avg_res, epochs, save_fig):
 
     err = tf.stack([tf.subtract(res_dict["hyperparam_info"][0][i], true_vals_raw) for i in range(epochs)], -1)
 
-    fig = plt.figure(layout='constrained', figsize=(6, 5))
+    fig = plt.figure(layout='constrained', figsize=(6, 4))
     figs = fig.subfigures(2,1)
     
     axs0 = figs[0].subplots(1,2, gridspec_kw = {"width_ratios": (2,1)})
@@ -302,16 +278,16 @@ def plot_learned_prior_linreg(res_dict, true_vals, avg_res, epochs, save_fig):
     [axs0[0].plot(x_rge, tfd.Normal(true_vals[i],true_vals[i+1]).prob(x_rge), linestyle = "dotted", lw = 2, color = "black") for i in [0,2,4,6,8,10]]
     [axs0[0].plot(x_rge, tfd.Normal(avg_res[i],avg_res[i+1]).prob(x_rge), lw = 3, color = col_betas[j], 
                   alpha = 0.6, label = fr"$\beta_{j} \sim N$({avg_res[i]:.2f}, {avg_res[i+1]:.2f})") for j,i in enumerate([0,2,4,6,8,10])]
-    axs0[0].legend(handlelength = 0.6, labelspacing = 0.2, loc = "upper left", frameon = False, fontsize = "small")
-    axs0[0].set_title("model parameters", fontfamily = "Computer Modern")
+    axs0[0].legend(handlelength = 0.6, labelspacing = 0.2, loc = (0.02,0.15), frameon = False, fontsize = "x-small")
+    axs0[0].set_title("model parameters", fontfamily = "Computer Modern", size = "small")
     axs0[0].set_xlabel(r"$\beta_k$")
     
     x_rge = np.arange(0, 5, 0.01)
     axs0[1].plot(x_rge, tfd.Exponential(true_vals[-1]).prob(x_rge), linestyle = "dotted", lw = 2, color = "black")
     axs0[1].plot(x_rge, tfd.Exponential(avg_res[-1]).prob(x_rge), lw = 3, color = col_nu, 
                   alpha = 0.6, label = fr"$s \sim Exp$({avg_res[-1]:.2f})")
-    axs0[1].legend(handlelength = 0.6, labelspacing = 0.2, loc = "upper right", frameon = False, fontsize = "small")
-    axs0[1].set_title("random noise")
+    axs0[1].legend(handlelength = 0.6, labelspacing = 0.2, loc = "upper right", frameon = False, fontsize = "x-small")
+    axs0[1].set_title("random noise", size = "small")
     axs0[1].set_xlabel(r"$s$")
     
     x_rge = np.arange(0, epochs)
@@ -321,17 +297,17 @@ def plot_learned_prior_linreg(res_dict, true_vals, avg_res, epochs, save_fig):
                  label = rf"$\mu_{j}$") for j,i in enumerate([0,2,4,6,8,10])]
     [axs1[2].plot(x_rge, err[i+1], color = col_betas[j], lw = 3, alpha = 0.6,
                  label = rf"$\sigma_{j}$") for j,i in enumerate([0,2,4,6,8,10])]
-    [axs1[i].legend(handlelength = 0.6, labelspacing = 0.2, loc = "upper right", frameon = False, fontsize = "small", ncol = 2, 
+    [axs1[i].legend(handlelength = 0.6, labelspacing = 0.2, loc = (0.5,0.6), frameon = False, fontsize = "x-small", ncol = 2, 
                     columnspacing = 1.) for i in [1,2]]
     [axs1[i].set_title(t, fontsize = "medium") for i,t in zip(range(3), [r"$\nu$", r"$\mu_k$", r"$\sigma_k$"])]
-    axs1[1].set_xlabel("epochs")
-    figs[1].suptitle("Error between true and learned hyperparameter", x = 0.05, ha = "left")
-    figs[0].suptitle("Learned prior distributions", x = 0.05, ha = "left")
+    axs1[1].set_xlabel("epochs", size = "small")
+    figs[1].suptitle("Error between true and learned hyperparameter", x = 0.05, ha = "left", size = "medium")
+    figs[0].suptitle("Learned prior distributions", x = 0.05, ha = "left", size = "medium")
     if save_fig:
         plt.savefig('graphics/linreg_summary_results.png', dpi = 300)
     else:
-        plt.show()
-        
+        plt.show()        
+
 def plot_diagnostics_linreg(res_dict, user_config, save_fig):
     col_nu = "#a6b7c6"
     col_betas = ["#2acaea", "#0a75ad", "#ffd700", "#e86e4d", "#00ffaa", "#135553"]
@@ -344,13 +320,13 @@ def plot_diagnostics_linreg(res_dict, user_config, save_fig):
     x_rge = np.arange(0,user_config["epochs"],1)
     
     _, axs = plt.subplots(2,4, constrained_layout = True, sharex = True, 
-                          figsize = (6.5,3.5), gridspec_kw = {"hspace": 0.2})
+                          figsize = (6.5,2.5), gridspec_kw = {"hspace": 0.2})
     
     axs[0,0].plot(x_rge, loss)
-    axs[0,0].set_title("Total loss", loc = "left")
+    axs[0,0].set_title("Total loss", loc = "left", size = "medium")
     
     sns.scatterplot(x = x_rge, y = grads_total[-1], ax = axs[0,1], marker = "x", s = 5, color = "black", alpha =.6)
-    axs[0,1].set_title(r"Gradients: $\nu$", loc = "left")
+    axs[0,1].set_title(r"Gradients: $\nu$", loc = "left", size = "medium")
     
     [sns.scatterplot(x = x_rge, y = grads_total[i], ax = axs[0,2], marker = "x", s = 5, color = "black", alpha =.6) for i in [0,2,4,6,8,10]]
     axs[0,2].set_title(r"$\mu_k$")
@@ -359,27 +335,26 @@ def plot_diagnostics_linreg(res_dict, user_config, save_fig):
     axs[0,3].set_title(r"$\sigma_k$")
     
     [axs[1,0].plot(x_rge, loss_indiv[i,:]) for i in range(loss_indiv.shape[0])]
-    axs[1,0].set_title("Individual losses")
+    axs[1,0].set_title("Individual losses", size = "medium")
     
-    axs[1,1].plot(x_rge, learned_hyp[-1,:], color = col_nu, lw = 3, alpha = 0.6)
-    axs[1,1].set_title(r"Convergence: $\nu$")
+    axs[1,1].plot(x_rge, tf.exp(learned_hyp[-1,:]), color = col_nu, lw = 3, alpha = 0.6)
+    axs[1,1].set_title(r"Convergence:", loc = "left", size = "medium")
     
     [axs[1,2].plot(x_rge, learned_hyp[j,:], color = col_betas[i], lw = 3, alpha = 0.6,
                   label = rf"$\mu_{i}$") for i,j in enumerate([0,2,4,6,8,10])]
-    axs[1,2].set_title(r"$\mu_k$")
     
-    [axs[1,3].plot(x_rge, learned_hyp[j+1,:], color = col_betas[i], lw = 3, alpha = 0.6,
+    [axs[1,3].plot(x_rge, tf.exp(learned_hyp[j+1,:]), color = col_betas[i], lw = 3, alpha = 0.6,
                   label = rf"$\sigma_{i}$") for i,j in enumerate([0,2,4,6,8,10])]
-    axs[1,3].set_title(r"$\sigma_k$")
     
-    [axs[1,i].legend(handlelength = 0.6, labelspacing = 0.2, loc = "upper right", frameon = False, fontsize = "small", ncol = 2, 
-                        columnspacing = 1.) for i in [2,3]]
+    [axs[1,i].legend(handlelength = 0.3, labelspacing = 0.1, loc = (0.4,0.6), frameon = False, fontsize = "x-small", ncol = 2, 
+                        columnspacing = 0.2) for i in [2,3]]
     axs[1,2].set_ylim(-0.25, 0.7)
-    [axs[1,i].set_xlabel("epochs") for i in range(4)]
+    [axs[1,i].set_xlabel("epochs", size = "small") for i in range(4)]
+    [axs[1,i].tick_params(axis='x', labelsize=10) for i in range(4)]
     if save_fig:
         plt.savefig('graphics/linreg_diagnostics.png', dpi = 300)
     else:
-        plt.show()
+        plt.show()  
         
 def plot_learned_prior_binom(res_dict, user_config, true_vals, avg_res, 
                              expert_res_list, selected_obs, save_fig):
@@ -424,7 +399,7 @@ def plot_learned_prior_binom(res_dict, user_config, true_vals, avg_res,
     [axs1[2].plot(x_rge, tfd.Normal(true_vals[i],true_vals[i+1]).prob(x_rge), linestyle = "dotted", lw = 2, color = "black") for i in [0,2]]
     [axs1[2].plot(x_rge, tfd.Normal(avg_res[i],avg_res[i+1]).prob(x_rge), lw = 3, color = col_betas[j], 
               alpha = 0.6, label = fr"$\beta_{j} \sim N$({avg_res[i]:.2f}, {avg_res[i+1]:.2f})") for j,i in enumerate([0,2])]
-    axs1[2].legend(handlelength = 0.6, labelspacing = 0.2, loc = "upper left", frameon = False, fontsize = "small")
+    axs1[2].legend(handlelength = 0.6, labelspacing = 0.2, loc = (0.02, 0.7), frameon = False, fontsize = "small")
     axs1[2].set_title("Learned prior distributions \n", loc = "left", size = "medium")
     axs1[2].set_xlabel(r"model parameters $\beta_k$")
     
@@ -489,6 +464,8 @@ def plot_diagnostics_binom(res_dict, user_config, save_fig):
     else:
         plt.show()
         
+        
+
 def plot_diagnostics_pois(res_dict, user_config, save_fig):
 
     col_betas = ["#2acaea", "#0a75ad", "#ffd700", "#e86e4d", "#00ffaa", "#135553"]
@@ -521,17 +498,18 @@ def plot_diagnostics_pois(res_dict, user_config, save_fig):
     
     [axs[1,1].plot(x_rge, learned_hyp[j,:], color = col_betas[i], lw = 3, alpha = 0.6,
                   label = rf"$\mu_{i}$") for i,j in enumerate([0,2,4,6])]
-    axs[1,1].set_title(r"Convergence: $\mu_k$", loc = "left")
-    axs[1,1].set_ylim(-2.5,6.)
+    axs[1,1].set_title("Convergence:", loc = "left")
+    axs[1,1].set_ylim(-2.,4.5)
     
-    [axs[1,2].plot(x_rge, learned_hyp[j+1,:], color = col_betas[i], lw = 3, alpha = 0.6,
+    [axs[1,2].plot(x_rge, tf.exp(learned_hyp[j+1,:]), color = col_betas[i], lw = 3, alpha = 0.6,
                   label = rf"$\sigma_{i}$") for i,j in enumerate([0,2,4,6])]
-    axs[1,2].set_title(r"$\sigma_k$")
-    axs[1,2].set_ylim(-4.,1)
+    axs[1,2].set_ylim(0.,0.4)
     
-    [axs[1,i].legend(handlelength = 0.3, labelspacing = 0.2, loc = l, frameon = False, fontsize = "small", ncol = 4, 
-                    columnspacing = 0.5) for i,l in zip([1,2], ["upper center", "upper center"])]
-    [axs[1,i].set_xlabel("epochs") for i in range(3)]
+    [axs[1,i].legend(handlelength = 0.3, labelspacing = 0.1, loc = l, frameon = False, fontsize = "small", ncol = 4, 
+                    columnspacing = 0.2) for i,l in zip([1,2], [(0.05,0.8), (0.05,0.8)])]
+    [axs[1,i].set_xlabel("epochs", size = "small") for i in range(3)]
+    [axs[1,i].tick_params(axis='x', labelsize=10) for i in range(3)]
+    
     if save_fig:
         plt.savefig('graphics/pois_diagnostics.png', dpi = 300)
     else:
@@ -558,8 +536,8 @@ def plot_learned_prior_pois(res_dict, user_config, true_vals, avg_res,
     prior_pred_exp_hist = tf.squeeze(tf.stack(expert_res_list['y_obs_hist_1'], -1))
     prior_pred_mod_hist = res_dict["priors_info"][0]['y_obs_hist_1'][-1,:,:] 
     
-    fig = plt.figure(layout='constrained', figsize=(6.5, 5.5))
-    figs = fig.subfigures(2,1, height_ratios = (1.5,1)) #
+    fig = plt.figure(layout='constrained', figsize=(6., 4))
+    figs = fig.subfigures(2,1, height_ratios = (1.4,1)) 
     
     axs0 = figs[0].subplots(2,5)
     axs1 = figs[1].subplots(1,3, width_ratios = (1,1,2.5))
@@ -588,7 +566,7 @@ def plot_learned_prior_pois(res_dict, user_config, true_vals, avg_res,
     [axs0[1,i].tick_params(left = False, right = False , labelleft = False) for i in range(5)]
     [axs0[1,i].set_ylabel(" ") for i in range(5)]
     [axs0[1,i].set_title(fr"{t} ($x_{{{selected_states[i+1]}}}$)", size = "small") for i,t in enumerate(names_states[1:])]
-    axs0[1,2].set_xlabel("\# LGBTQ+ antidiscrimination laws \n", size = "small")
+    axs0[1,2].set_xlabel("\# LGBTQ+ antidiscrimination laws ", size = "x-small")
     axs0[1,0].set_ylabel("counts \n", size = "small")
     figs[0].suptitle("Prior predictions: Model-based vs. expert-elicited quantiles", ha = "left", x = 0.06, size = "medium")
 
@@ -596,7 +574,7 @@ def plot_learned_prior_pois(res_dict, user_config, true_vals, avg_res,
     [axs1[2].plot(x_rge, tfd.Normal(true_vals[i],true_vals[i+1]).prob(x_rge), linestyle = "dotted", lw = 2, color = "black") for i in [0,2,4,6]]
     [axs1[2].plot(x_rge, tfd.Normal(avg_res[i],avg_res[i+1]).prob(x_rge), lw = 3, color = col_betas[j], 
               alpha = 0.6, label = fr"$\beta_{j} \sim N$({avg_res[i]:.2f}, {avg_res[i+1]:.2f})") for j,i in enumerate([0,2,4,6])]
-    axs1[2].legend(handlelength = 0.6, labelspacing = 0.2, loc = "upper left", frameon = False, fontsize = "small")
+    axs1[2].legend(handlelength = 0.3, labelspacing = 0.2, loc = (0.02, 0.35), frameon = False, fontsize = "x-small")
     axs1[2].set_title("Learned prior distributions \n", loc = "left", size = "medium")
     axs1[2].set_xlabel(r"model parameters $\beta_k$", size = "small")
     
@@ -606,8 +584,8 @@ def plot_learned_prior_pois(res_dict, user_config, true_vals, avg_res,
              label = rf"$\mu_{j}$") for j,i in enumerate([0,2,4,6])]
     [axs1[1].plot(x_rge, err[i+1], color = col_betas[j], lw = 3, alpha = 0.6,
              label = rf"$\sigma_{j}$") for j,i in enumerate([0,2,4,6])]
-    [axs1[i].legend(handlelength = 0.6, labelspacing = 0.2, loc = "upper right", ncol = 2, frameon = False, fontsize = "small", 
-                columnspacing = 1.) for i in [0,1]]
+    [axs1[i].legend(handlelength = 0.3, labelspacing = 0.2, loc = (0.3, 0.5), ncol = 2, frameon = False, fontsize = "small", 
+                columnspacing = .5) for i in [0,1]]
     [axs1[i].set_xlabel("epochs", size = "small") for i in range(2)]
     axs1[2].set_xlim((-3.5, 3.5))
     axs1[0].set_title("Error between true and learned \n hyperparameter", ha = "left", x = 0., size = "medium")
@@ -615,4 +593,5 @@ def plot_learned_prior_pois(res_dict, user_config, true_vals, avg_res,
         plt.savefig('graphics/pois_summary_results.png', dpi = 300)
     else:
         plt.show()
+
         

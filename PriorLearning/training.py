@@ -205,7 +205,7 @@ def trainer(expert_res_list, B, rep, parameters_dict, method, GenerativeModel,
         
         # print information for user during training
         if epoch % user_config["view_ep"] == 0:
-            print(f"epoch_time: {(end-start)*60:.3f}ms")
+            print(f"epoch_time: {end-start:.3f} sec")
             print(f"Epoch: {epoch}, loss: {loss_sum:.5f}, lr: {lr:.6f}")
              
         # save results per epoch        
@@ -230,5 +230,8 @@ def trainer(expert_res_list, B, rep, parameters_dict, method, GenerativeModel,
     
     if user_config["method"] == "hyperparameter_learning":
         res_return["hyperparam_info"] = [vars_list, varnames]
+    
+    print(" ")
+    print(f"Total time needed: {tf.reduce_sum(res_return['epoch_time'])/60:.2f} min")
     
     return res_return

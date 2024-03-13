@@ -431,7 +431,7 @@ a percentage.</p>
         <span class="n">view_ep</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span>
         <span class="n">lr_decay</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">lr0</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> 
-        <span class="n">lr_min</span> <span class="o">=</span> <span class="mf">0.0001</span><span class="p">,</span> 
+        <span class="n">lr_min</span> <span class="o">=</span> <span class="mf">0.001</span><span class="p">,</span> 
         <span class="n">loss_dimensions</span> <span class="o">=</span> <span class="s2">&quot;m,n:B&quot;</span><span class="p">,</span>   
         <span class="n">loss_discrepancy</span> <span class="o">=</span> <span class="s2">&quot;energy&quot;</span><span class="p">,</span> 
         <span class="n">loss_scaling</span> <span class="o">=</span> <span class="s2">&quot;unscaled&quot;</span><span class="p">,</span>         
@@ -485,7 +485,7 @@ a percentage.</p>
     <span class="n">parameters_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;beta_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;family&quot;</span><span class="p">:</span>  <span class="n">Normal_unconstrained</span><span class="p">(),</span>
             <span class="s2">&quot;true&quot;</span><span class="p">:</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;mu&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]),</span>
-            <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">),</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">0.1</span><span class="p">),</span> <span class="mf">0.001</span><span class="p">)]</span>
+            <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">1.</span><span class="p">),</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">2.</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.</span><span class="p">)]</span>
             <span class="p">}</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;True hyperparameter values:&quot;</span><span class="p">)</span>
@@ -587,7 +587,7 @@ a percentage.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># upper threshold value</span>
-<span class="n">u_thres</span> <span class="o">=</span> <span class="mi">110</span>
+<span class="n">u_thres</span> <span class="o">=</span> <span class="mi">70</span>
 <span class="c1"># specify target quantity, elicitation technique and loss combination</span>
 <span class="n">t1</span> <span class="o">=</span> <span class="n">target_config</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="s2">&quot;group_means&quot;</span><span class="p">,</span> 
                    <span class="n">elicitation</span> <span class="o">=</span> <span class="s2">&quot;quantiles&quot;</span><span class="p">,</span> 
@@ -687,7 +687,7 @@ a percentage.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/c963ddc98d942a9bf995d1fbc6b9475f5ec7a9bded12d1528082cec78ecb39a1.png" src="../_images/c963ddc98d942a9bf995d1fbc6b9475f5ec7a9bded12d1528082cec78ecb39a1.png" />
+<img alt="../_images/c82e4c9904e01bd32f40254c0dbb45d226b9d51960c883853b595938eb0ea84c.png" src="../_images/c82e4c9904e01bd32f40254c0dbb45d226b9d51960c883853b595938eb0ea84c.png" />
 </div>
 </div>
 </section>
@@ -704,26 +704,28 @@ a percentage.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch_time: 1272.948ms
-Epoch: 0, loss: 8.58497, lr: 0.100000
-epoch_time: 260.710ms
-Epoch: 60, loss: 3.09110, lr: 0.028243
-epoch_time: 253.204ms
-Epoch: 120, loss: 1.08937, lr: 0.007977
-epoch_time: 224.693ms
-Epoch: 180, loss: 0.74707, lr: 0.002253
-epoch_time: 278.849ms
-Epoch: 240, loss: 0.74481, lr: 0.000636
-epoch_time: 248.189ms
-Epoch: 300, loss: 0.74639, lr: 0.000180
-epoch_time: 245.628ms
-Epoch: 360, loss: 0.74623, lr: 0.000100
-epoch_time: 249.119ms
-Epoch: 420, loss: 0.74537, lr: 0.000100
-epoch_time: 251.339ms
-Epoch: 480, loss: 0.74634, lr: 0.000100
-epoch_time: 242.898ms
-Epoch: 540, loss: 0.74681, lr: 0.000100
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch_time: 16.833 sec
+Epoch: 0, loss: 8.54229, lr: 0.100000
+epoch_time: 3.494 sec
+Epoch: 60, loss: 3.06902, lr: 0.028243
+epoch_time: 4.244 sec
+Epoch: 120, loss: 1.10646, lr: 0.007977
+epoch_time: 3.988 sec
+Epoch: 180, loss: 0.71954, lr: 0.002253
+epoch_time: 5.335 sec
+Epoch: 240, loss: 0.73178, lr: 0.001000
+epoch_time: 4.188 sec
+Epoch: 300, loss: 0.72847, lr: 0.001000
+epoch_time: 3.976 sec
+Epoch: 360, loss: 0.72236, lr: 0.001000
+epoch_time: 3.583 sec
+Epoch: 420, loss: 0.72646, lr: 0.001000
+epoch_time: 3.477 sec
+Epoch: 480, loss: 0.72295, lr: 0.001000
+epoch_time: 3.863 sec
+Epoch: 540, loss: 0.72282, lr: 0.001000
+ 
+Total time needed: 38.78 min
 </pre></div>
 </div>
 </div>
@@ -740,7 +742,7 @@ Epoch: 540, loss: 0.74681, lr: 0.000100
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/d47e61ea446417c264a29a498907d532edd0ae4e56c472c61461e20e37d4219e.png" src="../_images/d47e61ea446417c264a29a498907d532edd0ae4e56c472c61461e20e37d4219e.png" />
+<img alt="../_images/4011e0461bff191fc73c4010a31c9d14bd607f00e200dd166023c80cb0f567ce.png" src="../_images/4011e0461bff191fc73c4010a31c9d14bd607f00e200dd166023c80cb0f567ce.png" />
 </div>
 </div>
 </section>
@@ -774,24 +776,24 @@ Epoch: 540, loss: 0.74681, lr: 0.000100
     <tbody>
         <tr>
             <td>loc_0</td>
-            <td>2.918</td>
+            <td>2.913</td>
             <td>0.006</td>
             <td>2.91</td>
-            <td>0.008</td>
+            <td>0.003</td>
         </tr>
         <tr>
             <td>scale_0</td>
-            <td>0.057</td>
+            <td>0.067</td>
             <td>0.0</td>
             <td>0.07</td>
-            <td>0.013</td>
+            <td>0.003</td>
         </tr>
         <tr>
             <td>loc_1</td>
-            <td>0.223</td>
-            <td>0.007</td>
+            <td>0.224</td>
+            <td>0.004</td>
             <td>0.23</td>
-            <td>0.007</td>
+            <td>0.006</td>
         </tr>
         <tr>
             <td>scale_1</td>
@@ -802,31 +804,31 @@ Epoch: 540, loss: 0.74681, lr: 0.000100
         </tr>
         <tr>
             <td>loc_2</td>
-            <td>-1.532</td>
+            <td>-1.523</td>
             <td>0.005</td>
             <td>-1.51</td>
-            <td>0.022</td>
+            <td>0.013</td>
         </tr>
         <tr>
             <td>scale_2</td>
-            <td>0.138</td>
-            <td>0.001</td>
+            <td>0.136</td>
+            <td>0.002</td>
             <td>0.135</td>
-            <td>0.003</td>
+            <td>0.001</td>
         </tr>
         <tr>
             <td>loc_3</td>
-            <td>-0.626</td>
-            <td>0.006</td>
+            <td>-0.621</td>
+            <td>0.005</td>
             <td>-0.61</td>
-            <td>0.016</td>
+            <td>0.011</td>
         </tr>
         <tr>
             <td>scale_3</td>
-            <td>0.112</td>
-            <td>0.0</td>
+            <td>0.097</td>
+            <td>0.001</td>
             <td>0.105</td>
-            <td>0.007</td>
+            <td>0.008</td>
         </tr>
     </tbody>
 </table></div></div>
@@ -837,12 +839,12 @@ Epoch: 540, loss: 0.74681, lr: 0.000100
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_learned_prior_pois</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span> <span class="n">user_config</span><span class="p">,</span> <span class="n">true_vals</span><span class="p">,</span> <span class="n">avg_res</span><span class="p">,</span> 
-                        <span class="n">expert_res_list</span><span class="p">,</span> <span class="n">names_states</span><span class="p">,</span> <span class="n">selected_states</span><span class="p">,</span> <span class="n">save_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+                        <span class="n">expert_res_list</span><span class="p">,</span> <span class="n">names_states</span><span class="p">,</span> <span class="n">selected_states</span><span class="p">,</span> <span class="n">save_fig</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/b4b5df1d54208e872476a5d466d332c79516d28362087ba5cfe9bd4abf3511eb.png" src="../_images/b4b5df1d54208e872476a5d466d332c79516d28362087ba5cfe9bd4abf3511eb.png" />
+<img alt="../_images/02d4480af7e40a10e7669bbf9f003d0b7a27f277dcf118a77d21da3fe3156d70.png" src="../_images/02d4480af7e40a10e7669bbf9f003d0b7a27f277dcf118a77d21da3fe3156d70.png" />
 </div>
 </div>
 </section>

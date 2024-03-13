@@ -373,8 +373,8 @@ document.write(`
 </section>
 <section id="data-generating-model">
 <h2>Data generating model<a class="headerlink" href="#data-generating-model" title="Link to this heading">#</a></h2>
-<div class="amsmath math notranslate nohighlight" id="equation-4ebf3bb2-d6fe-49b1-830a-b7d0fb250d68">
-<span class="eqno">(1)<a class="headerlink" href="#equation-4ebf3bb2-d6fe-49b1-830a-b7d0fb250d68" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2eb2823d-4825-419a-a6ec-72b0d6e8c9a7">
+<span class="eqno">(1)<a class="headerlink" href="#equation-2eb2823d-4825-419a-a6ec-72b0d6e8c9a7" title="Permalink to this equation">#</a></span>\[\begin{align}
     \begin{split}
     y_{ij} &amp;= \textrm{Normal}(\theta_{ij}, s)\\
     \theta_{ij} &amp;= \beta_{0,j} + \beta_{1,j} x_{ij} \\
@@ -557,12 +557,12 @@ Given the potential variation in both baseline and change in RT across participa
     <span class="s2">&quot;beta_0&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;family&quot;</span><span class="p">:</span>  <span class="n">Normal_unconstrained</span><span class="p">(),</span>
         <span class="s2">&quot;true&quot;</span><span class="p">:</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;mu&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span>
-        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">240.</span><span class="p">,</span><span class="mf">5.</span><span class="p">),</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span><span class="mf">0.2</span><span class="p">)]</span>
+        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">240.</span><span class="p">,</span><span class="mf">5.</span><span class="p">),</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">2.</span><span class="p">,</span><span class="mf">0.5</span><span class="p">)]</span>
         <span class="p">},</span>
     <span class="s2">&quot;beta_1&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;family&quot;</span><span class="p">:</span>  <span class="n">Normal_unconstrained</span><span class="p">(),</span>
         <span class="s2">&quot;true&quot;</span><span class="p">:</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;mu&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span>
-        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">40.</span><span class="p">,</span><span class="mf">5.</span><span class="p">),</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span><span class="mf">0.2</span><span class="p">)]</span>
+        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">40.</span><span class="p">,</span><span class="mf">5.</span><span class="p">),</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">)]</span>
         <span class="p">},</span>
     <span class="s2">&quot;tau_0&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">TruncatedNormal_unconstrained</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span><span class="n">low</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span><span class="n">high</span> <span class="o">=</span> <span class="mi">500</span><span class="p">),</span>
@@ -572,12 +572,12 @@ Given the potential variation in both baseline and change in RT across participa
     <span class="s2">&quot;tau_1&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">TruncatedNormal_unconstrained</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span><span class="n">low</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span><span class="n">high</span> <span class="o">=</span> <span class="mi">500</span><span class="p">),</span>
         <span class="s2">&quot;true&quot;</span><span class="p">:</span>  <span class="n">tfd</span><span class="o">.</span><span class="n">TruncatedNormal</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;omega&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">low</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">500</span><span class="p">),</span>
-        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">3.</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)]</span>
+        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">3.</span><span class="p">,</span><span class="mf">0.5</span><span class="p">)]</span>
         <span class="p">},</span>
     <span class="s2">&quot;sigma&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">Exponential_unconstrained</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;rep&quot;</span><span class="p">]),</span>
         <span class="s2">&quot;true&quot;</span><span class="p">:</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;nu&quot;</span><span class="p">]),</span>
-        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)]</span>
+        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">2.</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.</span><span class="p">)]</span>
         <span class="p">}</span>
     <span class="p">}</span>
 
@@ -935,6 +935,14 @@ epoch_time: 979.703ms
 Epoch: 60, loss: 7.45782, lr: 0.028243
 epoch_time: 711.686ms
 Epoch: 120, loss: 4.16629, lr: 0.007977
+epoch_time: 890.462ms
+Epoch: 180, loss: 3.98313, lr: 0.002253
+epoch_time: 813.272ms
+Epoch: 240, loss: 3.99756, lr: 0.000636
+epoch_time: 781.163ms
+Epoch: 300, loss: 3.98091, lr: 0.000180
+epoch_time: 767.753ms
+Epoch: 360, loss: 3.99854, lr: 0.000051
 </pre></div>
 </div>
 </div>
@@ -973,7 +981,7 @@ Epoch: 120, loss: 4.16629, lr: 0.007977
 <span class="n">axs1</span> <span class="o">=</span> <span class="n">figs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
 
 <span class="n">custom_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;axes.spines.right&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;axes.spines.top&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;ticks&quot;</span><span class="p">,</span> <span class="n">rc</span><span class="o">=</span><span class="n">custom_params</span><span class="p">)</span> <span class="c1">#, font = &quot;Computer Modern&quot;</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;ticks&quot;</span><span class="p">,</span> <span class="n">rc</span><span class="o">=</span><span class="n">custom_params</span><span class="p">)</span><span class="c1">#, font = &quot;Computer Modern&quot;)</span>
 
 <span class="n">axs0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">]),</span> <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;loss_info&quot;</span><span class="p">],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
 <span class="n">axs0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Total loss&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span>
@@ -1001,12 +1009,265 @@ Epoch: 120, loss: 4.16629, lr: 0.007977
 <span class="n">axs1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">]),</span> <span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">6</span><span class="p">,:]),</span> <span class="n">color</span> <span class="o">=</span> <span class="n">col_betas</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">)</span> 
 <span class="n">axs1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">)</span>
 <span class="n">axs1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.09</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;graphics/mlm_diagnostics.png&#39;</span><span class="p">,</span> <span class="n">dpi</span> <span class="o">=</span> <span class="mi">300</span><span class="p">)</span>
+<span class="c1">#plt.show()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/c84a204f9ae79df0f0bee7bc1f5839c40e253f9ecee846a762390f63bafedcff.png" src="../_images/c84a204f9ae79df0f0bee7bc1f5839c40e253f9ecee846a762390f63bafedcff.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+</pre></div>
+</div>
+<img alt="../_images/39468e5e7bdb94747d77260851c84f093adbe2ac057c3ec09bca1d477cc7a9e7.png" src="../_images/39468e5e7bdb94747d77260851c84f093adbe2ac057c3ec09bca1d477cc7a9e7.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1020,10 +1281,10 @@ Epoch: 120, loss: 4.16629, lr: 0.007977
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[248.40317   28.894114]
-[6.9236984 4.3666787]
-[31.379097   6.4752316]
-[0.05401607]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[249.41081   29.324995]
+[6.9982815 4.6096797]
+[32.291527   5.5701675]
+[0.0538956]
 </pre></div>
 </div>
 </div>

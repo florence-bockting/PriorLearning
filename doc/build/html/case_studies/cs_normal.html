@@ -359,12 +359,6 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\flobo\anaconda3\envs\make-my-prior\Lib\site-packages\bayesflow\trainers.py:27: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
-  from tqdm.autonotebook import tqdm
-</pre></div>
-</div>
-</div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="normal-regression-model">
 <h1>Normal regression model<a class="headerlink" href="#normal-regression-model" title="Link to this heading">#</a></h1>
@@ -443,11 +437,11 @@ document.write(`
 <span class="n">user_config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>                    
         <span class="n">B</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">8</span><span class="p">,</span>                          
         <span class="n">rep</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>                         
-        <span class="n">epochs</span> <span class="o">=</span> <span class="mi">600</span><span class="p">,</span>                      
-        <span class="n">view_ep</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span>
+        <span class="n">epochs</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>                      
+        <span class="n">view_ep</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span>
         <span class="n">lr_decay</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">lr0</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> 
-        <span class="n">lr_min</span> <span class="o">=</span> <span class="mf">0.00001</span><span class="p">,</span> 
+        <span class="n">lr0</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> 
+        <span class="n">lr_min</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> 
         <span class="n">loss_dimensions</span> <span class="o">=</span> <span class="s2">&quot;m,n:B&quot;</span><span class="p">,</span>   
         <span class="n">loss_discrepancy</span> <span class="o">=</span> <span class="s2">&quot;energy&quot;</span><span class="p">,</span> 
         <span class="n">loss_scaling</span> <span class="o">=</span> <span class="s2">&quot;unscaled&quot;</span><span class="p">,</span>         
@@ -511,14 +505,14 @@ document.write(`
     <span class="n">parameters_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;beta_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;family&quot;</span><span class="p">:</span>  <span class="n">Normal_unconstrained</span><span class="p">(),</span>
             <span class="s2">&quot;true&quot;</span><span class="p">:</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;mu&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]),</span>
-            <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)]</span><span class="o">*</span><span class="mi">2</span>
+            <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">2.</span><span class="p">,</span><span class="o">-</span><span class="mf">4.</span><span class="p">)]</span>
             <span class="p">}</span>
 
 <span class="n">exp_dist</span> <span class="o">=</span> <span class="n">Exponential_unconstrained</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;rep&quot;</span><span class="p">])</span>
 <span class="n">parameters_dict</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">exp_dist</span><span class="p">,</span>
         <span class="s2">&quot;true&quot;</span><span class="p">:</span> <span class="n">exp_dist</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;nu&quot;</span><span class="p">])),</span>
-        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span><span class="mf">0.1</span><span class="p">)]</span>
+        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span><span class="mf">2.</span><span class="p">)]</span>
         <span class="p">}</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;True hyperparameter values:&quot;</span><span class="p">)</span>
@@ -624,7 +618,7 @@ document.write(`
 
         <span class="c1"># compute mean difference between groups</span>
         <span class="n">effect_list</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">diffs</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)]</span>
+        <span class="n">diffs</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">diffs</span><span class="p">)):</span>
             <span class="c1"># compute group difference</span>
             <span class="n">diff</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span>
@@ -755,7 +749,7 @@ To elicit this information from the expert, the analyst uses quantile-based elic
       <td>R2</td>
       <td>histogram</td>
       <td>all</td>
-      <td>&lt;function custom_r2 at 0x000002872D32F6A0&gt;</td>
+      <td>&lt;function custom_r2 at 0x000001F8CBE87880&gt;</td>
       <td>None</td>
     </tr>
   </tbody>
@@ -795,7 +789,7 @@ To elicit this information from the expert, the analyst uses quantile-based elic
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/609e94642ad10379e88f0e48094671b852e990111826a6cba424d092ed073ce9.png" src="../_images/609e94642ad10379e88f0e48094671b852e990111826a6cba424d092ed073ce9.png" />
+<img alt="../_images/fa75ee8bf37654f85e07b068bab38bf4695bf3c036bb13b84ba1a896896ebd3a.png" src="../_images/fa75ee8bf37654f85e07b068bab38bf4695bf3c036bb13b84ba1a896896ebd3a.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -826,7 +820,7 @@ To elicit this information from the expert, the analyst uses quantile-based elic
 |  gr_5 | 0.2  | 0.07 |
 +-------+------+------+
 mean effects:
-[0.15 0.13 0.11]
+[-0.15 -0.13 -0.11]
 marginal ReP (new, repeated):
 [0.3  0.69]
 marginal EnC (deep, standard, shallow):
@@ -850,26 +844,28 @@ marginal EnC (deep, standard, shallow):
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch_time: 851.969ms
-Epoch: 0, loss: 1.41593, lr: 0.100000
-epoch_time: 186.507ms
-Epoch: 35, loss: 0.24712, lr: 0.047830
-epoch_time: 187.186ms
-Epoch: 70, loss: 0.05304, lr: 0.022877
-epoch_time: 164.717ms
-Epoch: 105, loss: 0.03109, lr: 0.010942
-epoch_time: 193.512ms
-Epoch: 140, loss: 0.01931, lr: 0.005233
-epoch_time: 164.587ms
-Epoch: 175, loss: 0.03187, lr: 0.002503
-epoch_time: 216.564ms
-Epoch: 210, loss: 0.03067, lr: 0.001197
-epoch_time: 231.042ms
-Epoch: 245, loss: 0.03197, lr: 0.000573
-epoch_time: 193.289ms
-Epoch: 280, loss: 0.02713, lr: 0.000274
-epoch_time: 213.617ms
-Epoch: 315, loss: 0.02862, lr: 0.000131
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch_time: 14.143 sec
+Epoch: 0, loss: 0.39360, lr: 0.010000
+epoch_time: 3.399 sec
+Epoch: 40, loss: 0.05567, lr: 0.010000
+epoch_time: 3.405 sec
+Epoch: 80, loss: 0.02269, lr: 0.010000
+epoch_time: 2.930 sec
+Epoch: 120, loss: 0.01679, lr: 0.010000
+epoch_time: 2.957 sec
+Epoch: 160, loss: 0.01423, lr: 0.010000
+epoch_time: 2.938 sec
+Epoch: 200, loss: 0.01236, lr: 0.010000
+epoch_time: 3.478 sec
+Epoch: 240, loss: 0.01173, lr: 0.010000
+epoch_time: 2.993 sec
+Epoch: 280, loss: 0.01118, lr: 0.010000
+epoch_time: 3.443 sec
+Epoch: 320, loss: 0.01094, lr: 0.010000
+epoch_time: 2.930 sec
+Epoch: 360, loss: 0.01069, lr: 0.010000
+ 
+Total time needed: 21.75 min
 </pre></div>
 </div>
 </div>
@@ -882,12 +878,12 @@ Epoch: 315, loss: 0.02862, lr: 0.000131
 <h3>Diagnostics and Convergence plots<a class="headerlink" href="#diagnostics-and-convergence-plots" title="Link to this heading">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_diagnostics_linreg</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span> <span class="n">user_config</span><span class="p">,</span> <span class="n">save_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_diagnostics_linreg</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span> <span class="n">user_config</span><span class="p">,</span> <span class="n">save_fig</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/2b6bbcb49dc1d4dfdfc3e87ec72865bfa8c7c0db28524b18d4bde5dfed1e4894.png" src="../_images/2b6bbcb49dc1d4dfdfc3e87ec72865bfa8c7c0db28524b18d4bde5dfed1e4894.png" />
+<img alt="../_images/48757ff8cf8bbbbb68d4f7c3d64c25f6fa7a9d06e1a04069db0eb2763f98442a.png" src="../_images/48757ff8cf8bbbbb68d4f7c3d64c25f6fa7a9d06e1a04069db0eb2763f98442a.png" />
 </div>
 </div>
 </section>
@@ -916,12 +912,12 @@ Epoch: 315, loss: 0.02862, lr: 0.000131
 The substantial overlap between these distributions indicates a successful learning process.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_learned_prior_linreg</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span> <span class="n">true_vals</span><span class="p">,</span> <span class="n">avg_res</span><span class="p">,</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">],</span> <span class="n">save_fig</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_learned_prior_linreg</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span> <span class="n">true_vals</span><span class="p">,</span> <span class="n">avg_res</span><span class="p">,</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">],</span> <span class="n">save_fig</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/421dc65011b095df86dae138faa62580e1efb7e772594a8900cc5e1f00883eac.png" src="../_images/421dc65011b095df86dae138faa62580e1efb7e772594a8900cc5e1f00883eac.png" />
+<img alt="../_images/a05c7e3bfee4efda1fa0b52c1c2eac61fc1e59161cfc78bbc69a231eb11b68f5.png" src="../_images/a05c7e3bfee4efda1fa0b52c1c2eac61fc1e59161cfc78bbc69a231eb11b68f5.png" />
 </div>
 </div>
 </section>
