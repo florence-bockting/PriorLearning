@@ -1,4 +1,3 @@
-![Documentation](https://github.com/florence-bockting/PriorLearning/actions/workflows/docs.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-red.svg)](https://opensource.org/licenses/MIT)
 
 # Simulation-based prior knowledge elicitation
