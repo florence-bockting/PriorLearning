@@ -47,6 +47,18 @@ def antidiscr_laws_dmatrix(scaling, selected_obs, B, rep):
     
     return dmatrix, dmatrix_fct, cmatrix
 
+def sleep_data_predictor(scaling, N_days, N_subj, selected_days):
+    X = tf.cast(tf.tile(tf.range(0., N_days, 1.), [N_subj]), tf.float32)
+    if scaling == "standardize":
+        X_scaled = (X - tf.reduce_mean(X))/tf.math.reduce_std(X)
+    dmatrix_full = tf.stack([tf.ones(len(X_scaled)), X_scaled], axis = -1)
+    dmatrix_list = [dmatrix_full[day::N_days] for day in selected_days]
+    dmatrix = tf.stack(dmatrix_list, axis=1)
+    dmatrix = tf.reshape(dmatrix, (N_subj*len(selected_days), 2))
+    cmatrix = pd.DataFrame(dmatrix).drop_duplicates()
+    
+    return dmatrix, cmatrix
+
 def plot_expert_pred_poisson(expert_res_list, names_states):
     q_exp = expert_res_list["group_means_quant_0"]
     q_exp1 = expert_res_list["y_obs_hist_1"]

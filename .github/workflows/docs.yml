@@ -1,29 +1,51 @@
-name: "Build docs"
-on: 
-- push
-
+name: "build docs"
+ 
+# execute this workflow automatically when a we push to master
+on:
+  push:
+    branches: [ main ]
+ 
 jobs:
-  docs:
+ 
+  build_docs_job:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+ 
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-python@v4 
-      with:
-        python-version: '3.9' 
-    - name: Install dependencies
-      run: |
-        pip install "numpydoc==1.1.0" "Sphinx==5.1.0" "sphinx-book-theme" "myst_nb" "sphinx-design" "sphinxemoji" .
-    - name: Build docs
-      run:  |
-        cd doc
-        make clean
-        cd ..  
-        sphinx-apidoc -f -o source/ ../PriorLearning
-        sphinx-build doc/source doc/build
-    - name: Deploy documentation to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        branch: gh-pages                     # The branch the action should deploy to.
-        folder: doc/build                    # The folder the action should deploy.
-        git-config-name: Deployment Bot      # Name of the committer
-        git-config-email: deploy@github.com  # Email of the committer     
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+ 
+      - name: Install dependencies
+        run: |
+          pip install "numpydoc==1.1.0" "Sphinx==5.1.0" "sphinx-book-theme" "myst_nb" "sphinx-design" "sphinxemoji" .
+
+      - name: make the sphinx docs
+        run: |
+          make -C docs clean 
+		  sphinx-apidoc -f -o docs/source/ ../../PriorLearning
+          # sphinx-apidoc -f -o docs/source . -H Test -e -t docs/source/_templates
+          make -C docs html
+
+      - name: Init new repo in dist folder and commit generated files
+        run: |
+          cd docs/build/html/
+          git init
+          touch .nojekyll
+          git add -A
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m 'deploy'
+
+      - name: Force push to destination branch
+        uses: ad-m/github-push-action@v0.5.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: gh-pages
+          force: true
+          directory: ./docs/build/html
