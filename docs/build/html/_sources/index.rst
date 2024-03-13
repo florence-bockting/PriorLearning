@@ -50,6 +50,6 @@ Contents
    :maxdepth: 2
 
    Home <self>
-   API <modules>
+   API <api/modules>
    Case Studies <case_studies>
 

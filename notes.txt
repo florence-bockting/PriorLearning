@@ -1,0 +1,5 @@
+# delete old documentation
+rm docs/source/api/*
+
+# generate new documentation
+sphinx-apidoc -f -o docs/source/api PriorLearning --separate
