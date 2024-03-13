@@ -20,7 +20,6 @@ help:
 github:
 	@make html
 	@cp -a build/html/. ../docs
-	@cp .nojekyll ../docs/.nojekyll
 	@rm -r build/html/
 
 clean:
