@@ -1,5 +1,24 @@
-# delete old documentation
+# delete old rst-files
 rm docs/source/api/*
 
-# generate new documentation
+# generate new rst-files
 sphinx-apidoc -f -o docs/source/api PriorLearning --separate
+
+# clean build/html directory
+cd docs
+make clean
+
+# build new Sphinx files
+make html
+
+# check whether it worked locally
+start build/html/index.html
+
+# go to build/html folder (i.e. gh-pages branch)
+cd build/html
+
+# push updates to Github
+git add -A
+git commit -m "update documentation"
+git push 
+git push --force
