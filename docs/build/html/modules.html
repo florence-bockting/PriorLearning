@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -133,7 +133,22 @@
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
 <li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">API</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="PriorLearning.html">PriorLearning package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="PriorLearning.html">PriorLearning package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.combine_losses.html">PriorLearning.combine_losses module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.discrepancy_measures.html">PriorLearning.discrepancy_measures module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.elicitation_techniques.html">PriorLearning.elicitation_techniques module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.elicitation_wrapper.html">PriorLearning.elicitation_wrapper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.global_config_params.html">PriorLearning.global_config_params module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.helper_functions.html">PriorLearning.helper_functions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.loss_helpers.html">PriorLearning.loss_helpers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.multi_loss_weighting.html">PriorLearning.multi_loss_weighting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.simulator.html">PriorLearning.simulator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.softmax_gumbel_trick.html">PriorLearning.softmax_gumbel_trick module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.target_quantities.html">PriorLearning.target_quantities module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.training.html">PriorLearning.training module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.user_config.html">PriorLearning.user_config module</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="case_studies.html">Case Studies</a></li>
@@ -305,111 +320,75 @@ document.write(`
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="PriorLearning.html">PriorLearning package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="PriorLearning.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PriorLearning.html#module-PriorLearning.combine_losses">PriorLearning.combine_losses module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.combine_losses.combi_none"><code class="docutils literal notranslate"><span class="pre">combi_none()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.combine_losses.combi_all"><code class="docutils literal notranslate"><span class="pre">combi_all()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.combine_losses.combi_group"><code class="docutils literal notranslate"><span class="pre">combi_group()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.combine_losses.combi_stats"><code class="docutils literal notranslate"><span class="pre">combi_stats()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.combine_losses.combine_loss_components"><code class="docutils literal notranslate"><span class="pre">combine_loss_components()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="PriorLearning.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.combine_losses.html">PriorLearning.combine_losses module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.combine_losses.html#PriorLearning.combine_losses.combi_none"><code class="docutils literal notranslate"><span class="pre">combi_none()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.combine_losses.html#PriorLearning.combine_losses.combi_all"><code class="docutils literal notranslate"><span class="pre">combi_all()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.combine_losses.html#PriorLearning.combine_losses.combi_group"><code class="docutils literal notranslate"><span class="pre">combi_group()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.combine_losses.html#PriorLearning.combine_losses.combi_stats"><code class="docutils literal notranslate"><span class="pre">combi_stats()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.combine_losses.html#PriorLearning.combine_losses.combine_loss_components"><code class="docutils literal notranslate"><span class="pre">combine_loss_components()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="PriorLearning.html#module-PriorLearning.discrepancy_measures">PriorLearning.discrepancy_measures module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss"><code class="docutils literal notranslate"><span class="pre">energy_loss</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.__init__"><code class="docutils literal notranslate"><span class="pre">energy_loss.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.__call__"><code class="docutils literal notranslate"><span class="pre">energy_loss.__call__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.generate_weights"><code class="docutils literal notranslate"><span class="pre">energy_loss.generate_weights()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.squared_distances"><code class="docutils literal notranslate"><span class="pre">energy_loss.squared_distances()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.distances"><code class="docutils literal notranslate"><span class="pre">energy_loss.distances()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.energy_kernel"><code class="docutils literal notranslate"><span class="pre">energy_loss.energy_kernel()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.scal"><code class="docutils literal notranslate"><span class="pre">energy_loss.scal()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.kernel_loss"><code class="docutils literal notranslate"><span class="pre">energy_loss.kernel_loss()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.discrepancy_measures.html">PriorLearning.discrepancy_measures module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.discrepancy_measures.html#PriorLearning.discrepancy_measures.energy_loss"><code class="docutils literal notranslate"><span class="pre">energy_loss</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.elicitation_techniques.html">PriorLearning.elicitation_techniques module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.elicitation_techniques.html#PriorLearning.elicitation_techniques.method_quantiles"><code class="docutils literal notranslate"><span class="pre">method_quantiles()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.elicitation_techniques.html#PriorLearning.elicitation_techniques.method_moments"><code class="docutils literal notranslate"><span class="pre">method_moments()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.elicitation_techniques.html#PriorLearning.elicitation_techniques.ElicitationTechnique"><code class="docutils literal notranslate"><span class="pre">ElicitationTechnique</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="PriorLearning.html#module-PriorLearning.elicitation_techniques">PriorLearning.elicitation_techniques module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.elicitation_techniques.method_quantiles"><code class="docutils literal notranslate"><span class="pre">method_quantiles()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.elicitation_techniques.method_moments"><code class="docutils literal notranslate"><span class="pre">method_moments()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.elicitation_techniques.ElicitationTechnique"><code class="docutils literal notranslate"><span class="pre">ElicitationTechnique</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.elicitation_techniques.ElicitationTechnique.__init__"><code class="docutils literal notranslate"><span class="pre">ElicitationTechnique.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.elicitation_techniques.ElicitationTechnique.__call__"><code class="docutils literal notranslate"><span class="pre">ElicitationTechnique.__call__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.elicitation_wrapper.html">PriorLearning.elicitation_wrapper module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.elicitation_wrapper.html#PriorLearning.elicitation_wrapper.elicitation_wrapper"><code class="docutils literal notranslate"><span class="pre">elicitation_wrapper()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.elicitation_wrapper.html#PriorLearning.elicitation_wrapper.expert_model"><code class="docutils literal notranslate"><span class="pre">expert_model()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.global_config_params.html">PriorLearning.global_config_params module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.global_config_params.html#PriorLearning.global_config_params.default_configs"><code class="docutils literal notranslate"><span class="pre">default_configs()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="PriorLearning.html#module-PriorLearning.elicitation_wrapper">PriorLearning.elicitation_wrapper module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.elicitation_wrapper.elicitation_wrapper"><code class="docutils literal notranslate"><span class="pre">elicitation_wrapper()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.elicitation_wrapper.expert_model"><code class="docutils literal notranslate"><span class="pre">expert_model()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.helper_functions.html">PriorLearning.helper_functions module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.helper_functions.html#PriorLearning.helper_functions.Normal_unconstrained"><code class="docutils literal notranslate"><span class="pre">Normal_unconstrained</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.helper_functions.html#PriorLearning.helper_functions.TruncatedNormal_unconstrained"><code class="docutils literal notranslate"><span class="pre">TruncatedNormal_unconstrained</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.helper_functions.html#PriorLearning.helper_functions.Exponential_unconstrained"><code class="docutils literal notranslate"><span class="pre">Exponential_unconstrained</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.helper_functions.html#PriorLearning.helper_functions.group_obs"><code class="docutils literal notranslate"><span class="pre">group_obs()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="PriorLearning.html#module-PriorLearning.global_config_params">PriorLearning.global_config_params module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.global_config_params.default_configs"><code class="docutils literal notranslate"><span class="pre">default_configs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.loss_helpers.html">PriorLearning.loss_helpers module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.loss_helpers.html#PriorLearning.loss_helpers.scale_loss_component"><code class="docutils literal notranslate"><span class="pre">scale_loss_component()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.loss_helpers.html#PriorLearning.loss_helpers.compute_loss"><code class="docutils literal notranslate"><span class="pre">compute_loss()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="PriorLearning.html#module-PriorLearning.helper_functions">PriorLearning.helper_functions module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.helper_functions.Normal_unconstrained"><code class="docutils literal notranslate"><span class="pre">Normal_unconstrained</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.helper_functions.Normal_unconstrained.__init__"><code class="docutils literal notranslate"><span class="pre">Normal_unconstrained.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.helper_functions.Normal_unconstrained.__call__"><code class="docutils literal notranslate"><span class="pre">Normal_unconstrained.__call__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.multi_loss_weighting.html">PriorLearning.multi_loss_weighting module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.multi_loss_weighting.html#PriorLearning.multi_loss_weighting.dynamic_weight_averaging"><code class="docutils literal notranslate"><span class="pre">dynamic_weight_averaging()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.helper_functions.TruncatedNormal_unconstrained"><code class="docutils literal notranslate"><span class="pre">TruncatedNormal_unconstrained</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.helper_functions.TruncatedNormal_unconstrained.__init__"><code class="docutils literal notranslate"><span class="pre">TruncatedNormal_unconstrained.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.helper_functions.TruncatedNormal_unconstrained.__call__"><code class="docutils literal notranslate"><span class="pre">TruncatedNormal_unconstrained.__call__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.simulator.html">PriorLearning.simulator module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.simulator.html#PriorLearning.simulator.InitializePriorFamily"><code class="docutils literal notranslate"><span class="pre">InitializePriorFamily</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.simulator.html#PriorLearning.simulator.Simulator"><code class="docutils literal notranslate"><span class="pre">Simulator</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.helper_functions.Exponential_unconstrained"><code class="docutils literal notranslate"><span class="pre">Exponential_unconstrained</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.helper_functions.Exponential_unconstrained.__init__"><code class="docutils literal notranslate"><span class="pre">Exponential_unconstrained.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.helper_functions.Exponential_unconstrained.__call__"><code class="docutils literal notranslate"><span class="pre">Exponential_unconstrained.__call__()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.softmax_gumbel_trick.html">PriorLearning.softmax_gumbel_trick module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.softmax_gumbel_trick.html#PriorLearning.softmax_gumbel_trick.apply_softmax_gumbel_trick"><code class="docutils literal notranslate"><span class="pre">apply_softmax_gumbel_trick()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.helper_functions.group_obs"><code class="docutils literal notranslate"><span class="pre">group_obs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.target_quantities.html">PriorLearning.target_quantities module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.target_quantities.html#PriorLearning.target_quantities.method_grand_mean"><code class="docutils literal notranslate"><span class="pre">method_grand_mean()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.target_quantities.html#PriorLearning.target_quantities.method_group_means"><code class="docutils literal notranslate"><span class="pre">method_group_means()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.target_quantities.html#PriorLearning.target_quantities.method_R2"><code class="docutils literal notranslate"><span class="pre">method_R2()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.target_quantities.html#PriorLearning.target_quantities.TargetQuantities"><code class="docutils literal notranslate"><span class="pre">TargetQuantities</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="PriorLearning.html#module-PriorLearning.loss_helpers">PriorLearning.loss_helpers module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.loss_helpers.scale_loss_component"><code class="docutils literal notranslate"><span class="pre">scale_loss_component()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.loss_helpers.compute_loss"><code class="docutils literal notranslate"><span class="pre">compute_loss()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.training.html">PriorLearning.training module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.training.html#PriorLearning.training.trainer"><code class="docutils literal notranslate"><span class="pre">trainer()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="PriorLearning.html#module-PriorLearning.multi_loss_weighting">PriorLearning.multi_loss_weighting module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.multi_loss_weighting.dynamic_weight_averaging"><code class="docutils literal notranslate"><span class="pre">dynamic_weight_averaging()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="PriorLearning.user_config.html">PriorLearning.user_config module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.user_config.html#PriorLearning.user_config.target_config"><code class="docutils literal notranslate"><span class="pre">target_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="PriorLearning.user_config.html#PriorLearning.user_config.target_input"><code class="docutils literal notranslate"><span class="pre">target_input()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="PriorLearning.html#module-PriorLearning.simulator">PriorLearning.simulator module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.simulator.InitializePriorFamily"><code class="docutils literal notranslate"><span class="pre">InitializePriorFamily</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.simulator.InitializePriorFamily.__init__"><code class="docutils literal notranslate"><span class="pre">InitializePriorFamily.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.simulator.InitializePriorFamily.__call__"><code class="docutils literal notranslate"><span class="pre">InitializePriorFamily.__call__()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.simulator.Simulator"><code class="docutils literal notranslate"><span class="pre">Simulator</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.simulator.Simulator.__init__"><code class="docutils literal notranslate"><span class="pre">Simulator.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.simulator.Simulator.__call__"><code class="docutils literal notranslate"><span class="pre">Simulator.__call__()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="PriorLearning.html#module-PriorLearning.softmax_gumbel_trick">PriorLearning.softmax_gumbel_trick module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.softmax_gumbel_trick.apply_softmax_gumbel_trick"><code class="docutils literal notranslate"><span class="pre">apply_softmax_gumbel_trick()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="PriorLearning.html#module-PriorLearning.target_quantities">PriorLearning.target_quantities module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.target_quantities.method_grand_mean"><code class="docutils literal notranslate"><span class="pre">method_grand_mean()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.target_quantities.method_group_means"><code class="docutils literal notranslate"><span class="pre">method_group_means()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.target_quantities.method_R2"><code class="docutils literal notranslate"><span class="pre">method_R2()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.target_quantities.TargetQuantities"><code class="docutils literal notranslate"><span class="pre">TargetQuantities</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.target_quantities.TargetQuantities.__init__"><code class="docutils literal notranslate"><span class="pre">TargetQuantities.__init__()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="PriorLearning.html#PriorLearning.target_quantities.TargetQuantities.__call__"><code class="docutils literal notranslate"><span class="pre">TargetQuantities.__call__()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="PriorLearning.html#module-PriorLearning.training">PriorLearning.training module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.training.trainer"><code class="docutils literal notranslate"><span class="pre">trainer()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="PriorLearning.html#module-PriorLearning.user_config">PriorLearning.user_config module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.user_config.target_config"><code class="docutils literal notranslate"><span class="pre">target_config()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="PriorLearning.html#PriorLearning.user_config.target_input"><code class="docutils literal notranslate"><span class="pre">target_input()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="PriorLearning.html#module-PriorLearning">Module contents</a></li>

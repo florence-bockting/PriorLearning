@@ -28,7 +28,7 @@ jobs:
         run: |
           cd docs
           sphinx-apidoc -f -o source ../PriorLearning --separate
-          sphinx-build . build/html
+          sphinx-build source build/html
           cd ..
 
       - name: Deploy
