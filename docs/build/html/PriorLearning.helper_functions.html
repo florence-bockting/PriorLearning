@@ -30,7 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -383,6 +383,22 @@ log scale</p>
 <dt class="sig sig-object py" id="PriorLearning.helper_functions.TruncatedNormal_unconstrained">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PriorLearning.helper_functions.</span></span><span class="sig-name descname"><span class="pre">TruncatedNormal_unconstrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PriorLearning/helper_functions.html#TruncatedNormal_unconstrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PriorLearning.helper_functions.TruncatedNormal_unconstrained" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Tensorflow_probability TruncatedNormal distribution with exponentiated
+scale</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>loc</strong><span class="classifier">float</span></dt><dd><p>The mean of the distribution.</p>
+</dd>
+<dt><strong>low</strong><span class="classifier">float</span></dt><dd><p>Lower bound of the distribution’s support. (Must be lower than
+value of argument ‘high’)</p>
+</dd>
+<dt><strong>high</strong><span class="classifier">float</span></dt><dd><p>Upper bound of the distribution’s support. (Must be higher than
+value of argument ‘low’)</p>
+</dd>
+</dl>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="PriorLearning.helper_functions.TruncatedNormal_unconstrained.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">loc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">high</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PriorLearning/helper_functions.html#TruncatedNormal_unconstrained.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PriorLearning.helper_functions.TruncatedNormal_unconstrained.__init__" title="Link to this definition">#</a></dt>
@@ -433,6 +449,19 @@ deviation: exp scale</p>
 <dt class="sig sig-object py" id="PriorLearning.helper_functions.Exponential_unconstrained">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PriorLearning.helper_functions.</span></span><span class="sig-name descname"><span class="pre">Exponential_unconstrained</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rep</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PriorLearning/helper_functions.html#Exponential_unconstrained"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PriorLearning.helper_functions.Exponential_unconstrained" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Tensorflow_probability Exponential distribution reparameterized
+as Gamma distribution and with exponentiated rate</p>
+<p>Assume s ~ Exponential(exp(rate)), then the mean of N replicated s follows
+a Gamma distribution:  1/N sum_n s_n ~ Gamma(N, N*exp(rate))</p>
+<p>This reparameterization achieved more robust results in simulations</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rep</strong><span class="classifier">integer</span></dt><dd><p>The number of simulated model parameters.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="PriorLearning.helper_functions.Exponential_unconstrained.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rep</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/PriorLearning/helper_functions.html#Exponential_unconstrained.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#PriorLearning.helper_functions.Exponential_unconstrained.__init__" title="Link to this definition">#</a></dt>

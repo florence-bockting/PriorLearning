@@ -130,7 +130,22 @@
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">API</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../PriorLearning.html">PriorLearning package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../PriorLearning.html">PriorLearning package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.combine_losses.html">PriorLearning.combine_losses module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.discrepancy_measures.html">PriorLearning.discrepancy_measures module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.elicitation_techniques.html">PriorLearning.elicitation_techniques module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.elicitation_wrapper.html">PriorLearning.elicitation_wrapper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.global_config_params.html">PriorLearning.global_config_params module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.helper_functions.html">PriorLearning.helper_functions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.loss_helpers.html">PriorLearning.loss_helpers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.multi_loss_weighting.html">PriorLearning.multi_loss_weighting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.simulator.html">PriorLearning.simulator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.softmax_gumbel_trick.html">PriorLearning.softmax_gumbel_trick module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.target_quantities.html">PriorLearning.target_quantities module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.training.html">PriorLearning.training module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.user_config.html">PriorLearning.user_config module</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../case_studies.html">Case Studies</a></li>
@@ -257,7 +272,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="method_quantiles">
-<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.elicitation_techniques.method_quantiles">[docs]</a>
+<a class="viewcode-back" href="../../PriorLearning.elicitation_techniques.html#PriorLearning.elicitation_techniques.method_quantiles">[docs]</a>
 <span class="k">def</span> <span class="nf">method_quantiles</span><span class="p">(</span><span class="n">target_samples</span><span class="p">,</span> <span class="n">q</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes quantiles from model-implied target quantities</span>
@@ -290,7 +305,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="method_moments">
-<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.elicitation_techniques.method_moments">[docs]</a>
+<a class="viewcode-back" href="../../PriorLearning.elicitation_techniques.html#PriorLearning.elicitation_techniques.method_moments">[docs]</a>
 <span class="k">def</span> <span class="nf">method_moments</span><span class="p">(</span><span class="n">target_samples</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes moments from model-implied target quantity. </span>
@@ -328,16 +343,16 @@ document.write(`
 
 
 <div class="viewcode-block" id="ElicitationTechnique">
-<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.elicitation_techniques.ElicitationTechnique">[docs]</a>
+<a class="viewcode-back" href="../../PriorLearning.elicitation_techniques.html#PriorLearning.elicitation_techniques.ElicitationTechnique">[docs]</a>
 <span class="k">class</span> <span class="nc">ElicitationTechnique</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
 <div class="viewcode-block" id="ElicitationTechnique.__init__">
-<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.elicitation_techniques.ElicitationTechnique.__init__">[docs]</a>
+<a class="viewcode-back" href="../../PriorLearning.elicitation_techniques.html#PriorLearning.elicitation_techniques.ElicitationTechnique.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">ElicitationTechnique</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span></div>
 
     
 <div class="viewcode-block" id="ElicitationTechnique.__call__">
-<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.elicitation_techniques.ElicitationTechnique.__call__">[docs]</a>
+<a class="viewcode-back" href="../../PriorLearning.elicitation_techniques.html#PriorLearning.elicitation_techniques.ElicitationTechnique.__call__">[docs]</a>
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elicit_info</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the elicited statistics for each target quantity based on the </span>

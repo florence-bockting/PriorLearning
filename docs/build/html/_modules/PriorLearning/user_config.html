@@ -130,7 +130,22 @@
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">API</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../PriorLearning.html">PriorLearning package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../PriorLearning.html">PriorLearning package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.combine_losses.html">PriorLearning.combine_losses module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.discrepancy_measures.html">PriorLearning.discrepancy_measures module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.elicitation_techniques.html">PriorLearning.elicitation_techniques module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.elicitation_wrapper.html">PriorLearning.elicitation_wrapper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.global_config_params.html">PriorLearning.global_config_params module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.helper_functions.html">PriorLearning.helper_functions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.loss_helpers.html">PriorLearning.loss_helpers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.multi_loss_weighting.html">PriorLearning.multi_loss_weighting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.simulator.html">PriorLearning.simulator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.softmax_gumbel_trick.html">PriorLearning.softmax_gumbel_trick module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.target_quantities.html">PriorLearning.target_quantities module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.training.html">PriorLearning.training module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.user_config.html">PriorLearning.user_config module</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../case_studies.html">Case Studies</a></li>
@@ -251,7 +266,7 @@ document.write(`
                   
   <h1>Source code for PriorLearning.user_config</h1><div class="highlight"><pre>
 <div class="viewcode-block" id="target_config">
-<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.user_config.target_config">[docs]</a>
+<a class="viewcode-back" href="../../PriorLearning.user_config.html#PriorLearning.user_config.target_config">[docs]</a>
 <span></span><span class="k">def</span> <span class="nf">target_config</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">elicitation</span><span class="p">,</span> <span class="n">combine_loss</span><span class="p">,</span> 
                   <span class="n">custom_target_function</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  
 
@@ -315,7 +330,7 @@ document.write(`
 
 
 <div class="viewcode-block" id="target_input">
-<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.user_config.target_input">[docs]</a>
+<a class="viewcode-back" href="../../PriorLearning.user_config.html#PriorLearning.user_config.target_input">[docs]</a>
 <span class="k">def</span> <span class="nf">target_input</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
     <span class="n">user_input</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
     <span class="n">components</span> <span class="o">=</span> <span class="n">user_input</span><span class="p">[</span><span class="s2">&quot;args&quot;</span><span class="p">]</span>

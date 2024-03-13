@@ -130,7 +130,22 @@
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../modules.html">API</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../PriorLearning.html">PriorLearning package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../PriorLearning.html">PriorLearning package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.combine_losses.html">PriorLearning.combine_losses module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.discrepancy_measures.html">PriorLearning.discrepancy_measures module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.elicitation_techniques.html">PriorLearning.elicitation_techniques module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.elicitation_wrapper.html">PriorLearning.elicitation_wrapper module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.global_config_params.html">PriorLearning.global_config_params module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.helper_functions.html">PriorLearning.helper_functions module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.loss_helpers.html">PriorLearning.loss_helpers module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.multi_loss_weighting.html">PriorLearning.multi_loss_weighting module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.simulator.html">PriorLearning.simulator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.softmax_gumbel_trick.html">PriorLearning.softmax_gumbel_trick module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.target_quantities.html">PriorLearning.target_quantities module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.training.html">PriorLearning.training module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../PriorLearning.user_config.html">PriorLearning.user_config module</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../case_studies.html">Case Studies</a></li>
@@ -256,16 +271,16 @@ document.write(`
 
 
 <div class="viewcode-block" id="energy_loss">
-<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss">[docs]</a>
+<a class="viewcode-back" href="../../PriorLearning.discrepancy_measures.html#PriorLearning.discrepancy_measures.energy_loss">[docs]</a>
 <span class="k">class</span> <span class="nc">energy_loss</span><span class="p">:</span>
 <div class="viewcode-block" id="energy_loss.__init__">
-<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.__init__">[docs]</a>
+<a class="viewcode-back" href="../../PriorLearning.discrepancy_measures.html#PriorLearning.discrepancy_measures.energy_loss.__init__">[docs]</a>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">energy_loss</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>   </div>
 
     
 <div class="viewcode-block" id="energy_loss.__call__">
-<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.__call__">[docs]</a>
+<a class="viewcode-back" href="../../PriorLearning.discrepancy_measures.html#PriorLearning.discrepancy_measures.energy_loss.__call__">[docs]</a>
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -291,7 +306,7 @@ document.write(`
 
     
 <div class="viewcode-block" id="energy_loss.generate_weights">
-<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.generate_weights">[docs]</a>
+<a class="viewcode-back" href="../../PriorLearning.discrepancy_measures.html#PriorLearning.discrepancy_measures.energy_loss.generate_weights">[docs]</a>
     <span class="k">def</span> <span class="nf">generate_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
 
         <span class="n">B</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
@@ -301,7 +316,7 @@ document.write(`
 
     <span class="c1"># (x*x - 2xy + y*y)</span>
 <div class="viewcode-block" id="energy_loss.squared_distances">
-<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.squared_distances">[docs]</a>
+<a class="viewcode-back" href="../../PriorLearning.discrepancy_measures.html#PriorLearning.discrepancy_measures.energy_loss.squared_distances">[docs]</a>
     <span class="k">def</span> <span class="nf">squared_distances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the squared distance between expert-elicited and model-implied</span>
@@ -337,7 +352,7 @@ document.write(`
 
     <span class="c1"># sqrt[(x*x - 2xy + y*y)]</span>
 <div class="viewcode-block" id="energy_loss.distances">
-<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.distances">[docs]</a>
+<a class="viewcode-back" href="../../PriorLearning.discrepancy_measures.html#PriorLearning.discrepancy_measures.energy_loss.distances">[docs]</a>
     <span class="k">def</span> <span class="nf">distances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the distances (by taking the square-root of the squared </span>
@@ -371,7 +386,7 @@ document.write(`
 
     <span class="c1"># - ||x-y|| = - sqrt[(x*x - 2xy + y*y)]</span>
 <div class="viewcode-block" id="energy_loss.energy_kernel">
-<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.energy_kernel">[docs]</a>
+<a class="viewcode-back" href="../../PriorLearning.discrepancy_measures.html#PriorLearning.discrepancy_measures.energy_loss.energy_kernel">[docs]</a>
     <span class="k">def</span> <span class="nf">energy_kernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">        Computes the energy distance between expert-elicited and model-implied</span>
@@ -388,7 +403,7 @@ document.write(`
 
     <span class="c1">## helper function</span>
 <div class="viewcode-block" id="energy_loss.scal">
-<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.scal">[docs]</a>
+<a class="viewcode-back" href="../../PriorLearning.discrepancy_measures.html#PriorLearning.discrepancy_measures.energy_loss.scal">[docs]</a>
     <span class="k">def</span> <span class="nf">scal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
         <span class="n">B</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span></div>
@@ -396,7 +411,7 @@ document.write(`
       
     <span class="c1"># k(x,y)=0.5*sum_i sum_j a_i a_j k(x_i,x_j) - sum_i sum_j a_i b_j k(x_i,y_j) + 0.5*sum_i sum_j b_i b_j k(y_i, y_j)</span>
 <div class="viewcode-block" id="energy_loss.kernel_loss">
-<a class="viewcode-back" href="../../PriorLearning.html#PriorLearning.discrepancy_measures.energy_loss.kernel_loss">[docs]</a>
+<a class="viewcode-back" href="../../PriorLearning.discrepancy_measures.html#PriorLearning.discrepancy_measures.energy_loss.kernel_loss">[docs]</a>
     <span class="k">def</span> <span class="nf">kernel_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Computes the maximum mean discrepancy with energy kernel</span>

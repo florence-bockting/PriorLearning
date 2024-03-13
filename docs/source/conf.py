@@ -27,6 +27,7 @@ extensions = [
     'sphinx.ext.autosectionlabel', # Using references to files in local folders   
     "sphinx_design"    
 ]
+autoclass_content = 'both'
 
 numpydoc_show_class_members = False
 myst_enable_extensions = [
