@@ -14,23 +14,35 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
  
     steps:
-      - name: Checkout
+      - name: Checkout main
         uses: actions/checkout@v3
+        with:
+          path: main
+
+      - name: Checkout gh-pages
+        uses: actions/checkout@v3
+        with:
+          path: gh-pages
+          ref: gh-pages
+
 
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: 3.11
+          cache: "pip"
  
       - name: Install dependencies
         run: |
-          pip install "numpydoc==1.1.0" "Sphinx==5.1.0" "sphinx-book-theme" "myst_nb" "sphinx-design" "sphinxemoji" .
+          cd ./main
+          python -m pip install "numpydoc==1.1.0" "Sphinx==5.1.0" "sphinx-book-theme" "myst_nb" "sphinx-design" "sphinxemoji" .
 
       - name: make the sphinx docs
         run: |
-            make -C doc clean 
-            sphinx-apidoc -f -o doc/source/ ../../PriorLearning
-            make -C doc html
+            cd ./main/doc
+            make clean 
+            sphinx-apidoc -f -o source/ ../PriorLearning
+            make html
 
       - name: Commit changes to docs
         run: |
