@@ -1,3 +1,4 @@
+# From https://github.com/eeholmes/readthedoc-test/blob/main/.github/workflows/docs_pages.yml
 name: "build docs"
  
 # execute this workflow automatically when a we push to master
@@ -39,6 +40,7 @@ jobs:
           git add -A
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          git config --global --add safe.directory /github/workspace/doc/build/html
           git commit -m 'deploy'
 
       - name: Force push to destination branch
