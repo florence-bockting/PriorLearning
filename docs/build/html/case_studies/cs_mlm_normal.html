@@ -1,0 +1,1553 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Normal Mutlilevel Model Model &#8212; Prior Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=362ab14a" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script src="../_static/documentation_options.js?v=3611b776"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'case_studies/cs_mlm_normal';</script>
+    <link rel="icon" href="../_static/favicon-light.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/mmp-logo-light.png" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../_static/mmp-logo-dark.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Home</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../modules.html">API</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../PriorLearning.html">PriorLearning package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../case_studies.html">Case Studies</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/florence-bockting/PriorLearning" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/case_studies/cs_mlm_normal.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Normal Mutlilevel Model Model</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background-case-study">Background: Case Study</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-generating-model">Data generating model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology-workflow">Methodology: Workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#user-specification">User specification</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-hyperparameter-for-the-learning-algorithm">Setting hyperparameter for the learning algorithm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-the-ideal-agent">Setup the ‘ideal agent’</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-data-generating-model">Define the data generating model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specify-the-target-quantities-and-the-elicitation-technique">Specify the target quantities and the elicitation technique</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulate-from-the-ideal-expert">Simulate from the “ideal” expert</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learn-the-prior-distributions">Learn the prior distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function">Loss function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#final-learned-hyperparameter-values">Final learned hyperparameter values</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#learned-prior-distributions">Learned prior distributions</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">patsy</span> <span class="k">as</span> <span class="nn">pa</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">import</span> <span class="nn">tensorflow_probability</span> <span class="k">as</span> <span class="nn">tfp</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">tfd</span> <span class="o">=</span> <span class="n">tfp</span><span class="o">.</span><span class="n">distributions</span>
+
+<span class="kn">from</span> <span class="nn">PriorLearning.elicitation_wrapper</span> <span class="kn">import</span> <span class="n">expert_model</span>
+<span class="kn">from</span> <span class="nn">PriorLearning.training</span> <span class="kn">import</span> <span class="n">trainer</span>
+<span class="kn">from</span> <span class="nn">PriorLearning.helper_functions</span> <span class="kn">import</span> <span class="n">group_obs</span><span class="p">,</span> <span class="n">Exponential_unconstrained</span><span class="p">,</span> <span class="n">Normal_unconstrained</span><span class="p">,</span> <span class="n">TruncatedNormal_unconstrained</span>
+<span class="kn">from</span> <span class="nn">PriorLearning.user_config</span> <span class="kn">import</span> <span class="n">target_config</span><span class="p">,</span> <span class="n">target_input</span>
+<span class="kn">from</span> <span class="nn">PriorLearning.helper_functions</span> <span class="kn">import</span> <span class="n">_print_restab</span>
+<span class="kn">from</span> <span class="nn">PriorLearning._case_studies</span> <span class="kn">import</span> <span class="n">sleep_data_predictor</span><span class="p">,</span> <span class="n">plot_expert_pred</span><span class="p">,</span> <span class="n">tab_expert_pred</span><span class="p">,</span> <span class="n">plot_loss</span><span class="p">,</span> <span class="n">plot_priors</span><span class="p">,</span> <span class="n">print_target_info</span>
+<span class="kn">import</span> <span class="nn">PriorLearning.combine_losses</span> 
+
+<span class="kn">from</span> <span class="nn">tabulate</span> <span class="kn">import</span> <span class="n">tabulate</span>
+<span class="kn">import</span> <span class="nn">pprint</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="n">pprint</span><span class="o">.</span><span class="n">PrettyPrinter</span><span class="p">(</span><span class="n">depth</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">tf</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">set_seed</span><span class="p">(</span><span class="mi">2024</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="normal-mutlilevel-model-model">
+<h1>Normal Mutlilevel Model Model<a class="headerlink" href="#normal-mutlilevel-model-model" title="Link to this heading">#</a></h1>
+<section id="background-case-study">
+<h2>Background: Case Study<a class="headerlink" href="#background-case-study" title="Link to this heading">#</a></h2>
+<p>The accompanying example in this case study draws inspiration from the <em>sleepstudy</em> dataset (Belenky et al., 2003) that comes along with the R-package <em>lme4</em> (Bates et al., 2014). This dataset contains information about the average reaction time (RT) in milliseconds for <span class="math notranslate nohighlight">\(N\)</span> individuals who undergo sleep deprivation for nine consecutive nights (with less than three hours of sleep per night). In order to construct a model for this data, we consider a hierarchical model with days serving as a continuous predictor denoted as <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p><strong>References</strong></p>
+<ul class="simple">
+<li><p>Belenky, G., Wesensten, N. J., Thorne, D. R., Thomas, M. L., Sing, H. C., Redmond, D. P., … &amp; Balkin, T. J. (2003). Patterns of performance degradation and restoration during sleep restriction and subsequent recovery: A sleep dose‐response study. <em>Journal of sleep research</em>, 12(1), 1-12.</p></li>
+<li><p>Bates, D., Mächler, M., Bolker, B., &amp; Walker, S. (2015). Fitting Linear Mixed-Effects Models Using lme4. <em>Journal of Statistical Software</em>, 67, 1-48.</p></li>
+</ul>
+</section>
+<section id="data-generating-model">
+<h2>Data generating model<a class="headerlink" href="#data-generating-model" title="Link to this heading">#</a></h2>
+<div class="amsmath math notranslate nohighlight" id="equation-51abd807-8cfd-4bd3-b2a0-f332198db09f">
+<span class="eqno">(1)<a class="headerlink" href="#equation-51abd807-8cfd-4bd3-b2a0-f332198db09f" title="Permalink to this equation">#</a></span>\[\begin{align}
+    \begin{split}
+    y_{ij} &amp;= \textrm{Normal}(\theta_{ij}, s)\\
+    \theta_{ij} &amp;= \beta_{0,j} + \beta_{1,j} x_{ij} \\
+    \beta_{0,j} &amp;= \beta_0 + u_{0,j} \\
+    \beta_{1,j} &amp;= \beta_1 + u_{1,j} \\
+    ( u_{0,j}, u_{1,j} ) &amp;\sim \textrm{MvNormal}\left(\textbf{0}, \Sigma_u\right) \\
+    \Sigma_u &amp;= \begin{pmatrix}\tau_0^2 &amp; \rho_{01} \tau_0 \tau_1 \\ \rho_{01} \tau_0 \tau_1 &amp; \tau_1^2\end{pmatrix} \\
+    \beta_k &amp;\sim \textrm{Normal}(\mu_k, \sigma_k) \qquad\textrm{ for } k=0,1\\
+    \tau_k &amp;\sim \textrm{TruncatedNormal}(0, \omega_k) \qquad\textrm{for } k=0,1\\
+    \rho_{01} &amp;\sim \textrm{LKJ}(\alpha_\textrm{LKJ}) \\
+    s &amp;\sim \textrm{Exponential}(\nu).
+    \end{split}
+\end{align}\]</div>
+<p>Here <span class="math notranslate nohighlight">\(y_{ij}\)</span> represents the average RT for the <span class="math notranslate nohighlight">\(j^{th}\)</span> participant at the <span class="math notranslate nohighlight">\(i^{th}\)</span> day with <span class="math notranslate nohighlight">\(j=1,\ldots, 100\)</span> and <span class="math notranslate nohighlight">\(i=0,\ldots,9\)</span>.
+The original <em>sleepstudy</em> dataset comprises only 18 participants. However, our objective is to assess the validity of our elicitation method by recovering each model (hyper)parameter accurately. To achieve this goal and capture the precise variability indicated by the varying effects, it was necessary to employ a larger sample size.
+The RT data is assumed to follow a normal distribution with local mean <span class="math notranslate nohighlight">\(\theta_{ij}\)</span> and within-person standard deviation <span class="math notranslate nohighlight">\(s\)</span>. Here, <span class="math notranslate nohighlight">\(\theta_{ij}\)</span> is predicted by a linear combination of the continuous predictor <span class="math notranslate nohighlight">\(x\)</span> with overall slope <span class="math notranslate nohighlight">\(\beta_1\)</span> and intercept <span class="math notranslate nohighlight">\(\beta_0\)</span>.
+Given the potential variation in both baseline and change in RT across participants, the model incorporates varying (i.e., ``random’’) intercepts <span class="math notranslate nohighlight">\(u_{0,j}\)</span> and varying slopes <span class="math notranslate nohighlight">\(u_{1,j}\)</span>. These varying intercepts and slopes follow a multivariate normal distribution, centered at a mean vector of zero and with a covariance matrix <span class="math notranslate nohighlight">\(\Sigma_u\)</span>. This encodes the variability (<span class="math notranslate nohighlight">\(\tau_0, \tau_1\)</span>) and the correlation (<span class="math notranslate nohighlight">\(\rho_{01}\)</span>) between <span class="math notranslate nohighlight">\(u_{0,j}\)</span> and <span class="math notranslate nohighlight">\(u_{1,j}\)</span>.</p>
+</section>
+<section id="methodology-workflow">
+<h2>Methodology: Workflow<a class="headerlink" href="#methodology-workflow" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>General procedure:</p>
+<ul>
+<li><p>Draw samples from prior distribution(s) of model parameters</p></li>
+<li><p>Generate prior predictions according to the data generating model</p></li>
+<li><p>Compute the pre-defined target quantities</p></li>
+<li><p>Compute the elicited statistics of the target quantities</p></li>
+<li><p>Measure the discrepancy between the model-implied and the expert elicited statistics</p></li>
+<li><p>Update the weights of the transformation function of the normalizing flow</p></li>
+</ul>
+</li>
+</ul>
+<ul class="simple">
+<li><p>PriorSamples(<span class="math notranslate nohighlight">\(\lambda = (\mu_k, \sigma_k)\)</span>):</p></li>
+</ul>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\{\beta_k\}_s &amp;\sim \text{Normal}(\mu_k, \exp\{\sigma_k\})\\
+\end{align*}\]</div>
+<ul class="simple">
+<li><p>Generator(<span class="math notranslate nohighlight">\(\beta_k\)</span>):</p></li>
+</ul>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\{\text{log}(\theta_i)\}_s &amp;= \{\beta_k\}_s \times X_i\\
+\{y_i\}_s &amp;\sim \text{Poisson}(\{\theta_i\}_s)\\
+\end{align*}\]</div>
+<ul class="simple">
+<li><p>Targets(<span class="math notranslate nohighlight">\(\{y_j\}_s\)</span>, <span class="math notranslate nohighlight">\(\{\bar{y}_G\}_s\)</span>):</p></li>
+</ul>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\{y_j\}_s &amp;= \{y_j\}_s \quad \text{ for } j = 1,11,17,22,35,44\\
+\{\bar{y}_G\}_s &amp;= \frac{1}{\mid G \mid} \sum_{i\in G}\mathbb 1_G (\{y_i\}_s) \quad \text{ with G = Democratic, Republican, Swing}\\
+\end{align*}\]</div>
+<ul class="simple">
+<li><p>Elicits(<span class="math notranslate nohighlight">\(\{y_{j}\}_s, \{R^2\}_s\)</span>)</p></li>
+</ul>
+<div class="amsmath math notranslate nohighlight">
+\[\begin{align*}
+\text{Histogram-based:}&amp; \quad \{y_j\}_s = \{y_j\}_s \quad \text{ for } j = 1,11,17,22,35,44\\
+\text{Quantile-based:}&amp; \quad Q_p^{G} = Q_{p}^{G} \{\bar{y}_G\}_s \quad \text{G = Democratic, Republican, Swing, } p = 0.1, \ldots, 0.9\\
+\end{align*}\]</div>
+</section>
+<section id="user-specification">
+<h2>User specification<a class="headerlink" href="#user-specification" title="Link to this heading">#</a></h2>
+<section id="setting-hyperparameter-for-the-learning-algorithm">
+<h3>Setting hyperparameter for the learning algorithm<a class="headerlink" href="#setting-hyperparameter-for-the-learning-algorithm" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># setting of hyperparameter of learning algorithm</span>
+<span class="n">user_config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>                    
+        <span class="n">B</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span>                          
+        <span class="n">rep</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>                         
+        <span class="n">epochs</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>                      
+        <span class="n">view_ep</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span>
+        <span class="n">lr_decay</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">lr0</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> 
+        <span class="n">lr_min</span> <span class="o">=</span> <span class="mf">0.00001</span><span class="p">,</span> 
+        <span class="n">loss_dimensions</span> <span class="o">=</span> <span class="s2">&quot;m,n:B&quot;</span><span class="p">,</span>   
+        <span class="n">loss_discrepancy</span> <span class="o">=</span> <span class="s2">&quot;energy&quot;</span><span class="p">,</span> 
+        <span class="n">loss_scaling</span> <span class="o">=</span> <span class="s2">&quot;unscaled&quot;</span><span class="p">,</span>         
+        <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;hyperparameter_learning&quot;</span>  
+        <span class="p">)</span>
+
+<span class="c1"># further case study specific variables</span>
+<span class="n">N_subj</span> <span class="o">=</span> <span class="mi">600</span> <span class="c1"># number of participants</span>
+<span class="n">N_days</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># number of total days</span>
+<span class="n">selected_days</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span> <span class="c1"># days for which the expert is queried</span>
+<span class="c1"># get design matrix</span>
+<span class="n">dmatrix</span><span class="p">,</span> <span class="n">cmatrix</span> <span class="o">=</span> <span class="n">sleep_data_predictor</span><span class="p">(</span><span class="n">scaling</span> <span class="o">=</span> <span class="s2">&quot;standardize&quot;</span><span class="p">,</span> <span class="n">N_days</span> <span class="o">=</span> <span class="n">N_days</span><span class="p">,</span> <span class="n">N_subj</span> <span class="o">=</span> <span class="n">N_subj</span><span class="p">,</span> <span class="n">selected_days</span> <span class="o">=</span> <span class="n">selected_days</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dmatrix</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1.0</td>
+      <td>-1.566699</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1.0</td>
+      <td>-0.870388</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1.0</td>
+      <td>-0.174078</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1.0</td>
+      <td>0.522233</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1.0</td>
+      <td>1.218544</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>1.0</td>
+      <td>-1.566699</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="setup-the-ideal-agent">
+<h3>Setup the ‘ideal agent’<a class="headerlink" href="#setup-the-ideal-agent" title="Link to this heading">#</a></h3>
+<p>The following prior distributions are assumed:</p>
+<ul class="simple">
+<li><p>A normal distribution for the overall (i.e., ``fixed’’) effects <span class="math notranslate nohighlight">\(\beta_k\)</span> (<span class="math notranslate nohighlight">\(k = 0, 1\)</span>) with mean <span class="math notranslate nohighlight">\(\mu_k\)</span> and standard deviation <span class="math notranslate nohighlight">\(\sigma_k\)</span>.</p></li>
+<li><p>A truncated normal distribution centered at zero with a standard deviation of <span class="math notranslate nohighlight">\(\omega_k\)</span>, is employed for the person-specific variation <span class="math notranslate nohighlight">\(\tau_k\)</span>, which is constrained to be positive.</p></li>
+<li><p>The correlation parameter <span class="math notranslate nohighlight">\(\rho_{01}\)</span> follows a Lewandowski-Kurowicka-Joe (LKJ; Lewandowski, Kurowicka, &amp; Joe, 2009) distribution with scale parameter <span class="math notranslate nohighlight">\(\alpha_\textrm{LKJ}\)</span>. In the subsequent context, we set  <span class="math notranslate nohighlight">\(\alpha_\textrm{LKJ}\)</span> to 1. Additionally, an Exponential prior distribution with rate <span class="math notranslate nohighlight">\(\nu\)</span> is used for the within-person (error) standard deviation <span class="math notranslate nohighlight">\(s\)</span>.</p></li>
+<li><p>The goal is to learn seven hyperparameters <span class="math notranslate nohighlight">\(\lambda=(\mu_k,\sigma_k, \omega_k, \nu)\)</span> based on expert knowledge.</p></li>
+<li><p>The ideal expert is defined by the following true hyperparameters: <span class="math notranslate nohighlight">\(\lambda^*=(\mu_0=250.40, \mu_1=30.26, \sigma_0=7.27, \sigma_1=4.82, \omega_0=33.00, \omega_1=23.00, \nu=0.04)\)</span>.</p></li>
+</ul>
+<p><strong>Reference</strong></p>
+<p>Lewandowski, D., Kurowicka, D., &amp; Joe, H. (2009). Generating random correlation matrices based on vines and extended onion method. Journal of multivariate analysis, 100(9), 1989-2001.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># true hyperparameter values for ideal_expert</span>
+<span class="n">true_values</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span>
+    <span class="s2">&quot;mu&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">250.40</span><span class="p">,</span> <span class="mf">30.26</span><span class="p">],</span>
+    <span class="s2">&quot;sigma&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">7.27</span><span class="p">,</span> <span class="mf">4.82</span><span class="p">],</span>
+    <span class="s2">&quot;omega&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">33.</span><span class="p">,</span> <span class="mf">23.</span><span class="p">],</span>
+    <span class="s2">&quot;alpha_lkj&quot;</span><span class="p">:</span> <span class="mf">1.</span><span class="p">,</span>
+    <span class="s2">&quot;nu&quot;</span><span class="p">:</span> <span class="mf">0.04</span>
+<span class="p">})</span>
+
+<span class="c1"># model parameters</span>
+<span class="n">parameters_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;beta_0&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;family&quot;</span><span class="p">:</span>  <span class="n">Normal_unconstrained</span><span class="p">(),</span>
+        <span class="s2">&quot;true&quot;</span><span class="p">:</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;mu&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]),</span>
+        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">240.</span><span class="p">,</span><span class="mf">5.</span><span class="p">),</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">2.</span><span class="p">,</span><span class="mf">0.5</span><span class="p">)]</span>
+        <span class="p">},</span>
+    <span class="s2">&quot;beta_1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;family&quot;</span><span class="p">:</span>  <span class="n">Normal_unconstrained</span><span class="p">(),</span>
+        <span class="s2">&quot;true&quot;</span><span class="p">:</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;mu&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span>
+        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">40.</span><span class="p">,</span><span class="mf">5.</span><span class="p">),</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">1.5</span><span class="p">,</span><span class="mf">0.5</span><span class="p">)]</span>
+        <span class="p">},</span>
+    <span class="s2">&quot;tau_0&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">TruncatedNormal_unconstrained</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span><span class="n">low</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span><span class="n">high</span> <span class="o">=</span> <span class="mi">500</span><span class="p">),</span>
+        <span class="s2">&quot;true&quot;</span><span class="p">:</span>  <span class="n">tfd</span><span class="o">.</span><span class="n">TruncatedNormal</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;omega&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">low</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">500</span><span class="p">),</span>
+        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">3.</span><span class="p">,</span><span class="mf">0.5</span><span class="p">)]</span>
+        <span class="p">},</span>
+    <span class="s2">&quot;tau_1&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">TruncatedNormal_unconstrained</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span><span class="n">low</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span><span class="n">high</span> <span class="o">=</span> <span class="mi">500</span><span class="p">),</span>
+        <span class="s2">&quot;true&quot;</span><span class="p">:</span>  <span class="n">tfd</span><span class="o">.</span><span class="n">TruncatedNormal</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;omega&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">low</span><span class="o">=</span><span class="mf">0.</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">500</span><span class="p">),</span>
+        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">3.</span><span class="p">,</span><span class="mf">0.5</span><span class="p">)]</span>
+        <span class="p">},</span>
+    <span class="s2">&quot;sigma&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">Exponential_unconstrained</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;rep&quot;</span><span class="p">]),</span>
+        <span class="s2">&quot;true&quot;</span><span class="p">:</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Exponential</span><span class="p">(</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;nu&quot;</span><span class="p">]),</span>
+        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">2.</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.</span><span class="p">)]</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;True hyperparameter values:&quot;</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">true_values</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>True hyperparameter values:
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>mu</th>
+      <th>sigma</th>
+      <th>omega</th>
+      <th>alpha_lkj</th>
+      <th>nu</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>250.40</td>
+      <td>7.27</td>
+      <td>33.0</td>
+      <td>1.0</td>
+      <td>0.04</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>30.26</td>
+      <td>4.82</td>
+      <td>23.0</td>
+      <td>1.0</td>
+      <td>0.04</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+<section id="define-the-data-generating-model">
+<h3>Define the data generating model<a class="headerlink" href="#define-the-data-generating-model" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># generative model</span>
+<span class="k">class</span> <span class="nc">GenerativeModel</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> 
+                 <span class="n">parameters</span><span class="p">,</span>        <span class="c1"># obligatory: samples from prior distributions; tf.Tensor</span>
+                 <span class="n">dmatrix</span><span class="p">,</span>           <span class="c1"># required: design matrix; tf.Tensor</span>
+                 <span class="n">alpha_lkj</span><span class="p">,</span>
+                 <span class="n">N_subj</span><span class="p">,</span>
+                 <span class="n">N_days</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span>           <span class="c1"># obligatory: possibility for further keyword arguments is needed </span>
+                 <span class="p">):</span>  
+        <span class="c1"># correlation matrix</span>
+        <span class="n">corr_matrix</span> <span class="o">=</span> <span class="n">tfd</span><span class="o">.</span><span class="n">LKJ</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha_lkj</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">((</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">],</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;rep&quot;</span><span class="p">]))</span>
+        
+        <span class="c1"># SD matrix</span>
+        <span class="c1"># shape = (B, 2)</span>
+        <span class="n">taus_m</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="c1"># shape = (B, 2, 2)</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">taus_m</span><span class="p">)</span>
+        
+        <span class="c1"># covariance matrix: Cov=S*R*S</span>
+        <span class="c1"># shape = (B, 2, 2)</span>
+        <span class="n">corr_mat</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">diagonal</span><span class="o">=</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span><span class="mf">1.</span><span class="p">),</span> 
+                                  <span class="n">padding_value</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">corr_matrix</span><span class="p">))</span>
+        <span class="c1"># compute cov matrix</span>
+        <span class="c1"># shape = (B, 2, 2)</span>
+        <span class="n">cov_mx_subj</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">S</span><span class="p">,</span><span class="n">corr_mat</span><span class="p">),</span> <span class="n">S</span><span class="p">)</span>
+        
+        <span class="c1"># generate by-subject random effects: T0s, T1s</span>
+        <span class="c1"># shape = (B, N_subj, 2)</span>
+        <span class="n">subj_rfx</span> <span class="o">=</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Sample</span><span class="p">(</span>
+            <span class="n">tfd</span><span class="o">.</span><span class="n">MultivariateNormalTriL</span><span class="p">(</span>
+                <span class="n">loc</span><span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> 
+                <span class="n">scale_tril</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cholesky</span><span class="p">(</span><span class="n">cov_mx_subj</span><span class="p">)),</span> 
+            <span class="n">N_subj</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+        
+        <span class="c1"># broadcast by-subject random effects</span>
+        <span class="c1"># shape = (B, N_obs, 2) with N_obs = N_subj*N_days</span>
+        <span class="n">taus</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">subj_rfx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> 
+                <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">],</span> <span class="n">N_subj</span><span class="p">,</span> <span class="n">N_days</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> 
+            <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">],</span> <span class="n">N_subj</span><span class="o">*</span><span class="n">N_days</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        
+        <span class="c1"># reshape coefficients</span>
+        <span class="c1"># shape = (B, rep, N_obs, 2) with N_obs = N_subj*N_days</span>
+        <span class="n">betas_reshaped</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">broadcast_to</span><span class="p">(</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">parameters</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+                <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> 
+            <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">],</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;rep&quot;</span><span class="p">],</span> <span class="n">N_subj</span><span class="o">*</span><span class="n">N_days</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+        
+        <span class="c1">## compute betas_s</span>
+        <span class="c1"># shape = (B, rep, N_obs, 2) with N_obs = N_subj*N_days</span>
+        <span class="n">betas</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">betas_reshaped</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">taus</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> 
+        
+        <span class="c1"># compute linear predictor term</span>
+        <span class="c1"># shape = (B, rep, N_obs) with N_obs = N_subj*N_days</span>
+        <span class="n">epred</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">betas</span><span class="p">[:,:,:,</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">dmatrix</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> 
+                       <span class="n">betas</span><span class="p">[:,:,:,</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">dmatrix</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span>
+        
+        <span class="c1"># define likelihood</span>
+        <span class="n">likelihood</span> <span class="o">=</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="n">epred</span><span class="p">,</span>
+                                <span class="n">scale</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">parameters</span><span class="p">[:,:,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+        
+        <span class="c1"># sample prior predictive data</span>
+        <span class="n">ypred</span> <span class="o">=</span> <span class="n">likelihood</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span>
+        
+        <span class="c1"># custom target quantities </span>
+        <span class="c1">## epred averaged over individuals</span>
+        <span class="n">epred_days</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">epred</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">::</span><span class="n">N_days</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_days</span><span class="p">)],</span> 
+                              <span class="n">axis</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">epred_days</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">epred_days</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        
+        <span class="c1">## R2 for initial day</span>
+        <span class="n">R2_day0</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_variance</span><span class="p">(</span><span class="n">epred</span><span class="p">[:,:,</span><span class="n">selected_days</span><span class="p">[</span><span class="mi">0</span><span class="p">]::</span><span class="n">N_days</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_variance</span><span class="p">(</span><span class="n">ypred</span><span class="p">[:,:,</span><span class="n">selected_days</span><span class="p">[</span><span class="mi">0</span><span class="p">]::</span><span class="n">N_days</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+        
+        <span class="c1">## R2 for last day</span>
+        <span class="n">R2_day9</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_variance</span><span class="p">(</span><span class="n">epred</span><span class="p">[:,:,</span><span class="n">selected_days</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]::</span><span class="n">N_days</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_variance</span><span class="p">(</span><span class="n">ypred</span><span class="p">[:,:,</span><span class="n">selected_days</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]::</span><span class="n">N_days</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+        <span class="c1"># compute standard deviation of linear predictor </span>
+        <span class="n">mu0_sd_comp</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_std</span><span class="p">(</span><span class="n">epred</span><span class="p">[:,:,</span><span class="n">selected_days</span><span class="p">[</span><span class="mi">0</span><span class="p">]::</span><span class="n">N_days</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">mu9_sd_comp</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_std</span><span class="p">(</span><span class="n">epred</span><span class="p">[:,:,</span><span class="n">selected_days</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]::</span><span class="n">N_days</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">likelihood</span> <span class="o">=</span> <span class="n">likelihood</span><span class="p">,</span>      <span class="c1"># obligatory: likelihood; callable; </span>
+                    <span class="n">ypred</span> <span class="o">=</span> <span class="n">ypred</span><span class="p">,</span>                <span class="c1"># obligatory: prior predictive data</span>
+                    <span class="n">epred</span> <span class="o">=</span> <span class="n">epred</span><span class="p">,</span>                <span class="c1"># obligatory: samples from linear predictor</span>
+                    <span class="n">sigma</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[:,:,</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>   <span class="c1"># optional: custom target quantity: sigma</span>
+                    <span class="n">epred_days</span> <span class="o">=</span> <span class="n">epred_days</span><span class="p">,</span>      <span class="c1"># optional: custom target quantity: epred avg. over individuals</span>
+                    <span class="n">R2_day0</span> <span class="o">=</span> <span class="n">R2_day0</span><span class="p">,</span>            <span class="c1"># optional: custom target quantity: R2 first day</span>
+                    <span class="n">R2_day9</span> <span class="o">=</span> <span class="n">R2_day9</span><span class="p">,</span>             <span class="c1"># optional: custom target quantity; R2 last day</span>
+                    <span class="n">mu0_sd_comp</span> <span class="o">=</span> <span class="n">mu0_sd_comp</span><span class="p">,</span>
+                    <span class="n">mu9_sd_comp</span> <span class="o">=</span> <span class="n">mu9_sd_comp</span>
+                    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="specify-the-target-quantities-and-the-elicitation-technique">
+<h3>Specify the target quantities and the elicitation technique<a class="headerlink" href="#specify-the-target-quantities-and-the-elicitation-technique" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>We elicit expert knowledge within both the parameter and observable space, underscoring the inherently \emph{hybrid} nature of our elicitation method.</p></li>
+<li><p>The analyst queries the expert regarding the following target quantities: the expected average RT for specific days <span class="math notranslate nohighlight">\(x_i\)</span>, where <span class="math notranslate nohighlight">\(i = 0,2,4,6,8\)</span>, the within-person standard deviation <span class="math notranslate nohighlight">\(s\)</span>, and the expected distribution of <span class="math notranslate nohighlight">\(R^2\)</span> for the initial and final days (<span class="math notranslate nohighlight">\(i = 0,9\)</span>).</p></li>
+<li><p>We assume that the analyst employs quantile-based elicitation for the expected average RT per chosen day <span class="math notranslate nohighlight">\(x_i\)</span>.</p></li>
+<li><p>For the within-person standard deviation <span class="math notranslate nohighlight">\(s\)</span>, a moment-based elicitation approach is used, asking the expert regarding both the expected mean and standard deviation of <span class="math notranslate nohighlight">\(s\)</span>.</p></li>
+<li><p>Additionally, histogram-elicitation is utilized to query the expected <span class="math notranslate nohighlight">\(R^2\)</span> distribution for each day.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># specify target quantity, elicitation technique and loss combination</span>
+<span class="c1">#t1 = target_config(target=&quot;sigma&quot;, </span>
+<span class="c1">#                   elicitation=&quot;moments&quot;,</span>
+<span class="c1">#                   combine_loss=&quot;by-stats&quot;,</span>
+<span class="c1">#                   moments_specs=(&quot;mean&quot;, &quot;sd&quot;))</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">target_config</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="s2">&quot;sigma&quot;</span><span class="p">,</span> 
+                   <span class="n">elicitation</span><span class="o">=</span><span class="s2">&quot;histogram&quot;</span><span class="p">,</span>
+                   <span class="n">combine_loss</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+<span class="n">t2</span> <span class="o">=</span> <span class="n">target_config</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="s2">&quot;epred_days&quot;</span><span class="p">,</span> 
+                   <span class="n">elicitation</span><span class="o">=</span><span class="s2">&quot;quantiles&quot;</span><span class="p">,</span>
+                   <span class="n">combine_loss</span><span class="o">=</span><span class="s2">&quot;by-group&quot;</span><span class="p">,</span>
+                   <span class="n">quantiles_specs</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">90</span><span class="p">))</span>
+<span class="n">t3</span> <span class="o">=</span> <span class="n">target_config</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="s2">&quot;mu0_sd_comp&quot;</span><span class="p">,</span> 
+                   <span class="n">elicitation</span><span class="o">=</span><span class="s2">&quot;histogram&quot;</span><span class="p">,</span>
+                   <span class="n">combine_loss</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+<span class="n">t4</span> <span class="o">=</span> <span class="n">target_config</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="s2">&quot;mu9_sd_comp&quot;</span><span class="p">,</span> 
+                   <span class="n">elicitation</span><span class="o">=</span><span class="s2">&quot;histogram&quot;</span><span class="p">,</span>
+                   <span class="n">combine_loss</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
+
+<span class="n">target_info_expert</span> <span class="o">=</span> <span class="n">target_input</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">t3</span><span class="p">,</span> <span class="n">t4</span><span class="p">)</span>
+
+<span class="c1"># print summary of expert input</span>
+<span class="n">print_target_info</span><span class="p">(</span><span class="n">target_info_expert</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>target</th>
+      <th>elicitation</th>
+      <th>combine_loss</th>
+      <th>custom_target_function</th>
+      <th>quantiles_specs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>sigma</td>
+      <td>histogram</td>
+      <td>all</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>epred_days</td>
+      <td>quantiles</td>
+      <td>by-group</td>
+      <td>None</td>
+      <td>(10, 20, 30, 40, 50, 60, 70, 80, 90)</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>mu0_sd_comp</td>
+      <td>histogram</td>
+      <td>all</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>mu9_sd_comp</td>
+      <td>histogram</td>
+      <td>all</td>
+      <td>None</td>
+      <td>None</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</section>
+</section>
+<section id="simulate-from-the-ideal-expert">
+<h2>Simulate from the “ideal” expert<a class="headerlink" href="#simulate-from-the-ideal-expert" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">expert_res_list</span><span class="p">,</span> <span class="n">prior_pred_res</span> <span class="o">=</span> <span class="n">expert_model</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;rep&quot;</span><span class="p">],</span>
+                                   <span class="n">parameters_dict</span><span class="p">,</span> <span class="n">GenerativeModel</span><span class="p">,</span> <span class="n">target_info_expert</span><span class="p">,</span>
+                                   <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;ideal_expert&quot;</span><span class="p">,</span>
+                                   <span class="n">dmatrix</span> <span class="o">=</span> <span class="n">dmatrix</span><span class="p">,</span>
+                                   <span class="n">alpha_lkj</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">N_subj</span> <span class="o">=</span> <span class="n">N_subj</span><span class="p">,</span> <span class="n">N_days</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_days</span><span class="p">))</span>
+
+<span class="c1"># elicited statistics from the (ideal) expert</span>
+<span class="n">expert_res_list</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dict_keys([&#39;sigma_hist_0&#39;, &#39;epred_days_quant_1&#39;, &#39;mu0_sd_comp_hist_2&#39;, &#39;mu9_sd_comp_hist_3&#39;])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># specify target quantity, elicitation technique and loss combination</span>
+<span class="c1"># define a custom function using the output from the generative model </span>
+<span class="k">class</span> <span class="nc">sdmu_day_init</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R2_day0_expert</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">R2_day0_expert</span> <span class="o">=</span> <span class="n">R2_day0_expert</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ypred</span><span class="p">):</span>
+        <span class="n">day</span> <span class="o">=</span> <span class="n">selected_days</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">len_days</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_days</span><span class="p">)</span>
+        <span class="n">sdmu</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R2_day0_expert</span><span class="p">,</span>
+                                   <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_variance</span><span class="p">(</span>
+                                       <span class="n">ypred</span><span class="p">[:,:,</span><span class="n">day</span><span class="p">::</span><span class="n">len_days</span><span class="p">],</span> 
+                                       <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+                       <span class="p">)</span>
+        <span class="k">return</span> <span class="n">sdmu</span>
+
+<span class="k">class</span> <span class="nc">sdmu_day_last</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">R2_day9_expert</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">R2_day9_expert</span> <span class="o">=</span> <span class="n">R2_day9_expert</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ypred</span><span class="p">):</span>
+        <span class="n">day</span> <span class="o">=</span> <span class="n">selected_days</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">len_days</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_days</span><span class="p">)</span>
+        <span class="n">sdmu</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R2_day9_expert</span><span class="p">,</span>
+                                   <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_variance</span><span class="p">(</span>
+                                       <span class="n">ypred</span><span class="p">[:,:,</span><span class="n">day</span><span class="p">::</span><span class="n">len_days</span><span class="p">],</span> 
+                                       <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+                       <span class="p">)</span>
+        <span class="k">return</span> <span class="n">sdmu</span>
+
+<span class="n">sdmu_day0</span> <span class="o">=</span> <span class="n">sdmu_day_init</span><span class="p">(</span><span class="n">prior_pred_res</span><span class="p">[</span><span class="s2">&quot;R2_day0&quot;</span><span class="p">])</span>
+<span class="n">sdmu_day9</span> <span class="o">=</span> <span class="n">sdmu_day_last</span><span class="p">(</span><span class="n">prior_pred_res</span><span class="p">[</span><span class="s2">&quot;R2_day9&quot;</span><span class="p">])</span>
+
+<span class="n">t3</span> <span class="o">=</span> <span class="n">target_config</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="s2">&quot;mu0_sd_comp&quot;</span><span class="p">,</span> 
+                   <span class="n">elicitation</span><span class="o">=</span><span class="s2">&quot;histogram&quot;</span><span class="p">,</span>
+                   <span class="n">combine_loss</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span>
+                   <span class="n">custom_target_function</span><span class="o">=</span><span class="n">sdmu_day0</span><span class="p">)</span>
+<span class="n">t4</span> <span class="o">=</span> <span class="n">target_config</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="s2">&quot;mu9_sd_comp&quot;</span><span class="p">,</span> 
+                   <span class="n">elicitation</span><span class="o">=</span><span class="s2">&quot;histogram&quot;</span><span class="p">,</span>
+                   <span class="n">combine_loss</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span>
+                   <span class="n">custom_target_function</span><span class="o">=</span><span class="n">sdmu_day9</span><span class="p">)</span>
+
+
+<span class="n">target_info_model</span> <span class="o">=</span> <span class="n">target_input</span><span class="p">(</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">t3</span><span class="p">,</span> <span class="n">t4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="learn-the-prior-distributions">
+<h2>Learn the prior distributions<a class="headerlink" href="#learn-the-prior-distributions" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dict</span> <span class="o">=</span> <span class="n">trainer</span><span class="p">(</span><span class="n">expert_res_list</span><span class="p">,</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">],</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;rep&quot;</span><span class="p">],</span>
+                   <span class="n">parameters_dict</span><span class="p">,</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">],</span> <span class="n">GenerativeModel</span><span class="p">,</span>
+                   <span class="n">target_info_model</span><span class="p">,</span> <span class="n">user_config</span><span class="p">,</span> <span class="n">loss_balancing</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">save_vals</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;prior_preds&quot;</span><span class="p">,</span><span class="s2">&quot;elicits&quot;</span><span class="p">],</span>
+                   <span class="n">dmatrix</span> <span class="o">=</span> <span class="n">dmatrix</span><span class="p">,</span> <span class="n">alpha_lkj</span> <span class="o">=</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">N_subj</span> <span class="o">=</span> <span class="n">N_subj</span><span class="p">,</span> <span class="n">N_days</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_days</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch_time: 29.316 sec
+Epoch: 0, loss: 12.42184, lr: 0.100000
+epoch_time: 10.137 sec
+Epoch: 60, loss: 7.47212, lr: 0.028243
+epoch_time: 14.159 sec
+Epoch: 120, loss: 4.39979, lr: 0.007977
+epoch_time: 10.533 sec
+Epoch: 180, loss: 4.27058, lr: 0.002253
+epoch_time: 10.195 sec
+Epoch: 240, loss: 4.28497, lr: 0.000636
+epoch_time: 13.505 sec
+Epoch: 300, loss: 4.26950, lr: 0.000180
+epoch_time: 14.103 sec
+Epoch: 360, loss: 4.28614, lr: 0.000051
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="results">
+<h2>Results<a class="headerlink" href="#results" title="Link to this heading">#</a></h2>
+<section id="loss-function">
+<h3>Loss function<a class="headerlink" href="#loss-function" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[248.59026, 1.98032, 28.62452, 1.589315, 3.2088177, 3.1945412, -3.0982041]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="n">col_betas</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;#2acaea&quot;</span><span class="p">,</span> <span class="s2">&quot;#0a75ad&quot;</span><span class="p">,</span> <span class="s2">&quot;#ffd700&quot;</span><span class="p">,</span> <span class="s2">&quot;#e86e4d&quot;</span><span class="p">,</span> <span class="s2">&quot;#00ffaa&quot;</span><span class="p">,</span> <span class="s2">&quot;#135553&quot;</span><span class="p">]</span>
+
+<span class="n">g</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;grads_info&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">])],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">])],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="s1">&#39;constrained&#39;</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">6.5</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
+<span class="n">figs</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">subfigures</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">height_ratios</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span> <span class="c1">#</span>
+
+<span class="n">axs0</span> <span class="o">=</span> <span class="n">figs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">axs1</span> <span class="o">=</span> <span class="n">figs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">custom_params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;axes.spines.right&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;axes.spines.top&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;ticks&quot;</span><span class="p">,</span> <span class="n">rc</span><span class="o">=</span><span class="n">custom_params</span><span class="p">)</span><span class="c1">#, font = &quot;Computer Modern&quot;)</span>
+
+<span class="n">axs0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">]),</span> <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;loss_info&quot;</span><span class="p">],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">axs0</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Total loss&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="n">axs0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">]),</span> <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;loss_indiv_info&quot;</span><span class="p">],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">axs0</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Individual losses&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span>
+
+<span class="p">[</span><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">]),</span> <span class="n">y</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">,:],</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span><span class="mf">.6</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
+<span class="n">axs1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Gradients: $\mu_k$&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="p">[</span><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">]),</span> <span class="n">y</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">,:],</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span><span class="mf">.6</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]]</span>
+<span class="n">axs1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\sigma_k$&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">)</span>
+<span class="p">[</span><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">]),</span> <span class="n">y</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="n">i</span><span class="p">,:],</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span><span class="mf">.6</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]]</span>
+<span class="n">axs1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega_k$&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">]),</span> <span class="n">y</span> <span class="o">=</span> <span class="n">g</span><span class="p">[</span><span class="mi">6</span><span class="p">,:],</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">axs1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span><span class="mf">.6</span><span class="p">)</span> 
+<span class="n">axs1</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">)</span>
+
+<span class="p">[</span><span class="n">axs1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">]),</span> <span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="p">,:],</span> <span class="n">color</span> <span class="o">=</span> <span class="n">col_betas</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span>
+                  <span class="n">label</span> <span class="o">=</span> <span class="sa">rf</span><span class="s2">&quot;$\mu_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])]</span>
+<span class="n">axs1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Convergence: $\mu_k$&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="p">[</span><span class="n">axs1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">]),</span> <span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="p">,:]),</span> <span class="n">color</span> <span class="o">=</span> <span class="n">col_betas</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span>
+                  <span class="n">label</span> <span class="o">=</span> <span class="sa">rf</span><span class="s2">&quot;$\mu_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">])]</span>
+<span class="n">axs1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\sigma_k$&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">)</span>
+<span class="p">[</span><span class="n">axs1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">]),</span> <span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="n">j</span><span class="p">,:]),</span> <span class="n">color</span> <span class="o">=</span> <span class="n">col_betas</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span>
+                  <span class="n">label</span> <span class="o">=</span> <span class="sa">rf</span><span class="s2">&quot;$\omega_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">])]</span>
+<span class="n">axs1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\omega_k$&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">)</span>
+<span class="n">axs1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">]),</span> <span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">6</span><span class="p">,:]),</span> <span class="n">color</span> <span class="o">=</span> <span class="n">col_betas</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">)</span> 
+<span class="n">axs1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\tau$&quot;</span><span class="p">,</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">)</span>
+<span class="n">axs1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.09</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;graphics/mlm_diagnostics.png&#39;</span><span class="p">,</span> <span class="n">dpi</span> <span class="o">=</span> <span class="mi">300</span><span class="p">)</span>
+<span class="c1">#plt.show()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+WARNING:matplotlib.font_manager:findfont: Font family &#39;Computer Modern&#39; not found.
+</pre></div>
+</div>
+<img alt="../_images/39468e5e7bdb94747d77260851c84f093adbe2ac057c3ec09bca1d477cc7a9e7.png" src="../_images/39468e5e7bdb94747d77260851c84f093adbe2ac057c3ec09bca1d477cc7a9e7.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]))</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]))</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">]))</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="c1">#tf.exp(res_dict[&quot;hyperparam_info&quot;][0][-1][1::2])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[249.41081   29.324995]
+[6.9982815 4.6096797]
+[32.291527   5.5701675]
+[0.0538956]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">prior_pred_res</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]))</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]))</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">]))</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyError</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">29</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">prior_pred_res</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">]))</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]))</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+
+<span class="ne">KeyError</span>: &#39;hyperparam_info&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">prior_pred_res</span><span class="p">[</span><span class="s2">&quot;priors&quot;</span><span class="p">],</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">res_dict</span><span class="p">[</span><span class="s1">&#39;priors_info&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;priors&quot;</span><span class="p">],</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tf.Tensor([250.61543   30.006414  25.264902  18.826185  23.81099 ], shape=(5,), dtype=float32)
+tf.Tensor([252.12589   30.321194  22.369932  18.646067  24.187828], shape=(5,), dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">betas</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">])],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">sigmas</span> <span class="o">=</span>  <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;epochs&quot;</span><span class="p">])],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">_</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">constrained_layout</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">sharex</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="p">[</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">betas</span><span class="p">[</span><span class="n">i</span><span class="p">,:],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">c</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">fr</span><span class="s2">&quot;$\mu_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="p">[</span><span class="s2">&quot;#020024&quot;</span><span class="p">,</span> <span class="s2">&quot;#44546A&quot;</span><span class="p">,</span> <span class="s2">&quot;#00d4ff&quot;</span><span class="p">,</span> <span class="s2">&quot;#00d4ff&quot;</span><span class="p">])]</span>
+<span class="p">[</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sigmas</span><span class="p">[</span><span class="n">i</span><span class="p">,:],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">c</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">fr</span><span class="s2">&quot;$\sigma_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="p">[</span><span class="s2">&quot;#020024&quot;</span><span class="p">,</span> <span class="s2">&quot;#44546A&quot;</span><span class="p">,</span> <span class="s2">&quot;#00d4ff&quot;</span><span class="p">,</span> <span class="s2">&quot;#00d4ff&quot;</span><span class="p">])]</span>
+<span class="p">[</span><span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handlelength</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">columnspacing</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mu_0, \mu_1, \mu_2, \mu_3$&quot;</span><span class="p">,</span><span class="n">pad</span> <span class="o">=</span> <span class="mf">10.</span><span class="p">,</span> <span class="n">fontdict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fontsize&#39;</span><span class="p">:</span> <span class="mi">14</span><span class="p">},</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\sigma_0, \sigma_1, \sigma_2, \sigma_3$&quot;</span><span class="p">,</span><span class="n">pad</span> <span class="o">=</span> <span class="mf">10.</span><span class="p">,</span> <span class="n">fontdict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fontsize&#39;</span><span class="p">:</span> <span class="mi">14</span><span class="p">},</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span>
+<span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;epochs&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">InvalidArgumentError</span><span class="g g-Whitespace">                      </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">8</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">_</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">constrained_layout</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">sharex</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="p">[</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">betas</span><span class="p">[</span><span class="n">i</span><span class="p">,:],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">c</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">fr</span><span class="s2">&quot;$\mu_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="p">[</span><span class="s2">&quot;#020024&quot;</span><span class="p">,</span> <span class="s2">&quot;#44546A&quot;</span><span class="p">,</span> <span class="s2">&quot;#00d4ff&quot;</span><span class="p">,</span> <span class="s2">&quot;#00d4ff&quot;</span><span class="p">])]</span>
+<span class="ne">----&gt; </span><span class="mi">8</span> <span class="p">[</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sigmas</span><span class="p">[</span><span class="n">i</span><span class="p">,:],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">c</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">fr</span><span class="s2">&quot;$\sigma_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="p">[</span><span class="s2">&quot;#020024&quot;</span><span class="p">,</span> <span class="s2">&quot;#44546A&quot;</span><span class="p">,</span> <span class="s2">&quot;#00d4ff&quot;</span><span class="p">,</span> <span class="s2">&quot;#00d4ff&quot;</span><span class="p">])]</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="p">[</span><span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handlelength</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">columnspacing</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mu_0, \mu_1, \mu_2, \mu_3$&quot;</span><span class="p">,</span><span class="n">pad</span> <span class="o">=</span> <span class="mf">10.</span><span class="p">,</span> <span class="n">fontdict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fontsize&#39;</span><span class="p">:</span> <span class="mi">14</span><span class="p">},</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span>
+
+<span class="nn">Cell In[11], line 8,</span> in <span class="ni">&lt;listcomp&gt;</span><span class="nt">(.0)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">_</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">constrained_layout</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">sharex</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="p">[</span><span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">betas</span><span class="p">[</span><span class="n">i</span><span class="p">,:],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">c</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">fr</span><span class="s2">&quot;$\mu_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="p">[</span><span class="s2">&quot;#020024&quot;</span><span class="p">,</span> <span class="s2">&quot;#44546A&quot;</span><span class="p">,</span> <span class="s2">&quot;#00d4ff&quot;</span><span class="p">,</span> <span class="s2">&quot;#00d4ff&quot;</span><span class="p">])]</span>
+<span class="ne">----&gt; </span><span class="mi">8</span> <span class="p">[</span><span class="n">axs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">sigmas</span><span class="p">[</span><span class="n">i</span><span class="p">,:],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">c</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="sa">fr</span><span class="s2">&quot;$\sigma_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">$&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="p">[</span><span class="s2">&quot;#020024&quot;</span><span class="p">,</span> <span class="s2">&quot;#44546A&quot;</span><span class="p">,</span> <span class="s2">&quot;#00d4ff&quot;</span><span class="p">,</span> <span class="s2">&quot;#00d4ff&quot;</span><span class="p">])]</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="p">[</span><span class="n">axs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handlelength</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">columnspacing</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="n">axs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\mu_0, \mu_1, \mu_2, \mu_3$&quot;</span><span class="p">,</span><span class="n">pad</span> <span class="o">=</span> <span class="mf">10.</span><span class="p">,</span> <span class="n">fontdict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;fontsize&#39;</span><span class="p">:</span> <span class="mi">14</span><span class="p">},</span> <span class="n">loc</span> <span class="o">=</span> <span class="s2">&quot;left&quot;</span><span class="p">)</span>
+
+<span class="nn">File ~\AppData\Roaming\Python\Python311\site-packages\tensorflow\python\util\traceback_utils.py:153,</span> in <span class="ni">filter_traceback.&lt;locals&gt;.error_handler</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">151</span> <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">152</span>   <span class="n">filtered_tb</span> <span class="o">=</span> <span class="n">_process_traceback_frames</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">153</span>   <span class="k">raise</span> <span class="n">e</span><span class="o">.</span><span class="n">with_traceback</span><span class="p">(</span><span class="n">filtered_tb</span><span class="p">)</span> <span class="kn">from</span> <span class="kc">None</span>
+<span class="g g-Whitespace">    </span><span class="mi">154</span> <span class="k">finally</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">155</span>   <span class="k">del</span> <span class="n">filtered_tb</span>
+
+<span class="nn">File ~\AppData\Roaming\Python\Python311\site-packages\tensorflow\python\framework\ops.py:5880,</span> in <span class="ni">raise_from_not_ok_status</span><span class="nt">(e, name)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5878</span> <span class="k">def</span> <span class="nf">raise_from_not_ok_status</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">5879</span>   <span class="n">e</span><span class="o">.</span><span class="n">message</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">&quot; name: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+<span class="ne">-&gt; </span><span class="mi">5880</span>   <span class="k">raise</span> <span class="n">core</span><span class="o">.</span><span class="n">_status_to_exception</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="kn">from</span> <span class="kc">None</span>
+
+<span class="ne">InvalidArgumentError</span>: {{function_node __wrapped__StridedSlice_device_/job:localhost/replica:0/task:0/device:CPU:0}} slice index 3 of dimension 0 out of bounds. [Op:StridedSlice] name: strided_slice/
+</pre></div>
+</div>
+<img alt="../_images/32160cfddaab5e56fc88bd9a6f05b7d803415ba604cbe5e44b47454892b6d0af.png" src="../_images/32160cfddaab5e56fc88bd9a6f05b7d803415ba604cbe5e44b47454892b6d0af.png" />
+</div>
+</div>
+</section>
+<section id="final-learned-hyperparameter-values">
+<h3>Final learned hyperparameter values<a class="headerlink" href="#final-learned-hyperparameter-values" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">true_vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;mu&quot;</span><span class="p">],</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">]</span>
+
+<span class="n">tab</span><span class="p">,</span> <span class="n">avg_res</span> <span class="o">=</span> <span class="n">_print_restab</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;hyperparameter_learning&quot;</span><span class="p">,</span> 
+                             <span class="n">num_vars</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> 
+                             <span class="n">res</span> <span class="o">=</span> <span class="n">res_dict</span><span class="p">[</span><span class="s2">&quot;hyperparam_info&quot;</span><span class="p">],</span> 
+                             <span class="n">start</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> 
+                             <span class="n">precision</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> 
+                             <span class="n">true_values</span> <span class="o">=</span> <span class="n">true_vals</span><span class="p">)</span>
+<span class="n">tab</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table>
+    <thead>
+        <tr>
+            <th>var_name</th>
+            <th>pred mean</th>
+            <th>pred std</th>
+            <th>true</th>
+            <th>err</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>loc_0</td>
+            <td>248.658</td>
+            <td>0.002</td>
+            <td>250.4</td>
+            <td>1.742</td>
+        </tr>
+        <tr>
+            <td>scale_0</td>
+            <td>7.095</td>
+            <td>0.036</td>
+            <td>7.27</td>
+            <td>0.175</td>
+        </tr>
+        <tr>
+            <td>loc_1</td>
+            <td>28.692</td>
+            <td>0.006</td>
+            <td>30.26</td>
+            <td>1.568</td>
+        </tr>
+        <tr>
+            <td>scale_1</td>
+            <td>4.904</td>
+            <td>0.077</td>
+            <td>4.82</td>
+            <td>0.084</td>
+        </tr>
+    </tbody>
+</table></div></div>
+</div>
+</section>
+<section id="learned-prior-distributions">
+<h3>Learned prior distributions<a class="headerlink" href="#learned-prior-distributions" title="Link to this heading">#</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_priors</span><span class="p">(</span><span class="n">avg_res</span><span class="p">,</span> <span class="n">true_vals</span><span class="p">,</span> <span class="n">xrange</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">2.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/2340bcbb10205c62d32eb0dfc83d380a4c7cfd121f44aba7c3f796e8c8055bfd.png" src="../_images/2340bcbb10205c62d32eb0dfc83d380a4c7cfd121f44aba7c3f796e8c8055bfd.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#background-case-study">Background: Case Study</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-generating-model">Data generating model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#methodology-workflow">Methodology: Workflow</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#user-specification">User specification</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-hyperparameter-for-the-learning-algorithm">Setting hyperparameter for the learning algorithm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-the-ideal-agent">Setup the ‘ideal agent’</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#define-the-data-generating-model">Define the data generating model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specify-the-target-quantities-and-the-elicitation-technique">Specify the target quantities and the elicitation technique</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simulate-from-the-ideal-expert">Simulate from the “ideal” expert</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#learn-the-prior-distributions">Learn the prior distributions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#results">Results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function">Loss function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#final-learned-hyperparameter-values">Final learned hyperparameter values</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#learned-prior-distributions">Learned prior distributions</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Florence Bockting
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2024, Florence Bockting.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
