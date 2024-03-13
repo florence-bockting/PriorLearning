@@ -26,9 +26,8 @@ jobs:
       
       - name: Sphinx build
         run: |
+          sphinx-apidoc -f -o docs/source PriorLearning --separate
           cd docs
-          make clean
-          sphinx-apidoc -f -o source ../PriorLearning --separate
           make html
           cd ..
 
