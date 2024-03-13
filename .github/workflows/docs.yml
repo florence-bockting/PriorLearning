@@ -1,11 +1,11 @@
-# From https://github.com/eeholmes/readthedoc-test/blob/main/.github/workflows/docs_pages.yml
-name: docs
+# From https://olgarithms.github.io/sphinx-tutorial/docs/8-automating-documentation-updates.html
+name: Publish Sphinx Documentation
 
-# execute this workflow automatically when we push to master
 on:
   push:
     branches:
       - main
+
 
 jobs:
   publish_sphinx_docs:
@@ -27,8 +27,9 @@ jobs:
       - name: Sphinx build
         run: |
           cd docs
+          make clean
           sphinx-apidoc -f -o source ../PriorLearning --separate
-          sphinx-build source build/html
+          make html
           cd ..
 
       - name: Deploy

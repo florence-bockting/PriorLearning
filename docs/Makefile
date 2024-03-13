@@ -23,7 +23,8 @@ github:
 	@rm -r build/html/
 
 clean:
-	@rm -rf build/*
+	@$(SPHINXBUILD) -M clean "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O);
+	cd build; git worktree add -f html gh-pages
 
 .PHONY: help Makefile
 
