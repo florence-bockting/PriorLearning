@@ -4,6 +4,7 @@ pyproject.toml
 setup.cfg
 PriorLearning/__init__.py
 PriorLearning/_case_studies.py
+PriorLearning/_sim_varying_thres_pois.py
 PriorLearning/combine_losses.py
 PriorLearning/discrepancy_measures.py
 PriorLearning/elicitation_techniques.py
