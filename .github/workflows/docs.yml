@@ -26,8 +26,10 @@ jobs:
       
       - name: Sphinx build
         run: |
-          sphinx-apidoc -o docs ../PriorLearning/ --separate
-          sphinx-build docs docs/build/html
+          cd docs
+          sphinx-apidoc -f -o source ../PriorLearning --separate
+          sphinx-build . build/html
+          cd ..
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
