@@ -1,25 +1,54 @@
-name: "Build docs"
-on: 
-- push
+# From https://github.com/eeholmes/readthedoc-test/blob/main/.github/workflows/docs_pages.yml
+name: docs
+
+# execute this workflow automatically when we push to master
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  docs:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-python@v4 
-      with:
-        python-version: '3.11' 
-    - name: Install dependencies
-      run: |
-        pip install "numpydoc==1.1.0" "Sphinx==5.1.0" "sphinx-book-theme" "myst_nb" "sphinx-design" "sphinxemoji" .
-    - name: Build docs
-      run: sphinx-build docs/source docs/build
-    - name: Deploy documentation to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4
-      with:
-        branch: gh-pages                     # The branch the action should deploy to.
-        folder: docs/build                   # The folder the action should deploy.
-        git-config-name: Deployment Bot      # Name of the committer
-        git-config-email: deploy@github.com  # Email of the committer
 
+  build_docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v3
+        with:
+          path: main
+
+      - name: Checkout gh-pages
+        uses: actions/checkout@v3
+        with:
+          path: gh-pages
+          ref: gh-pages
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          cd ./main
+          pip install "numpydoc==1.1.0" "Sphinx==5.1.0" "sphinx-book-theme" "myst_nb" "sphinx-design" "sphinxemoji" .
+      - name: Make the Sphinx docs
+        run: |
+          cd ./main/docs
+          make clean
+          make github
+      - name: Commit changes to docs
+        run: |
+          cd ./gh-pages
+          cp -R ../main/docs/* ./
+          git config --local user.email ""
+          git config --local user.name "github-actions"
+          git add -A
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "auto: Rebuild docs."
+            git  push
+          else
+            echo No commit made because the docs have not changed.
+          fi
