@@ -364,6 +364,12 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\flobo\anaconda3\envs\make-my-prior\Lib\site-packages\bayesflow\trainers.py:27: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from tqdm.autonotebook import tqdm
+</pre></div>
+</div>
+</div>
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="normal-mutlilevel-model-model">
 <h1>Normal Mutlilevel Model Model<a class="headerlink" href="#normal-mutlilevel-model-model" title="Link to this heading">#</a></h1>
@@ -378,8 +384,8 @@ document.write(`
 </section>
 <section id="data-generating-model">
 <h2>Data generating model<a class="headerlink" href="#data-generating-model" title="Link to this heading">#</a></h2>
-<div class="amsmath math notranslate nohighlight" id="equation-c1fc23ee-1bbd-4c8c-9917-1c27467a72e9">
-<span class="eqno">(1)<a class="headerlink" href="#equation-c1fc23ee-1bbd-4c8c-9917-1c27467a72e9" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f5092a92-0f24-4b06-b24c-044ed4b90039">
+<span class="eqno">(1)<a class="headerlink" href="#equation-f5092a92-0f24-4b06-b24c-044ed4b90039" title="Permalink to this equation">#</a></span>\[\begin{align}
     \begin{split}
     y_{ij} &amp;= \textrm{Normal}(\theta_{ij}, s)\\
     \theta_{ij} &amp;= \beta_{0,j} + \beta_{1,j} x_{ij} \\
@@ -403,11 +409,11 @@ Given the potential variation in both baseline and change in RT across participa
 <span class="n">user_config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>                    
         <span class="n">B</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span>                          
         <span class="n">rep</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>                         
-        <span class="n">epochs</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span>                      
+        <span class="n">epochs</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>                      
         <span class="n">view_ep</span> <span class="o">=</span> <span class="mi">20</span><span class="p">,</span>
         <span class="n">lr_decay</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">lr0</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> 
-        <span class="n">lr_min</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> 
+        <span class="n">lr_min</span> <span class="o">=</span> <span class="mf">0.001</span><span class="p">,</span> 
         <span class="n">loss_dimensions</span> <span class="o">=</span> <span class="s2">&quot;m,n:B&quot;</span><span class="p">,</span>   
         <span class="n">loss_discrepancy</span> <span class="o">=</span> <span class="s2">&quot;energy&quot;</span><span class="p">,</span> 
         <span class="n">loss_scaling</span> <span class="o">=</span> <span class="s2">&quot;unscaled&quot;</span><span class="p">,</span>         
@@ -417,9 +423,9 @@ Given the potential variation in both baseline and change in RT across participa
 <span class="c1"># further case study specific variables</span>
 <span class="n">N_subj</span> <span class="o">=</span> <span class="mi">300</span> <span class="c1"># number of participants</span>
 <span class="n">N_days</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># number of total days</span>
-<span class="n">selected_days</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span> <span class="c1"># days for which the expert is queried</span>
+<span class="n">selected_days</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span> <span class="c1"># days for which the expert is queried</span>
 <span class="c1"># get design matrix</span>
-<span class="n">dmatrix</span><span class="p">,</span> <span class="n">cmatrix</span> <span class="o">=</span> <span class="n">sleep_data_predictor</span><span class="p">(</span><span class="n">scaling</span> <span class="o">=</span> <span class="s2">&quot;standardize&quot;</span><span class="p">,</span> <span class="n">N_days</span> <span class="o">=</span> <span class="n">N_days</span><span class="p">,</span> <span class="n">N_subj</span> <span class="o">=</span> <span class="n">N_subj</span><span class="p">,</span> <span class="n">selected_days</span> <span class="o">=</span> <span class="n">selected_days</span><span class="p">)</span>
+<span class="n">dmatrix</span><span class="p">,</span> <span class="n">cmatrix</span> <span class="o">=</span> <span class="n">sleep_data_predictor</span><span class="p">(</span><span class="n">scaling</span> <span class="o">=</span> <span class="s2">&quot;scaled&quot;</span><span class="p">,</span> <span class="n">N_days</span> <span class="o">=</span> <span class="n">N_days</span><span class="p">,</span> <span class="n">N_subj</span> <span class="o">=</span> <span class="n">N_subj</span><span class="p">,</span> <span class="n">selected_days</span> <span class="o">=</span> <span class="n">selected_days</span><span class="p">)</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dmatrix</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -451,32 +457,32 @@ Given the potential variation in both baseline and change in RT across participa
     <tr>
       <th>0</th>
       <td>1.0</td>
-      <td>-1.566699</td>
+      <td>0.000000</td>
     </tr>
     <tr>
       <th>1</th>
       <td>1.0</td>
-      <td>-0.870388</td>
+      <td>0.696311</td>
     </tr>
     <tr>
       <th>2</th>
       <td>1.0</td>
-      <td>-0.174078</td>
+      <td>1.740777</td>
     </tr>
     <tr>
       <th>3</th>
       <td>1.0</td>
-      <td>0.522233</td>
+      <td>2.088932</td>
     </tr>
     <tr>
       <th>4</th>
       <td>1.0</td>
-      <td>1.218544</td>
+      <td>3.133398</td>
     </tr>
     <tr>
       <th>5</th>
       <td>1.0</td>
-      <td>-1.566699</td>
+      <td>0.000000</td>
     </tr>
   </tbody>
 </table>
@@ -516,7 +522,7 @@ Given the potential variation in both baseline and change in RT across participa
     <span class="s2">&quot;beta_1&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;family&quot;</span><span class="p">:</span>  <span class="n">Normal_unconstrained</span><span class="p">(),</span>
         <span class="s2">&quot;true&quot;</span><span class="p">:</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;mu&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;sigma&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]),</span>
-        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">4.</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">6.</span><span class="p">,</span><span class="o">-</span><span class="mf">5.</span><span class="p">)]</span>
+        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">6.</span><span class="p">,</span><span class="o">-</span><span class="mf">5.</span><span class="p">)]</span>
         <span class="p">},</span>
     <span class="s2">&quot;tau_0&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">TruncatedNormal_unconstrained</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span><span class="n">low</span> <span class="o">=</span> <span class="mf">0.</span><span class="p">,</span><span class="n">high</span> <span class="o">=</span> <span class="mi">500</span><span class="p">),</span>
@@ -531,7 +537,7 @@ Given the potential variation in both baseline and change in RT across participa
     <span class="s2">&quot;sigma&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">exp_dist</span><span class="p">,</span>
         <span class="s2">&quot;true&quot;</span><span class="p">:</span> <span class="n">exp_dist</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">true_values</span><span class="p">[</span><span class="s2">&quot;nu&quot;</span><span class="p">])),</span>
-        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">4.</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.</span><span class="p">)]</span>
+        <span class="s2">&quot;initialization&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">tfd</span><span class="o">.</span><span class="n">Uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.</span><span class="p">)]</span>
         <span class="p">}</span>
     <span class="p">}</span>
 
@@ -610,7 +616,7 @@ Given the potential variation in both baseline and change in RT across participa
             <span class="n">B</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">B</span> <span class="o">=</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">]</span>
-            
+
         <span class="n">rep</span> <span class="o">=</span> <span class="n">user_config</span><span class="p">[</span><span class="s2">&quot;rep&quot;</span><span class="p">]</span>
         <span class="c1"># correlation matrix</span>
         <span class="n">corr_matrix</span> <span class="o">=</span> <span class="n">tfd</span><span class="o">.</span><span class="n">LKJ</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha_lkj</span><span class="p">)</span><span class="o">.</span><span class="n">sample</span><span class="p">((</span><span class="n">B</span><span class="p">,</span> <span class="n">rep</span><span class="p">))</span>
@@ -697,7 +703,7 @@ Given the potential variation in both baseline and change in RT across participa
 
         <span class="c1"># compute sigma from scale parameter</span>
         <span class="c1">#tf.stop_gradient(scale**2)</span>
-        <span class="n">sigma</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">scale</span><span class="o">**</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">lgamma</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">/</span><span class="n">shape</span><span class="p">))</span> <span class="o">-</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">lgamma</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="n">shape</span><span class="p">)))</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">((</span><span class="n">scale</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">lgamma</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">/</span><span class="n">shape</span><span class="p">))</span> <span class="o">-</span> <span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">lgamma</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="n">shape</span><span class="p">)))</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
         
         <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">likelihood</span> <span class="o">=</span> <span class="n">likelihood</span><span class="p">,</span>      <span class="c1"># obligatory: likelihood; callable; </span>
                     <span class="n">ypred</span> <span class="o">=</span> <span class="n">ypred</span><span class="p">,</span>                <span class="c1"># obligatory: prior predictive data</span>
@@ -902,28 +908,38 @@ Given the potential variation in both baseline and change in RT across participa
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch_time: 17.424 sec
-Epoch: 0, loss: 12.74704, lr: 0.100000
-epoch_time: 7.205 sec
-Epoch: 20, loss: 6.52817, lr: 0.065610
-epoch_time: 6.355 sec
-Epoch: 40, loss: 6.27576, lr: 0.043047
-epoch_time: 10.612 sec
-Epoch: 60, loss: 5.46448, lr: 0.028243
-epoch_time: 7.562 sec
-Epoch: 80, loss: 4.16336, lr: 0.018530
-epoch_time: 7.863 sec
-Epoch: 100, loss: 2.89985, lr: 0.012158
-epoch_time: 7.900 sec
-Epoch: 120, loss: 1.99878, lr: 0.010000
-epoch_time: 7.068 sec
-Epoch: 140, loss: 1.51468, lr: 0.010000
-epoch_time: 8.319 sec
-Epoch: 160, loss: 0.88106, lr: 0.010000
-epoch_time: 7.763 sec
-Epoch: 180, loss: 0.46952, lr: 0.010000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch_time: 24.759 sec
+Epoch: 0, loss: 13.97261, lr: 0.100000
+epoch_time: 7.609 sec
+Epoch: 20, loss: 2.43584, lr: 0.065610
+epoch_time: 6.915 sec
+Epoch: 40, loss: 1.85775, lr: 0.043047
+epoch_time: 9.177 sec
+Epoch: 60, loss: 1.74695, lr: 0.028243
+epoch_time: 7.901 sec
+Epoch: 80, loss: 1.22199, lr: 0.018530
+epoch_time: 7.338 sec
+Epoch: 100, loss: 1.03115, lr: 0.012158
+epoch_time: 7.445 sec
+Epoch: 120, loss: 0.94584, lr: 0.007977
+epoch_time: 8.041 sec
+Epoch: 140, loss: 0.93105, lr: 0.005233
+epoch_time: 7.896 sec
+Epoch: 160, loss: 0.91983, lr: 0.003434
+epoch_time: 9.642 sec
+Epoch: 180, loss: 0.92162, lr: 0.002253
+epoch_time: 8.148 sec
+Epoch: 200, loss: 0.91347, lr: 0.001478
+epoch_time: 25.932 sec
+Epoch: 220, loss: 0.90891, lr: 0.001000
+epoch_time: 9.488 sec
+Epoch: 240, loss: 0.93744, lr: 0.001000
+epoch_time: 8.183 sec
+Epoch: 260, loss: 0.93499, lr: 0.001000
+epoch_time: 7.960 sec
+Epoch: 280, loss: 0.92153, lr: 0.001000
  
-Total time needed: 27.72 min
+Total time needed: 42.06 min
 </pre></div>
 </div>
 </div>
@@ -940,7 +956,7 @@ Total time needed: 27.72 min
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/35b8e3440c7f19a95fab39c15bb91a4ad536e3f82213f655c04b3bd16351e1a7.png" src="../_images/35b8e3440c7f19a95fab39c15bb91a4ad536e3f82213f655c04b3bd16351e1a7.png" />
+<img alt="../_images/249b2423c255684c2f0a9bcb8da0c772cb8bffbd8fdbc85035fbc8ea3fc9e842.png" src="../_images/249b2423c255684c2f0a9bcb8da0c772cb8bffbd8fdbc85035fbc8ea3fc9e842.png" />
 </div>
 </div>
 </section>
@@ -1086,7 +1102,7 @@ Total time needed: 27.72 min
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/96ea7a43084d4f1759bd724d02984406abc92306ed6ad69b3f6fd940ca0b2404.png" src="../_images/96ea7a43084d4f1759bd724d02984406abc92306ed6ad69b3f6fd940ca0b2404.png" />
+<img alt="../_images/ba2e8450f1cafbf2029e77dbf39095bc475369da12b792eea900a79641113734.png" src="../_images/ba2e8450f1cafbf2029e77dbf39095bc475369da12b792eea900a79641113734.png" />
 </div>
 </div>
 </section>

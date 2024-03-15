@@ -378,8 +378,8 @@ document.write(`
 </section>
 <section id="data-generating-model">
 <h2>Data generating model<a class="headerlink" href="#data-generating-model" title="Link to this heading">#</a></h2>
-<div class="amsmath math notranslate nohighlight" id="equation-49287394-c1c6-455d-b814-f4a37133e262">
-<span class="eqno">(1)<a class="headerlink" href="#equation-49287394-c1c6-455d-b814-f4a37133e262" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-1de89cfc-e272-4c83-bce0-cf6cde1cb8a9">
+<span class="eqno">(1)<a class="headerlink" href="#equation-1de89cfc-e272-4c83-bce0-cf6cde1cb8a9" title="Permalink to this equation">#</a></span>\[\begin{align}
     \begin{split}
     y_{ij} &amp;= \textrm{Normal}(\theta_{ij}, s)\\
     \theta_{ij} &amp;= \beta_{0,j} + \beta_{1,j} x_{ij} \\
@@ -403,8 +403,8 @@ Given the potential variation in both baseline and change in RT across participa
 <span class="n">user_config</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>                    
         <span class="n">B</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">7</span><span class="p">,</span>                          
         <span class="n">rep</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span>                         
-        <span class="n">epochs</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>                      
-        <span class="n">view_ep</span> <span class="o">=</span> <span class="mi">40</span><span class="p">,</span>
+        <span class="n">epochs</span> <span class="o">=</span> <span class="mi">600</span><span class="p">,</span>                      
+        <span class="n">view_ep</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span>
         <span class="n">lr_decay</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">lr0</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> 
         <span class="n">lr_min</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> 
@@ -417,9 +417,9 @@ Given the potential variation in both baseline and change in RT across participa
 <span class="c1"># further case study specific variables</span>
 <span class="n">N_subj</span> <span class="o">=</span> <span class="mi">300</span> <span class="c1"># number of participants</span>
 <span class="n">N_days</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># number of total days</span>
-<span class="n">selected_days</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span> <span class="c1"># days for which the expert is queried</span>
+<span class="n">selected_days</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">]</span> <span class="c1"># days for which the expert is queried</span>
 <span class="c1"># get design matrix</span>
-<span class="n">dmatrix</span><span class="p">,</span> <span class="n">cmatrix</span> <span class="o">=</span> <span class="n">sleep_data_predictor</span><span class="p">(</span><span class="n">scaling</span> <span class="o">=</span> <span class="s2">&quot;standardize&quot;</span><span class="p">,</span> <span class="n">N_days</span> <span class="o">=</span> <span class="n">N_days</span><span class="p">,</span> <span class="n">N_subj</span> <span class="o">=</span> <span class="n">N_subj</span><span class="p">,</span> <span class="n">selected_days</span> <span class="o">=</span> <span class="n">selected_days</span><span class="p">)</span>
+<span class="n">dmatrix</span><span class="p">,</span> <span class="n">cmatrix</span> <span class="o">=</span> <span class="n">sleep_data_predictor</span><span class="p">(</span><span class="n">scaling</span> <span class="o">=</span> <span class="s2">&quot;scaled&quot;</span><span class="p">,</span> <span class="n">N_days</span> <span class="o">=</span> <span class="n">N_days</span><span class="p">,</span> <span class="n">N_subj</span> <span class="o">=</span> <span class="n">N_subj</span><span class="p">,</span> <span class="n">selected_days</span> <span class="o">=</span> <span class="n">selected_days</span><span class="p">)</span>
 <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">dmatrix</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -451,32 +451,32 @@ Given the potential variation in both baseline and change in RT across participa
     <tr>
       <th>0</th>
       <td>1.0</td>
-      <td>-1.566699</td>
+      <td>0.000000</td>
     </tr>
     <tr>
       <th>1</th>
       <td>1.0</td>
-      <td>-0.870388</td>
+      <td>0.696311</td>
     </tr>
     <tr>
       <th>2</th>
       <td>1.0</td>
-      <td>-0.174078</td>
+      <td>1.740777</td>
     </tr>
     <tr>
       <th>3</th>
       <td>1.0</td>
-      <td>0.522233</td>
+      <td>2.088932</td>
     </tr>
     <tr>
       <th>4</th>
       <td>1.0</td>
-      <td>1.218544</td>
+      <td>3.133398</td>
     </tr>
     <tr>
       <th>5</th>
       <td>1.0</td>
-      <td>-1.566699</td>
+      <td>0.000000</td>
     </tr>
   </tbody>
 </table>
@@ -894,28 +894,28 @@ Given the potential variation in both baseline and change in RT across participa
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch_time: 16.732 sec
-Epoch: 0, loss: 10.76285, lr: 0.050000
-epoch_time: 5.132 sec
-Epoch: 40, loss: 7.51811, lr: 0.021523
-epoch_time: 14.781 sec
-Epoch: 80, loss: 5.61929, lr: 0.010000
-epoch_time: 5.629 sec
-Epoch: 120, loss: 4.01269, lr: 0.010000
-epoch_time: 4.555 sec
-Epoch: 160, loss: 2.56394, lr: 0.010000
-epoch_time: 5.302 sec
-Epoch: 200, loss: 1.34332, lr: 0.010000
-epoch_time: 4.623 sec
-Epoch: 240, loss: 0.53666, lr: 0.010000
-epoch_time: 4.532 sec
-Epoch: 280, loss: 0.41393, lr: 0.010000
-epoch_time: 4.850 sec
-Epoch: 320, loss: 0.42262, lr: 0.010000
-epoch_time: 4.766 sec
-Epoch: 360, loss: 0.41876, lr: 0.010000
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>epoch_time: 16.578 sec
+Epoch: 0, loss: 11.57106, lr: 0.050000
+epoch_time: 4.645 sec
+Epoch: 60, loss: 4.24046, lr: 0.014121
+epoch_time: 4.900 sec
+Epoch: 120, loss: 2.84680, lr: 0.010000
+epoch_time: 4.865 sec
+Epoch: 180, loss: 2.32880, lr: 0.010000
+epoch_time: 5.123 sec
+Epoch: 240, loss: 1.85275, lr: 0.010000
+epoch_time: 7.642 sec
+Epoch: 300, loss: 1.46850, lr: 0.010000
+epoch_time: 4.776 sec
+Epoch: 360, loss: 1.08526, lr: 0.010000
+epoch_time: 4.898 sec
+Epoch: 420, loss: 0.88094, lr: 0.010000
+epoch_time: 4.775 sec
+Epoch: 480, loss: 0.74023, lr: 0.010000
+epoch_time: 4.633 sec
+Epoch: 540, loss: 0.61799, lr: 0.010000
  
-Total time needed: 36.38 min
+Total time needed: 53.08 min
 </pre></div>
 </div>
 </div>
@@ -932,7 +932,7 @@ Total time needed: 36.38 min
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/a7b4087329221fc4ebb1918be888617cdd98bdafc2cc837798fcbcda1b0c9eb4.png" src="../_images/a7b4087329221fc4ebb1918be888617cdd98bdafc2cc837798fcbcda1b0c9eb4.png" />
+<img alt="../_images/0cfb22cf6fc4d667be045e3fd2c0eb26e83584283fc637a474f5cdfe9403326d.png" src="../_images/0cfb22cf6fc4d667be045e3fd2c0eb26e83584283fc637a474f5cdfe9403326d.png" />
 </div>
 </div>
 </section>
@@ -946,7 +946,7 @@ Total time needed: 36.38 min
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../_images/83e1e0bd97ea9daa371972f8a478057f81d192353e27f7e4781403be351c7fe1.png" src="../_images/83e1e0bd97ea9daa371972f8a478057f81d192353e27f7e4781403be351c7fe1.png" />
+<img alt="../_images/9727c32219c4d4d92e222a4408430fdbcb72eb400568d12a75fe6a920349bad6.png" src="../_images/9727c32219c4d4d92e222a4408430fdbcb72eb400568d12a75fe6a920349bad6.png" />
 </div>
 </div>
 </section>
