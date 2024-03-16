@@ -317,6 +317,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-regression-model">Normal regression model</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binomial-regression-model">Binomial regression model</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-regression-model">Poisson regression model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multilevel-model-with-normal-likelihood">Multilevel model with normal likelihood</a></li>
 </ul>
             </nav>
         </div>
@@ -366,6 +367,17 @@ Case study uses a data set of a study which investigates the number of LGBTQ+ an
 <p>▶️ <a class="reference internal" href="case_studies/cs_poisson.html"><span class="doc">Go to the case study</span></a></p>
 <p>💡 <a class="reference internal" href="case_studies/varying_thresholds.html"><span class="doc">Add-on: Poisson regression model for varying upper threshold values</span></a></p>
 </section>
+<section id="multilevel-model-with-normal-likelihood">
+<h2>Multilevel model with normal likelihood<a class="headerlink" href="#multilevel-model-with-normal-likelihood" title="Link to this heading">#</a></h2>
+<a class="reference internal image-reference" href="_images/icon_cs_mlm.png"><img alt="Multilevel model with normal likelihood" src="_images/icon_cs_mlm.png" style="width: 400px;" /></a>
+<p>Multilevel model with normal likelihood and one continuous predictor. The goal is to learn 7 hyperparameter values.
+The case study draws inspiration from the <em>sleepstudy</em> dataset that comes along with the R-package <em>lme4</em>.</p>
+<ul class="simple">
+<li><p><em>Target quantities:</em> the expected average outcome for specific design points <span class="math notranslate nohighlight">\(x_i\)</span> (1), the within-person standard deviation <em>s</em> (2), and the expected distribution of <span class="math notranslate nohighlight">\(R^2\)</span> (3).</p></li>
+<li><p><em>Elicited statistics:</em> quantile-based elicitation for the expected average outcome per <span class="math notranslate nohighlight">\(x_i\)</span>, moment-based elicitation for the standard deviation <em>s</em>, and histogram-elicitation for the expected <span class="math notranslate nohighlight">\(R^2\)</span> distribution</p></li>
+</ul>
+<p>▶️ <a class="reference internal" href="case_studies/cs_mlm_normal.html"><span class="doc">Go to the case study</span></a></p>
+</section>
 </section>
 
 
@@ -410,6 +422,7 @@ Case study uses a data set of a study which investigates the number of LGBTQ+ an
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#normal-regression-model">Normal regression model</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#binomial-regression-model">Binomial regression model</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#poisson-regression-model">Poisson regression model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multilevel-model-with-normal-likelihood">Multilevel model with normal likelihood</a></li>
 </ul>
   </nav></div>
 

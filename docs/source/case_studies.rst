@@ -55,3 +55,17 @@ Case study uses a data set of a study which investigates the number of LGBTQ+ an
 
 |:bulb:| :doc:`Add-on: Poisson regression model for varying upper threshold values <case_studies/varying_thresholds>`
 
+Multilevel model with normal likelihood
+=======================================
+
+.. image:: _static/icon_cs_mlm.png
+  :width: 400
+  :alt: Multilevel model with normal likelihood
+
+Multilevel model with normal likelihood and one continuous predictor. The goal is to learn 7 hyperparameter values.
+The case study draws inspiration from the *sleepstudy* dataset that comes along with the R-package *lme4*. 
+
++ *Target quantities:* the expected average outcome for specific design points :math:`x_i` (1), the within-person standard deviation *s* (2), and the expected distribution of :math:`R^2` (3).
++ *Elicited statistics:* quantile-based elicitation for the expected average outcome per :math:`x_i`, moment-based elicitation for the standard deviation *s*, and histogram-elicitation for the expected :math:`R^2` distribution
+
+|:arrow_forward:| :doc:`Go to the case study <case_studies/cs_mlm_normal>`
